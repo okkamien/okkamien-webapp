@@ -51,6 +51,16 @@ export const theme = {
       base: 1.4,
     },
   },
+  size: {
+    container: 1200,
+  },
+  spacing: {
+    xs: base * 0.25,
+    s: base * 0.5,
+    base,
+    l: base * 1.5,
+    xl: base * 2,
+  },
 }
 
 export const mediaQuery = facepaint(theme.breakpoints.map((breakpoint) => `@media (min-width: ${breakpoint}px)`))

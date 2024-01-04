@@ -1,9 +1,10 @@
 import React, {FC} from 'react'
+import {Box, Text} from '@effortless-ui'
 
-import {DemoHeader} from '@/app/components/ui/demo'
+import {theme} from '@/app/styles'
 
 export const Header: FC = () => (
-  <header>
-    <DemoHeader />
-  </header>
+  <Box tag="header" cs={{py: theme.spacing.base}}>
+    <Text tag="h1">Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim </Text>
+  </Box>
 )

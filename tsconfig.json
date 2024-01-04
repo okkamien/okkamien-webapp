@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@effortless-ui": ["app/components/@effortless-ui/index.ts"],
       "@/*": ["./*"]
     },
     "target": "es5",

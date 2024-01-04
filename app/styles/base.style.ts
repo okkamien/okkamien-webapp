@@ -13,6 +13,11 @@ export const base: CSSObject = {
   'html, body': {
     height: '100%',
   },
+  '#__next': {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100%',
+  },
   body: {
     overflowX: 'hidden',
     overflowY: 'scroll',
