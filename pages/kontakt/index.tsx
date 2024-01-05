@@ -4,7 +4,7 @@ import {NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 
-const Home: NextPage = () => {
+const Page: NextPage = () => {
   return (
     <MasterPage subtitle="Kontakt">
       <Text tag="h1">Kontakt</Text>
@@ -12,4 +12,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Page
