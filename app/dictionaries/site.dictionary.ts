@@ -1,3 +1,15 @@
-export const siteName = 'Next starter template'
-export const siteDescription = 'A personal Next.js preconfigured starter template that could be used with create-next-app.'
+export const siteName = 'Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim'
+export const siteDescription = ''
 export const siteFoundedYear = 2024
+
+export const siteMap = {
+  contact: '/kontakt',
+  events: '/wydarzenia',
+  homepage: '/',
+  news: '/aktualnosci',
+  operations: '/dzialalnosc',
+}
+
+export const siteExternalLinks = {
+  facebook: 'https://www.facebook.com/mgok.kamien.kr',
+}
