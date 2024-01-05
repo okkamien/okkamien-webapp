@@ -1,10 +1,15 @@
 import axios from 'axios'
+import {IncomingMessage} from 'http'
 
-interface IGetApiResponseParams {
+export interface IGetApiResponseParams {
   endpoint: string
+  filters?: {
+    [key: string]: string
+  }
+  req?: IncomingMessage
 }
 
-interface IGetApiResponseSuccessResponse<T> {
+export interface IGetApiResponseSuccessResponse<T> {
   data: T[]
   meta: {
     pagination: {
@@ -17,8 +22,19 @@ interface IGetApiResponseSuccessResponse<T> {
   success: true
 }
 
-export const getApiResponse = async <T>({endpoint}: IGetApiResponseParams): Promise<IGetApiResponseSuccessResponse<T>> => {
-  const response = await axios.get<IGetApiResponseSuccessResponse<T>>(`/api/${endpoint}`)
+export interface IPageWithInitialData<T> {
+  initialData?: IGetApiResponseSuccessResponse<T>
+  payload: IGetApiResponseParams
+  slug?: string
+}
+
+export const getApiResponse = async <T>({endpoint, filters, req}: IGetApiResponseParams): Promise<IGetApiResponseSuccessResponse<T>> => {
+  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  const response = await axios.get<IGetApiResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
+    params: {
+      filters,
+    },
+  })
 
   return response.data
 }
