@@ -10,7 +10,7 @@ import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, IGetApiResponseParams, IPageWithInitialData} from '@/app/features/api/utils'
 
 const Page: NextPage<IPageWithInitialData<TApiNews>> = ({initialData, payload}) => {
-  const {data, isSuccess} = useQuery({initialData, queryKey: ['news'], queryFn: () => getApiResponse<TApiNews>(payload)})
+  const {data, isSuccess} = useQuery({initialData, queryKey: payload.endpoint, queryFn: () => getApiResponse<TApiNews>(payload)})
 
   return (
     <MasterPage subtitle="Aktualności">

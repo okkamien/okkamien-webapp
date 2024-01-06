@@ -10,7 +10,11 @@ import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, IGetApiResponseParams, IPageWithInitialData} from '@/app/features/api/utils'
 
 const Page: NextPage<IPageWithInitialData<TApiNews>> = ({initialData, payload, slug}) => {
-  const {data, isSuccess} = useQuery({initialData, queryKey: [`news-item-${slug}`], queryFn: () => getApiResponse<TApiNews>(payload)})
+  const {data, isSuccess} = useQuery({
+    initialData,
+    queryKey: [`${payload.endpoint}-${slug}`],
+    queryFn: () => getApiResponse<TApiNews>(payload),
+  })
   const news = isSuccess ? data.data[0] : undefined
 
   return (

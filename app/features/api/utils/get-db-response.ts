@@ -8,6 +8,7 @@ type TGetApiResponseFilter = [string | number | string[] | number[], TStrapiFilt
 export interface IGetApiResponseParams<T extends IApiItem<unknown>> {
   endpoint: string
   filters?: {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
+  populate?: (keyof T['attributes'] | 'id')[]
   req?: IncomingMessage
   sort?: [keyof T['attributes'] | 'id', TStrapiSearchOperator?][]
 }
@@ -34,8 +35,9 @@ export interface IPageWithInitialData<T extends IApiItem<unknown>> {
 export const getApiResponse = async <T extends IApiItem<unknown>>({
   endpoint,
   filters = {},
-  sort = [],
+  populate = [],
   req,
+  sort = [],
 }: IGetApiResponseParams<T>): Promise<IGetApiResponseSuccessResponse<T>> => {
   const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
   const response = await axios.get<IGetApiResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
@@ -45,6 +47,7 @@ export const getApiResponse = async <T extends IApiItem<unknown>>({
 
         return {...t, [key]: {[`$${operator}`]: value}}
       }, {}),
+      populate,
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },
   })

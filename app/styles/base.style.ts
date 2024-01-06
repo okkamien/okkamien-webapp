@@ -23,4 +23,7 @@ export const base: CSSObject = {
     overflowY: 'scroll',
     cursor: 'auto',
   },
+  img: {
+    display: 'block',
+  },
 }

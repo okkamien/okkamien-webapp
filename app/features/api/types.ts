@@ -35,8 +35,28 @@ export interface IApiItem<T> {
   } & T
 }
 
+interface IApiImage {
+  data: {
+    id: number
+    attributes: {
+      height: number
+      name: string
+      size: number
+      url: string
+      width: number
+    }
+  }
+}
+
 export type TApiNews = IApiItem<{
   content: string
   slug: string
   title: string
+}>
+
+export type TApiManagement = IApiItem<{
+  email: string
+  name: string
+  title: string
+  photo: IApiImage
 }>
