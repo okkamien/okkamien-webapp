@@ -27,7 +27,7 @@ const Page: NextPage<IPageWithInitialData<TApiNews>> = ({initialData, payload, s
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
 
-  const payload: IGetApiResponseParams = {endpoint: 'news', filters: {slug}}
+  const payload: IGetApiResponseParams<TApiNews> = {endpoint: 'news', filters: {slug: [slug]}}
   const initialData = await getApiResponse<TApiNews>({req, ...payload})
 
   return initialData.data.length

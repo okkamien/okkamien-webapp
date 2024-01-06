@@ -31,7 +31,7 @@ const Page: NextPage<IPageWithInitialData<TApiNews>> = ({initialData, payload}) 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const payload: IGetApiResponseParams = {endpoint: 'news'}
+  const payload: IGetApiResponseParams<TApiNews> = {endpoint: 'news', sort: [['id', 'desc']]}
   const initialData = await getApiResponse<TApiNews>({req, ...payload})
 
   return {
