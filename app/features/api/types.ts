@@ -54,7 +54,15 @@ export type TApiNews = IApiItem<{
   title: string
 }>
 
-export type TApiManagement = IApiItem<{
+export type TApiEvent = IApiItem<{
+  date: string
+  description: string
+  location: string
+  slug: string
+  title: string
+}>
+
+export type TApiStaff = IApiItem<{
   email: string
   name: string
   title: string

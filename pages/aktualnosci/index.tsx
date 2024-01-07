@@ -9,7 +9,9 @@ import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiNews>> = ({payload}) => {
+const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
+  const [payload] = payloads
+
   return (
     <MasterPage subtitle="Aktualności">
       <Text tag="h1">Aktualności</Text>
@@ -31,11 +33,11 @@ const Page: NextPage<IPageWithPayload<TApiNews>> = ({payload}) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const payload: IGetApiResponseParams<TApiNews> = {endpoint: 'news', sort: [['id', 'desc']], pagination: {pageSize: 10}}
-  const {dehydratedState} = await getDehydratedState({payload, req})
+  const payloads: IGetApiResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
+  const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, payload},
+    props: {dehydratedState, payloads},
   }
 }
 

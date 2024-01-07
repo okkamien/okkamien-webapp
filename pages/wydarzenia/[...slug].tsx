@@ -6,23 +6,28 @@ import Link from 'next/link'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiNews} from '@/app/features/api/types'
+import {TApiEvent} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
+const Page: NextPage<IPageWithPayload<TApiEvent>> = ({payloads}) => {
   const [payload] = payloads
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiResponse(payload),
   })
-  const news = isSuccess ? data.data[0] : undefined
+  const event = isSuccess ? data.data[0] : undefined
 
   return (
-    news && (
-      <MasterPage subtitle={[news.attributes.title, 'Aktualności']}>
-        <Text tag="h1">{news.attributes.title}</Text>
-        <Text>{news.attributes.content}</Text>
-        <Link href={siteMap.news} legacyBehavior passHref>
+    event && (
+      <MasterPage subtitle={[event.attributes.title, 'Wydarzenia']}>
+        <Text tag="h1">{event.attributes.title}</Text>
+        <Text>
+          <strong>
+            {event.attributes.location}, {new Date(event.attributes.date).toLocaleString()}
+          </strong>
+        </Text>
+        <Text>{event.attributes.description}</Text>
+        <Link href={siteMap.events} legacyBehavior passHref>
           <Anchor>Wróć do listy</Anchor>
         </Link>
       </MasterPage>
@@ -32,7 +37,7 @@ const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
-  const payloads: IGetApiResponseParams<TApiNews>[] = [{endpoint: 'news', filters: {slug: [slug]}}]
+  const payloads: IGetApiResponseParams<TApiEvent>[] = [{endpoint: 'events', filters: {slug: [slug]}}]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})
 
   return hasData

@@ -5,7 +5,7 @@ import {useQuery} from '@tanstack/react-query'
 import {Pagination} from '@/app/components/ui'
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem} from '@/app/features/api/types'
-import {getApiResponse, IGetApiResponseParams} from '@/app/features/api/utils'
+import {getApiResponse, getQueryKey, IGetApiResponseParams} from '@/app/features/api/utils'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
 
@@ -26,7 +26,7 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
 }: IPaginatedContentProps<T>) => {
   const [currentPage, setCurrentPage] = useState<number>(page)
   const {data, isFetching, isSuccess} = useQuery({
-    queryKey: [payload.endpoint, pageSize, currentPage],
+    queryKey: getQueryKey({payload, currentPage, pageSize}),
     queryFn: () =>
       getApiResponse<T>({
         ...payload,

@@ -32,8 +32,7 @@ export interface IGetApiResponseSuccessResponse<T> {
 }
 
 export interface IPageWithPayload<T extends IApiItem<unknown>> {
-  payload: IGetApiResponseParams<T>
-  slug?: string
+  payloads: IGetApiResponseParams<T>[]
 }
 
 export const getApiResponse = async <T extends IApiItem<unknown>>({

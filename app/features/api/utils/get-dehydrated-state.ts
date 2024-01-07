@@ -1,14 +1,12 @@
 import {dehydrate, DehydratedState, QueryClient} from '@tanstack/react-query'
 import {IncomingMessage} from 'http'
 
-import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem} from '@/app/features/api/types'
-import {getApiResponse, IGetApiResponseParams} from '@/app/features/api/utils'
+import {getApiResponse, getQueryKey, IGetApiResponseParams, IGetApiResponseSuccessResponse} from '@/app/features/api/utils'
 
 interface IGetDehydratedStateParams<T extends IApiItem<unknown>> {
-  payload: IGetApiResponseParams<T>
+  payloads: IGetApiResponseParams<T>[]
   req?: IncomingMessage
-  slug?: string
 }
 
 interface IGetDehydratedStateReturn {
@@ -17,23 +15,26 @@ interface IGetDehydratedStateReturn {
 }
 
 export const getDehydratedState = async <T extends IApiItem<unknown>>({
-  payload,
+  payloads,
   req,
-  slug,
 }: IGetDehydratedStateParams<T>): Promise<IGetDehydratedStateReturn> => {
   const queryClient = new QueryClient()
-  const response = await getApiResponse<T>({req, ...payload})
+  const responses: IGetApiResponseSuccessResponse<T>[] = []
 
-  await queryClient.prefetchQuery({
-    queryKey: [
-      payload.endpoint,
-      ...(slug ? [slug] : [payload.pagination?.pageSize ?? DEFAULT_PAGE_SIZE, payload.pagination?.page ?? DEFAULT_PAGE]),
-    ],
-    queryFn: () => response,
-  })
+  await Promise.all(
+    payloads.map(async (payload) => {
+      const response = await getApiResponse<T>({req, ...payload})
+
+      responses.push(response)
+      await queryClient.prefetchQuery({
+        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+        queryFn: () => response,
+      })
+    }),
+  )
 
   return {
     dehydratedState: dehydrate(queryClient),
-    hasData: Boolean(response.data.length),
+    hasData: responses.every((response) => Boolean(response.data.length)),
   }
 }

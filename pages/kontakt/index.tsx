@@ -5,10 +5,12 @@ import Image from 'next/image'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {PaginatedContent} from '@/app/components/ui'
-import {TApiManagement} from '@/app/features/api/types'
+import {TApiStaff} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiManagement>> = ({payload}) => {
+const Page: NextPage<IPageWithPayload<TApiStaff>> = ({payloads}) => {
+  const [payload] = payloads
+
   return (
     <MasterPage subtitle="Kontakt">
       <Text tag="h1">Kontakt</Text>
@@ -33,11 +35,11 @@ const Page: NextPage<IPageWithPayload<TApiManagement>> = ({payload}) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const payload: IGetApiResponseParams<TApiManagement> = {endpoint: 'staff', populate: ['photo'], sort: [['id']]}
-  const {dehydratedState} = await getDehydratedState({payload, req})
+  const payloads: IGetApiResponseParams<TApiStaff>[] = [{endpoint: 'staff', populate: ['photo'], sort: [['id']]}]
+  const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, payload},
+    props: {dehydratedState, payloads},
   }
 }
 
