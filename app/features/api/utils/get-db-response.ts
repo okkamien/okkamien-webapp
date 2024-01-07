@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {IncomingMessage} from 'http'
 
+import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/features/api/types'
 
 type TGetApiResponseFilter = [string | number | string[] | number[], TStrapiFilterOperator?]
@@ -8,6 +9,10 @@ type TGetApiResponseFilter = [string | number | string[] | number[], TStrapiFilt
 export interface IGetApiResponseParams<T extends IApiItem<unknown>> {
   endpoint: string
   filters?: {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
+  pagination?: {
+    page?: number
+    pageSize?: number
+  }
   populate?: (keyof T['attributes'] | 'id')[]
   req?: IncomingMessage
   sort?: [keyof T['attributes'] | 'id', TStrapiSearchOperator?][]
@@ -26,8 +31,7 @@ export interface IGetApiResponseSuccessResponse<T> {
   success: true
 }
 
-export interface IPageWithInitialData<T extends IApiItem<unknown>> {
-  initialData?: IGetApiResponseSuccessResponse<T>
+export interface IPageWithPayload<T extends IApiItem<unknown>> {
   payload: IGetApiResponseParams<T>
   slug?: string
 }
@@ -35,6 +39,7 @@ export interface IPageWithInitialData<T extends IApiItem<unknown>> {
 export const getApiResponse = async <T extends IApiItem<unknown>>({
   endpoint,
   filters = {},
+  pagination = {pageSize: DEFAULT_PAGE_SIZE},
   populate = [],
   req,
   sort = [],
@@ -47,6 +52,7 @@ export const getApiResponse = async <T extends IApiItem<unknown>>({
 
         return {...t, [key]: {[`$${operator}`]: value}}
       }, {}),
+      pagination,
       populate,
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },

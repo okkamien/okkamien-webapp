@@ -1,12 +1,13 @@
 import React, {FC, PropsWithChildren} from 'react'
-import {CSSObject, Global} from '@emotion/react'
+import {CSObject} from '@effortless-ui'
+import {Global} from '@emotion/react'
 import Head from 'next/head'
 
 import {DefaultTemplate, EmptyTemplate} from '@/app/components/masterpages/templates'
 import {siteDescription, siteName} from '@/app/dictionaries/site.dictionary'
 
 interface IMasterPageProps {
-  bodyCss?: CSSObject
+  bodyCss?: CSObject
   description?: string
   subtitle?: string | string[]
   template?: 'default' | 'empty'
