@@ -1,11 +1,9 @@
 import React from 'react'
-import {Anchor, Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
-import Link from 'next/link'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {siteMap} from '@/app/dictionaries/site.dictionary'
+import {EventsItem} from '@/app/components/ui'
 import {TApiEvent} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
@@ -20,16 +18,7 @@ const Page: NextPage<IPageWithPayload<TApiEvent>> = ({payloads}) => {
   return (
     event && (
       <MasterPage subtitle={[event.attributes.title, 'Wydarzenia']}>
-        <Text tag="h1">{event.attributes.title}</Text>
-        <Text>
-          <strong>
-            {event.attributes.location}, {new Date(event.attributes.date).toLocaleString()}
-          </strong>
-        </Text>
-        <Text>{event.attributes.description}</Text>
-        <Link href={siteMap.events} legacyBehavior passHref>
-          <Anchor>Wróć do listy</Anchor>
-        </Link>
+        <EventsItem {...event} />
       </MasterPage>
     )
   )

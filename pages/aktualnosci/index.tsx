@@ -1,11 +1,9 @@
 import React from 'react'
-import {Anchor, Box, Text} from '@effortless-ui'
+import {Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
-import Link from 'next/link'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {PaginatedContent} from '@/app/components/ui'
-import {siteMap} from '@/app/dictionaries/site.dictionary'
+import {NewsList, PaginatedContent} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
@@ -15,19 +13,7 @@ const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
   return (
     <MasterPage subtitle="Aktualności">
       <Text tag="h1">Aktualności</Text>
-      <PaginatedContent payload={payload}>
-        {(data) => (
-          <Box tag="ul">
-            {data.map(({attributes: {slug, title}, id}) => (
-              <Box key={id} tag="li">
-                <Link href={`${siteMap.news}/${slug}`} legacyBehavior passHref>
-                  <Anchor>{title}</Anchor>
-                </Link>
-              </Box>
-            ))}
-          </Box>
-        )}
-      </PaginatedContent>
+      <PaginatedContent payload={payload}>{(data) => <NewsList list={data} />}</PaginatedContent>
     </MasterPage>
   )
 }

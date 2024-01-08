@@ -1,11 +1,9 @@
 import React from 'react'
-import {Anchor, Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
-import Link from 'next/link'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {siteMap} from '@/app/dictionaries/site.dictionary'
+import {NewsItem} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
@@ -20,11 +18,7 @@ const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
   return (
     news && (
       <MasterPage subtitle={[news.attributes.title, 'Aktualności']}>
-        <Text tag="h1">{news.attributes.title}</Text>
-        <Text>{news.attributes.content}</Text>
-        <Link href={siteMap.news} legacyBehavior passHref>
-          <Anchor>Wróć do listy</Anchor>
-        </Link>
+        <NewsItem {...news} />
       </MasterPage>
     )
   )

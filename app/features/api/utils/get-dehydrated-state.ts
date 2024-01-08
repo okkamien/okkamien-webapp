@@ -1,10 +1,10 @@
 import {dehydrate, DehydratedState, QueryClient} from '@tanstack/react-query'
 import {IncomingMessage} from 'http'
 
-import {IApiItem} from '@/app/features/api/types'
+import {IApiItem, TApiItems} from '@/app/features/api/types'
 import {getApiResponse, getQueryKey, IGetApiResponseParams, IGetApiResponseSuccessResponse} from '@/app/features/api/utils'
 
-interface IGetDehydratedStateParams<T extends IApiItem<unknown>> {
+interface IGetDehydratedStateParams<T extends TApiItems> {
   payloads: IGetApiResponseParams<T>[]
   req?: IncomingMessage
 }
@@ -14,7 +14,7 @@ interface IGetDehydratedStateReturn {
   hasData: boolean
 }
 
-export const getDehydratedState = async <T extends IApiItem<unknown>>({
+export const getDehydratedState = async <T extends TApiItems>({
   payloads,
   req,
 }: IGetDehydratedStateParams<T>): Promise<IGetDehydratedStateReturn> => {
