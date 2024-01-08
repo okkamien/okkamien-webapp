@@ -68,5 +68,3 @@ export type TApiStaff = IApiItem<{
   title: string
   photo: IApiImage
 }>
-
-export type TApiItems = IApiItem<TApiNews> | IApiItem<TApiEvent> | IApiItem<TApiStaff>
