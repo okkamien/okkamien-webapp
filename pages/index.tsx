@@ -1,5 +1,5 @@
 import React from 'react'
-import {Anchor, Text} from '@effortless-ui'
+import {Anchor, Box, Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
 import Link from 'next/link'
 
@@ -23,6 +23,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
       <Link href={siteMap.events} legacyBehavior passHref>
         <Anchor>Zobacz wszystkie wydarzenia</Anchor>
       </Link>
+      <Box cs={{bg: ['blue', 'red', 'yellow']}}>Test</Box>
     </MasterPage>
   )
 }

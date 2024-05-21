@@ -18,4 +18,9 @@ export const text: CSSObject = {
       textDecoration: 'none',
     },
   },
+  'h1, h2, h3, h4, h5, h6, p': {
+    margin: 0,
+    fontSize: theme.font.size.base,
+    lineHeight: theme.font.spacing.base,
+  },
 }

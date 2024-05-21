@@ -16,10 +16,16 @@ export const Container: FC<PropsWithChildren<IContainerProps>> = ({children, cs,
       cs={{
         label: 'Container',
         position: 'relative',
-        ...(!fluid && {width: theme.size.container + theme.spacing.l * 2}),
+        ...(!fluid && {
+          width: [
+            theme.size.container + theme.spacing.ms * 2,
+            theme.size.container + theme.spacing.ml * 2,
+            theme.size.container + theme.spacing.l * 2,
+          ],
+        }),
         maxWidth: '100%',
         m: '0 auto',
-        px: [theme.spacing.base, theme.spacing.l],
+        px: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
         ...cs,
       }}
     >

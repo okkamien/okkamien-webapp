@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {effortlessThemeDefaultContextProps, EffortlessThemeProvider} from '@effortless-ui'
-import {Global} from '@emotion/react'
 import {HydrationBoundary, keepPreviousData, QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {AppProps} from 'next/app'
 
@@ -24,8 +23,7 @@ const App = ({Component, pageProps}: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={pageProps.dehydratedState}>
-        <EffortlessThemeProvider theme={effortlessTheme} {...effortlessThemeDefaultContextProps}>
-          <Global styles={[base, text]} />
+        <EffortlessThemeProvider defaultStyles={[base, text]} theme={effortlessTheme} {...effortlessThemeDefaultContextProps}>
           <Component {...pageProps} />
         </EffortlessThemeProvider>
       </HydrationBoundary>

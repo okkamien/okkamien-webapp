@@ -7,7 +7,7 @@ import {theme} from '@/app/styles'
 import {getFormattedRange} from '@/app/utils'
 
 export const Footer: FC = () => (
-  <Box tag="footer" cs={{py: theme.spacing.base}}>
+  <Box tag="footer" cs={{py: theme.spacing.m}}>
     Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim app v.{process.env.NEXT_PUBLIC_APP_VERSION} &bull;{' '}
     {getFormattedRange(siteFoundedYear, new Date().getFullYear())}
     <Nav

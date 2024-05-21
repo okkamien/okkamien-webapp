@@ -7,7 +7,7 @@ import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
 export const Header: FC = () => (
-  <Box tag="header" cs={{py: theme.spacing.base}}>
+  <Box tag="header" cs={{py: theme.spacing.m}}>
     <Link href={siteMap.homepage} legacyBehavior passHref>
       <Anchor>Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim</Anchor>
     </Link>
