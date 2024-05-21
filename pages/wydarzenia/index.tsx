@@ -7,9 +7,7 @@ import {EventsList, PaginatedContent} from '@/app/components/ui'
 import {TApiEvent} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiEvent>> = ({payloads}) => {
-  const [upcomingPayload, pastPayload] = payloads
-
+const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [upcomingPayload, pastPayload]}) => {
   return (
     <MasterPage subtitle="Wydarzenia">
       <Text tag="h1">Wydarzenia</Text>

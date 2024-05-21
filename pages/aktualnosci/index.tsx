@@ -7,9 +7,7 @@ import {NewsList, PaginatedContent} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
-  const [payload] = payloads
-
+const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   return (
     <MasterPage subtitle="Aktualności">
       <Text tag="h1">Aktualności</Text>

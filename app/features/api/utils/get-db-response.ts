@@ -10,6 +10,7 @@ export interface IGetApiResponseParams<T extends IApiItem<unknown>> {
   endpoint: string
   filters?: {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
   pagination?: {
+    limit?: number
     page?: number
     pageSize?: number
   }
@@ -31,8 +32,8 @@ export interface IGetApiResponseSuccessResponse<T> {
   success: true
 }
 
-export interface IPageWithPayload<T extends IApiItem<unknown>> {
-  payloads: IGetApiResponseParams<T>[]
+export interface IPageWithPayload<T extends IApiItem<unknown>[]> {
+  payloads: {[P in keyof T]: IGetApiResponseParams<T[P]>}
 }
 
 export const getApiResponse = async <T extends IApiItem<unknown>>({

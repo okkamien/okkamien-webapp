@@ -7,18 +7,16 @@ import {NewsItem} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiNews>> = ({payloads}) => {
-  const [payload] = payloads
+const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiResponse(payload),
   })
-  const news = isSuccess ? data.data[0] : undefined
 
   return (
-    news && (
-      <MasterPage subtitle={[news.attributes.title, 'Aktualności']}>
-        <NewsItem {...news} />
+    isSuccess && (
+      <MasterPage subtitle={[data.data[0].attributes.title, 'Aktualności']}>
+        <NewsItem {...data.data[0]} />
       </MasterPage>
     )
   )

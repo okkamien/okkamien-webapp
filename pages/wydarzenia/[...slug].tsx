@@ -7,18 +7,16 @@ import {EventsItem} from '@/app/components/ui'
 import {TApiEvent} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiEvent>> = ({payloads}) => {
-  const [payload] = payloads
+const Page: NextPage<IPageWithPayload<[TApiEvent]>> = ({payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiResponse(payload),
   })
-  const event = isSuccess ? data.data[0] : undefined
 
   return (
-    event && (
-      <MasterPage subtitle={[event.attributes.title, 'Wydarzenia']}>
-        <EventsItem {...event} />
+    isSuccess && (
+      <MasterPage subtitle={[data.data[0].attributes.title, 'Wydarzenia']}>
+        <EventsItem {...data.data[0]} />
       </MasterPage>
     )
   )

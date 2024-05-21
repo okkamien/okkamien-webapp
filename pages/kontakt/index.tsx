@@ -7,9 +7,7 @@ import {PaginatedContent, StaffList} from '@/app/components/ui'
 import {TApiStaff} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<TApiStaff>> = ({payloads}) => {
-  const [payload] = payloads
-
+const Page: NextPage<IPageWithPayload<[TApiStaff]>> = ({payloads: [payload]}) => {
   return (
     <MasterPage subtitle="Kontakt">
       <Text tag="h1">Kontakt</Text>
