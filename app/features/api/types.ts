@@ -51,6 +51,7 @@ interface IApiImage {
 export type TApiNews = IApiItem<{
   content: string
   slug: string
+  teaser: string
   title: string
 }>
 

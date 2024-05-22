@@ -9,24 +9,26 @@ import {Arrow, arrowHoverParent, Btn, btnHoverParent, Tag, tagHoverParent} from 
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'
 
-interface ITileProps {
+export interface ITileProps {
   button?: string
   date?: Dayjs | [Dayjs, Dayjs]
   image?: string
+  link: string
   tags?: string[]
   teaser?: string
   title: string
 }
 
-export const Tile: FC<ITileProps> = ({button, date, image, tags, teaser, title}) => {
+export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, title}) => {
   return (
-    <Link href="#" legacyBehavior passHref>
+    <Link href={link} legacyBehavior passHref>
       <Anchor
         className={cn(arrowHoverParent, btnHoverParent, tagHoverParent)}
         cs={{
           label: 'Tile',
           display: 'flex',
           flexDirection: 'column',
+          height: '100%',
           color: theme.color.text,
           textDecoration: 'none',
           bg: theme.color.white,
@@ -46,7 +48,7 @@ export const Tile: FC<ITileProps> = ({button, date, image, tags, teaser, title})
             <Image src={image} alt={title} fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>
         )}
-        <Box cs={{label: 'Tile-content', display: 'flex', flexDirection: 'column', p: theme.spacing.ml}}>
+        <Box cs={{label: 'Tile-content', display: 'flex', flexDirection: 'column', flexGrow: '1', p: theme.spacing.ml}}>
           {tags?.length && (
             <Box
               tag="ul"
@@ -72,7 +74,7 @@ export const Tile: FC<ITileProps> = ({button, date, image, tags, teaser, title})
               {button}
             </Btn>
           ) : (
-            <Arrow cs={{alignSelf: 'flex-end', mt: theme.spacing.ms, color: theme.color.text}} />
+            <Arrow cs={{alignSelf: 'flex-end', mt: 'auto', pt: theme.spacing.ms, color: theme.color.text}} />
           )}
         </Box>
       </Anchor>

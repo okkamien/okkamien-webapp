@@ -5,8 +5,8 @@ import {useEffortlessTheme} from '@/app/components/@effortless-ui/hooks'
 import {CSObject} from '@/app/components/@effortless-ui/types'
 import {toMediaQueryArray} from '@/app/components/@effortless-ui/utils/to-media-query-array'
 
-type GridCols = number | (number | null)[]
-type GridTemplate = number[] | (number[] | null)[]
+export type GridCols = number | (number | null)[]
+export type GridTemplate = number[] | (number[] | null)[]
 
 interface GridProps {
   cols?: GridCols
@@ -15,7 +15,7 @@ interface GridProps {
 
 const getColsTemplate = (cols: GridCols) => {
   return {
-    gridTemplateColumns: toMediaQueryArray<GridCols>(cols, (item) => `repeat(${item}, 1fr)`),
+    gridTemplateColumns: toMediaQueryArray<GridCols>(cols, (item) => `repeat(${item}, minmax(0, 1fr))`),
   }
 }
 

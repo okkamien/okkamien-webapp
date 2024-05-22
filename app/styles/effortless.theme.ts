@@ -5,23 +5,23 @@ import {theme} from './theme'
 
 const headers = {
   h1: {
-    fontSize: [49, 41],
+    fontSize: [41, 49],
     fontWeight: 400,
   },
   h2: {
-    fontSize: [39, 31],
+    fontSize: [31, 39],
     fontWeight: 400,
   },
   h3: {
-    fontSize: [31, 25],
+    fontSize: [25, 31],
     fontWeight: 400,
   },
   h4: {
-    fontSize: [25, 20],
+    fontSize: [20, 25],
     fontWeight: 400,
   },
   h5: {
-    fontSize: [20, 16],
+    fontSize: [16, 20],
     fontWeight: 400,
   },
 }

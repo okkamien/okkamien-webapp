@@ -45,7 +45,7 @@ const roboto = Roboto({
 })
 
 export const theme = {
-  breakpoints: [376, 768, 1366],
+  breakpoints: [376, 768, 992, 1366],
   color: {
     black: colors.black,
     white: colors.white,
