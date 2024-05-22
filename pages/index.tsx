@@ -4,7 +4,7 @@ import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {Btn, Tile, TilesList, Title} from '@/app/components/ui'
+import {Btn, ImageTile, Tile, TilesList, Title} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiEvent, TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
@@ -50,6 +50,21 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
           </Btn>
         </Box>
       )}
+      <Box cs={{label: 'Links-section'}}>
+        <TilesList
+          cols={[1, null, 2]}
+          tiles={[
+            <ImageTile
+              key={1}
+              image="/content/workshops-cover.jpg"
+              title="Pracownie M&#8209;GOK"
+              link={siteMap.workshops}
+              button="Zobacz"
+            />,
+            <ImageTile key={2} image="/content/facilities-cover.jpg" title="Placówki" link={siteMap.facilities} button="Zobacz" />,
+          ]}
+        />
+      </Box>
     </MasterPage>
   )
 }

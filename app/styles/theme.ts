@@ -29,6 +29,7 @@ import {Roboto} from 'next/font/google'
 const colors = {
   black: '#000',
   white: '#fff',
+  greyWoodsmoke: '#151516',
   greyShark: '#1a1b1c',
   blueAllports: '#00739d',
   blueCerulean: '#00a2dd',
@@ -54,6 +55,7 @@ export const theme = {
     text: colors.greyShark,
     success: colors.greenSalem,
     error: colors.redAlizarinCrimson,
+    overlay: colors.greyWoodsmoke,
   },
   gradient: {
     linearLight: 'linear-gradient(0deg, #e8ebef 0%, #f2f2f2 50%, #e8ebef 100%)',
