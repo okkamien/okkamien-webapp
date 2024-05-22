@@ -1,10 +1,9 @@
 import React, {ElementType, FC, PropsWithChildren} from 'react'
-import {Box, CSObject} from '@effortless-ui'
+import {Box, PropsWithCS} from '@effortless-ui'
 
 import {theme} from '@/app/styles'
 
-interface IContainerProps {
-  cs?: CSObject
+interface IContainerProps extends PropsWithCS {
   fluid?: boolean
   tag?: ElementType
 }

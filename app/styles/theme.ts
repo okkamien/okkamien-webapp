@@ -30,7 +30,7 @@ const colors = {
   black: '#000',
   white: '#fff',
   greyShark: '#1a1b1c',
-  blueEastBay: '#435c7d',
+  blueAllports: '#00739d',
   blueCerulean: '#00a2dd',
   redAlizarinCrimson: '#dc2626',
   greenSalem: '#16a34a',
@@ -38,7 +38,7 @@ const colors = {
 
 // eslint-disable-next-line new-cap
 const roboto = Roboto({
-  weight: ['100', '400', '700'],
+  weight: ['400', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
@@ -49,15 +49,19 @@ export const theme = {
   color: {
     black: colors.black,
     white: colors.white,
-    primary: colors.blueEastBay,
+    primary: colors.blueAllports,
     secondary: colors.blueCerulean,
     text: colors.greyShark,
     success: colors.greenSalem,
     error: colors.redAlizarinCrimson,
   },
+  gradient: {
+    linearLight: 'linear-gradient(0deg, #e8ebef 0%, #f2f2f2 50%, #e8ebef 100%)',
+  },
   font: {
     size: {
       base: 16,
+      small: 13,
     },
     family: {
       sansSerif: `${roboto.style.fontFamily}, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`,
@@ -81,6 +85,11 @@ export const theme = {
     xxl: 44,
     xxxl: 64,
     xxxxl: 72,
+  },
+  radii: {
+    s: 4,
+    m: 8,
+    l: 16,
   },
 }
 
