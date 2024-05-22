@@ -6,7 +6,7 @@ import {Container} from '@/app/components/ui'
 import {theme} from '@/app/styles'
 
 export const DefaultTemplate: FC<PropsWithChildren> = ({children}) => (
-  <Box cs={{display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
+  <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Container>
       <Header />
     </Container>

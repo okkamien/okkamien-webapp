@@ -17,7 +17,7 @@ export const Title: FC<PropsWithChildren<PropsWithCS>> = ({children, cs}) => {
         ...cs,
       }}
     >
-      <Box cs={{flexShring: '0'}}>
+      <Box cs={{display: 'flex', flexShring: '0'}}>
         <BrandSymbolIcon />
       </Box>
       {children}

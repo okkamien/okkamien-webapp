@@ -2,8 +2,7 @@ import React, {FC} from 'react'
 import {Anchor, Box} from '@effortless-ui'
 import Link from 'next/link'
 
-import {Nav} from '@/app/components/layout'
-import {siteMap} from '@/app/dictionaries/site.dictionary'
+import {navigationLinks, navigationSocials, siteMap} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
 export const Header: FC = () => (
@@ -11,25 +10,23 @@ export const Header: FC = () => (
     <Link href={siteMap.homepage} legacyBehavior passHref>
       <Anchor>Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim</Anchor>
     </Link>
-    <Nav
-      links={[
-        {
-          label: 'Aktualności',
-          url: siteMap.news,
-        },
-        {
-          label: 'Wydarzenia',
-          url: siteMap.events,
-        },
-        {
-          label: 'Działalność',
-          url: siteMap.operations,
-        },
-        {
-          label: 'Kontakt',
-          url: siteMap.contact,
-        },
-      ]}
-    />
+    <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', columnGap: theme.spacing.s}}>
+      {navigationSocials.map(({label, link}, i) => (
+        <Box tag="li" key={i}>
+          <Link href={link} legacyBehavior passHref>
+            <Anchor>{label}</Anchor>
+          </Link>
+        </Box>
+      ))}
+    </Box>
+    <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', columnGap: theme.spacing.s}}>
+      {navigationLinks.map(({label, link}, i) => (
+        <Box tag="li" key={i}>
+          <Link href={link} legacyBehavior passHref>
+            <Anchor>{label}</Anchor>
+          </Link>
+        </Box>
+      ))}
+    </Box>
   </Box>
 )
