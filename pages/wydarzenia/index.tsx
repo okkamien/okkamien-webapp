@@ -1,5 +1,4 @@
 import React from 'react'
-import {Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
@@ -11,11 +10,12 @@ import {mapApiEventToTile} from '@/app/utils'
 const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [upcomingPayload, pastPayload]}) => {
   return (
     <MasterPage subtitle="Wydarzenia">
-      <Text tag="h1">Wydarzenia</Text>
-      <Text tag="h2">Nadchodzące</Text>
-      <PaginatedContent payload={upcomingPayload}>{(data) => <TilesList tiles={data.map(mapApiEventToTile)} />}</PaginatedContent>
-      <Text tag="h2">Minione</Text>
-      <PaginatedContent payload={pastPayload}>{(data) => <TilesList tiles={data.map(mapApiEventToTile)} />}</PaginatedContent>
+      <PaginatedContent title="Nadchodzące wydarzenia" payload={upcomingPayload}>
+        {(data) => <TilesList tiles={data.map(mapApiEventToTile)} />}
+      </PaginatedContent>
+      <PaginatedContent title="Minione wydarzenia" payload={pastPayload}>
+        {(data) => <TilesList tiles={data.map(mapApiEventToTile)} />}
+      </PaginatedContent>
     </MasterPage>
   )
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import {Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
@@ -11,8 +10,9 @@ import {mapApiNewsToTile} from '@/app/utils'
 const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   return (
     <MasterPage subtitle="Aktualności">
-      <Text tag="h1">Aktualności</Text>
-      <PaginatedContent payload={payload}>{(data) => <TilesList tiles={data.map(mapApiNewsToTile)} />}</PaginatedContent>
+      <PaginatedContent title="Aktualności" payload={payload}>
+        {(data) => <TilesList tiles={data.map(mapApiNewsToTile)} />}
+      </PaginatedContent>
     </MasterPage>
   )
 }
