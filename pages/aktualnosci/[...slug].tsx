@@ -2,8 +2,8 @@ import React from 'react'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
 
+import {NewsItem} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {NewsItem} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 

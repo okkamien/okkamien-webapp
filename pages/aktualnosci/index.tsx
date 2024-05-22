@@ -2,8 +2,9 @@ import React from 'react'
 import {Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
 
+import {NewsList} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {NewsList, PaginatedContent} from '@/app/components/ui'
+import {PaginatedContent} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
