@@ -1,5 +1,5 @@
 import React, {FC, PropsWithChildren} from 'react'
-import {PropsWithCS, Text} from '@effortless-ui'
+import {Box, PropsWithCS, Text} from '@effortless-ui'
 
 import BrandSymbolIcon from '@/app/assets/brand-symbol.svg'
 import {theme} from '@/app/styles'
@@ -17,7 +17,9 @@ export const Title: FC<PropsWithChildren<PropsWithCS>> = ({children, cs}) => {
         ...cs,
       }}
     >
-      <BrandSymbolIcon />
+      <Box cs={{flexShring: '0'}}>
+        <BrandSymbolIcon />
+      </Box>
       {children}
     </Text>
   )

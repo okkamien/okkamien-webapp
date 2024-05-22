@@ -15,6 +15,8 @@ export const Container: FC<PropsWithChildren<IContainerProps>> = ({children, cs,
       cs={{
         label: 'Container',
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
         ...(!fluid && {
           width: [
             theme.size.container + theme.spacing.ms * 2,

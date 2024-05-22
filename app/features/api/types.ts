@@ -56,11 +56,14 @@ export type TApiNews = IApiItem<{
 }>
 
 export type TApiEvent = IApiItem<{
-  date: string
   description: string
+  from: string
   location: string
   slug: string
+  teaser: string
+  thumbnail: IApiImage
   title: string
+  to?: string
 }>
 
 export type TApiStaff = IApiItem<{

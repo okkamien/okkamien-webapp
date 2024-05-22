@@ -14,11 +14,11 @@ interface ITilesListProps {
   title?: string
 }
 
-export const TilesList: FC<ITilesListProps> = ({button, cols = [1, null, 3], tiles, title}) => {
+export const TilesList: FC<ITilesListProps> = ({button, cols = [1, 3], tiles, title}) => {
   return (
-    <>
-      {title && <Title cs={{mb: theme.spacing.xxl}}>{title}</Title>}
-      <Grid tag="ul" cols={cols} composition={['semanticList']} cs={{label: 'Tile-list', gap: theme.spacing.l}}>
+    <Box cs={{label: 'Tile-list', width: '100%'}}>
+      {title && <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>{title}</Title>}
+      <Grid tag="ul" cols={cols} composition={['semanticList']} cs={{gap: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l]}}>
         {tiles.map((tile, i) => (
           <Box key={i} tag="li">
             <Tile {...tile} />
@@ -26,10 +26,10 @@ export const TilesList: FC<ITilesListProps> = ({button, cols = [1, null, 3], til
         ))}
       </Grid>
       {button && (
-        <Btn link={button.link} dark cs={{mt: theme.spacing.xxl}}>
+        <Btn link={button.link} dark cs={{mt: [theme.spacing.l, theme.spacing.xxl]}}>
           {button.label}
         </Btn>
       )}
-    </>
+    </Box>
   )
 }
