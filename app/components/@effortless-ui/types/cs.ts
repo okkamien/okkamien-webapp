@@ -23,3 +23,7 @@ export interface CSAliases {
 }
 
 export type CSObject = (CSSObject | DynamicStyle | Partial<CSAliases>) | CSObject[]
+
+export interface PropsWithCS {
+  cs?: CSObject
+}

@@ -1,4 +1,5 @@
 import facepaint from 'facepaint'
+import {Roboto} from 'next/font/google'
 
 /*
   Colors naming convetion:
@@ -28,38 +29,67 @@ import facepaint from 'facepaint'
 const colors = {
   black: '#000',
   white: '#fff',
-  redCamelot: '#893456',
+  greyShark: '#1a1b1c',
+  blueAllports: '#00739d',
+  blueCerulean: '#00a2dd',
+  redAlizarinCrimson: '#dc2626',
+  greenSalem: '#16a34a',
 }
-const base = 16
+
+// eslint-disable-next-line new-cap
+const roboto = Roboto({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+})
 
 export const theme = {
-  breakpoints: [576, 768, 992, 1288],
+  breakpoints: [768, 992, 1366],
   color: {
     black: colors.black,
     white: colors.white,
-    primary: colors.redCamelot,
-    text: colors.black,
+    primary: colors.blueAllports,
+    secondary: colors.blueCerulean,
+    text: colors.greyShark,
+    success: colors.greenSalem,
+    error: colors.redAlizarinCrimson,
+  },
+  gradient: {
+    linearLight: 'linear-gradient(0deg, #e8ebef 0%, #f2f2f2 50%, #e8ebef 100%)',
   },
   font: {
     size: {
-      base,
+      base: 16,
+      small: 13,
     },
     family: {
-      sansSerif: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      sansSerif: `${roboto.style.fontFamily}, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"`,
     },
     spacing: {
-      base: 1.4,
+      base: 1.2,
     },
   },
   size: {
-    container: 1200,
+    container: 1288,
   },
   spacing: {
-    xs: base * 0.25,
-    s: base * 0.5,
-    base,
-    l: base * 1.5,
-    xl: base * 2,
+    xxs: 4,
+    xs: 8,
+    s: 12,
+    ms: 16,
+    m: 20,
+    ml: 24,
+    l: 32,
+    xl: 40,
+    xxl: 44,
+    xxxl: 64,
+    xxxxl: 72,
+  },
+  radii: {
+    s: 4,
+    m: 8,
+    l: 16,
   },
 }
 

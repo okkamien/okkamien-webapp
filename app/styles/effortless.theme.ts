@@ -1,11 +1,29 @@
-import {CSObject, EffortlessTheme} from '@effortless-ui'
+import {EffortlessTheme} from '@effortless-ui'
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import {theme} from './theme'
 
-const headerStyles: CSObject = {
-  m: 0,
-  fontWeight: 700,
+const headers = {
+  h1: {
+    fontSize: [41, 49],
+    fontWeight: 400,
+  },
+  h2: {
+    fontSize: [31, 39],
+    fontWeight: 400,
+  },
+  h3: {
+    fontSize: [25, 31],
+    fontWeight: 400,
+  },
+  h4: {
+    fontSize: [20, 25],
+    fontWeight: 400,
+  },
+  h5: {
+    fontSize: [16, 20],
+    fontWeight: 400,
+  },
 }
 
 export const effortlessTheme: EffortlessTheme = {
@@ -16,13 +34,7 @@ export const effortlessTheme: EffortlessTheme = {
   },
   tags: {
     Text: {
-      h1: [{fontSize: [theme.font.size.base * 1.6, theme.font.size.base * 2.2]}, headerStyles],
-      h2: [{fontSize: [theme.font.size.base * 1.45, theme.font.size.base * 1.9]}, headerStyles],
-      h3: [{fontSize: [theme.font.size.base * 1.3, theme.font.size.base * 1.6]}, headerStyles],
-      h4: [{fontSize: [theme.font.size.base * 1.15, theme.font.size.base * 1.3]}, headerStyles],
-      h5: [headerStyles],
-      h6: [headerStyles],
-      p: {m: 0},
+      ...headers,
     },
     Button: {
       button: {},
@@ -37,5 +49,9 @@ export const effortlessTheme: EffortlessTheme = {
       },
     },
   },
-  variants: {},
+  variants: {
+    Text: {
+      ...headers,
+    },
+  },
 }

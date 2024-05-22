@@ -1,28 +1,26 @@
 import React from 'react'
-import {Text} from '@effortless-ui'
-import {GetServerSideProps, NextPage} from 'next'
+import {Box, Text} from '@effortless-ui'
+import {NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {PaginatedContent, StaffList} from '@/app/components/ui'
-import {TApiStaff} from '@/app/features/api/types'
-import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiStaff]>> = ({payloads: [payload]}) => {
+const Page: NextPage = () => {
   return (
     <MasterPage subtitle="Kontakt">
-      <Text tag="h1">Kontakt</Text>
-      <PaginatedContent payload={payload}>{(data) => <StaffList list={data} />}</PaginatedContent>
+      <Box>
+        <Text tag="h1">Kontakt</Text>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ligula tellus, luctus id fermentum non, tincidunt sit amet erat.
+          Suspendisse tristique ipsum magna, in tincidunt ipsum rhoncus vehicula. Morbi tincidunt leo porta, finibus nulla non, auctor dui.
+          Donec nec mi eu lorem convallis hendrerit quis sit amet arcu. Integer imperdiet tortor ut enim elementum vehicula. Class aptent
+          taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec et tellus quis risus accumsan maximus a ac
+          nulla. Donec mollis turpis in ornare porttitor. Aliquam tristique, odio et dictum hendrerit, neque ipsum ultricies magna, eget
+          molestie elit leo et leo. Quisque pellentesque efficitur pretium. Maecenas leo nibh, lobortis nec odio et, posuere vestibulum
+          felis. Sed tortor mi, pulvinar maximus leo in, bibendum laoreet metus.
+        </Text>
+      </Box>
     </MasterPage>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const payloads: IGetApiResponseParams<TApiStaff>[] = [{endpoint: 'staff', populate: ['photo'], sort: [['id']]}]
-  const {dehydratedState} = await getDehydratedState({payloads, req})
-
-  return {
-    props: {dehydratedState, payloads},
-  }
 }
 
 export default Page

@@ -22,6 +22,7 @@ export const base: CSSObject = {
     overflowX: 'hidden',
     overflowY: 'scroll',
     cursor: 'auto',
+    backgroundColor: theme.color.text,
   },
   img: {
     display: 'block',
