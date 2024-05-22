@@ -1,12 +1,14 @@
 import React from 'react'
+import {Box} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {TilesList} from '@/app/components/ui'
+import {Btn, Tile, TilesList, Title} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiEvent, TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {theme} from '@/app/styles'
 import {mapApiEventToTile, mapApiNewsToTile} from '@/app/utils'
 
 const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [newsPayload, eventsPayload]}) => {
@@ -22,19 +24,31 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
   return (
     <MasterPage>
       {isEventsDataSuccess && (
-        <TilesList
-          title="Wydarzenia"
-          tiles={eventsData.data.map(mapApiEventToTile)}
-          button={{label: 'Sprawdź wszystkie wydarzenia', link: siteMap.events}}
-        />
+        <Box cs={{label: 'Events-section', mb: [theme.spacing.xxxl, theme.spacing.xxxxl]}}>
+          <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Wydarzenia</Title>
+          <TilesList
+            tiles={eventsData.data.map((item, i) => (
+              <Tile key={i} {...mapApiEventToTile(item)} />
+            ))}
+          />
+          <Btn link={siteMap.events} dark cs={{mt: [theme.spacing.l, theme.spacing.xxl]}}>
+            Sprawdź wszystkie wydarzenia
+          </Btn>
+        </Box>
       )}
       {isNewsDataSuccess && (
-        <TilesList
-          cols={[1, 2]}
-          title="Aktualności"
-          tiles={newsData.data.map(mapApiNewsToTile)}
-          button={{label: 'Sprawdź wszystkie aktualności', link: siteMap.news}}
-        />
+        <Box cs={{label: 'Events-section', mb: [theme.spacing.xxxl, theme.spacing.xxxxl]}}>
+          <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Aktualności</Title>
+          <TilesList
+            cols={[1, 2]}
+            tiles={newsData.data.map((item, i) => (
+              <Tile key={i} {...mapApiNewsToTile(item)} />
+            ))}
+          />
+          <Btn link={siteMap.news} dark cs={{mt: [theme.spacing.l, theme.spacing.xxl]}}>
+            Sprawdź wszystkie aktualności
+          </Btn>
+        </Box>
       )}
     </MasterPage>
   )

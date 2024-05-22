@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {Anchor, Box, Text} from '@effortless-ui'
+import {Anchor, Text} from '@effortless-ui'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 
@@ -11,7 +11,7 @@ type TEventsItemProps = TApiEvent
 
 export const EventsItem: FC<TEventsItemProps> = ({attributes: {description, from, location, title, to}}) => {
   return (
-    <Box>
+    <>
       <Text tag="h1">{title}</Text>
       <Text>
         <strong>
@@ -22,6 +22,6 @@ export const EventsItem: FC<TEventsItemProps> = ({attributes: {description, from
       <Link href={siteMap.events} legacyBehavior passHref>
         <Anchor>Wróć do listy</Anchor>
       </Link>
-    </Box>
+    </>
   )
 }
