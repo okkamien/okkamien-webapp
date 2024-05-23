@@ -38,6 +38,7 @@ export const Btn: FC<PropsWithChildren<IBtnProps>> = ({children, cs, dark, light
     label: 'Btn',
     display: 'inline-flex',
     alignItems: 'center',
+    justifyContent: 'center',
     columnGap: theme.spacing.xxs,
     px: theme.spacing.s,
     py: theme.spacing.xs,

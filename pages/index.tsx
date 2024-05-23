@@ -31,7 +31,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
               <Tile key={i} {...mapApiEventToTile(item)} />
             ))}
           />
-          <Btn link={siteMap.events} dark cs={{mt: [theme.spacing.l, theme.spacing.xxl]}}>
+          <Btn link={siteMap.events} dark cs={{width: ['100%', 'auto'], mt: [theme.spacing.l, theme.spacing.xxl]}}>
             Sprawdź wszystkie wydarzenia
           </Btn>
         </Box>
@@ -45,7 +45,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
               <Tile key={i} {...mapApiNewsToTile(item)} />
             ))}
           />
-          <Btn link={siteMap.news} dark cs={{mt: [theme.spacing.l, theme.spacing.xxl]}}>
+          <Btn link={siteMap.news} dark cs={{width: ['100%', 'auto'], mt: [theme.spacing.l, theme.spacing.xxl]}}>
             Sprawdź wszystkie aktualności
           </Btn>
         </Box>
