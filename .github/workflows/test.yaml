@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  typescript:
+    name: Test:Typescript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.10.0
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+      - name: Install
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn --no-progress --non-interactive --frozen-lockfile
+      - name: Typescript
+        run: yarn test:typescript

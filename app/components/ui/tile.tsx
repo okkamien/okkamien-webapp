@@ -9,7 +9,7 @@ import {Arrow, arrowHoverParent, Btn, btnHoverParent, Tag, tagHoverParent} from 
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'
 
-export interface ITileProps {
+interface ITileProps {
   button?: string
   date?: Dayjs | [Dayjs, Dayjs]
   image?: string
