@@ -11,6 +11,7 @@ import {getFormattedDateRange} from '@/app/utils'
 
 export interface ITileProps {
   button?: string
+  
   date?: Dayjs | [Dayjs, Dayjs]
   image?: string
   link: string

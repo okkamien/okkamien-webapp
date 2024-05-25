@@ -13,6 +13,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test:eslint": "eslint ./ --ext .ts --ext .tsx",
     "test:typescript": "tsc -p ./tsconfig.json --noEmit"
   },
   "dependencies": {
