@@ -32,18 +32,28 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
           color: theme.color.text,
           textDecoration: 'none',
           bg: theme.color.white,
+          border: '1px solid',
+          borderColor: theme.color.border,
           borderRadius: theme.radii.m,
-          overflow: 'hidden',
-          transition: 'color 200ms, background-color 200ms',
+          transition: 'color 200ms, background-color 200ms, border-color 200ms',
           '&:hover': {
             color: theme.color.white,
             bg: theme.color.text,
+            borderColor: theme.color.text,
           },
         }}
       >
         {image && (
           <Box
-            cs={{label: 'Tile-image', position: 'relative', aspectRatio: ['1', '1.2363'], borderRadius: theme.radii.m, overflow: 'hidden'}}
+            cs={{
+              label: 'Tile-image',
+              position: 'relative',
+              aspectRatio: ['1', '1.2363'],
+              mx: -1,
+              mt: -1,
+              borderRadius: theme.radii.m,
+              overflow: 'hidden',
+            }}
           >
             <Image src={image} alt={title} fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>

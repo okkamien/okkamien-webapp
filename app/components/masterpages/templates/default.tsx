@@ -15,17 +15,17 @@ export const DefaultTemplate: FC<PropsWithChildren> = ({children}) => (
     <Box
       cs={{
         label: 'Layout-main',
+        position: 'relative',
         display: 'flex',
         flexGrow: '1',
         py: [theme.spacing.xxxl, theme.spacing.xxxxl],
-        borderStartStartRadius: theme.radii.l,
-        borderStartEndRadius: theme.radii.l,
-        bg: theme.gradient.linearLight,
+        borderRadius: theme.radii.l,
+        bg: theme.gradient.radialBackground,
       }}
     >
       <Container>{children}</Container>
     </Box>
-    <Box cs={{label: 'Layout-footer', bg: theme.color.white}}>
+    <Box cs={{label: 'Layout-footer', bg: theme.color.white, mt: -theme.spacing.ms, pt: theme.spacing.ms}}>
       <Container>
         <Footer />
       </Container>
