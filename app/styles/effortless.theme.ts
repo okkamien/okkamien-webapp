@@ -26,6 +26,14 @@ const headers = {
   },
 }
 
+const pagination = {
+  width: 36,
+  height: 36,
+  p: 0,
+  borderRadius: theme.radii.s,
+  transition: 'color 200ms, background-color 200ms, border-color 200ms',
+}
+
 export const effortlessTheme: EffortlessTheme = {
   breakpoints: theme.breakpoints,
   gutter: {
@@ -50,8 +58,41 @@ export const effortlessTheme: EffortlessTheme = {
     },
   },
   variants: {
+    Box: {
+      paginationDots: {
+        lineHeight: '36px',
+      },
+    },
     Text: {
       ...headers,
+    },
+    Button: {
+      paginationArrow: {
+        ...pagination,
+        '&:enabled': {
+          cursor: 'pointer',
+          '&:hover': {
+            color: theme.color.primary,
+            borderColor: theme.color.primary,
+          },
+        },
+      },
+      paginationDigit: {
+        ...pagination,
+        border: 'none',
+        '&:enabled': {
+          cursor: 'pointer',
+          '&:hover': {
+            color: theme.color.primary,
+          },
+        },
+      },
+      paginationActive: {
+        ...pagination,
+        color: theme.color.white,
+        border: 'none',
+        bg: theme.color.text,
+      },
     },
   },
 }

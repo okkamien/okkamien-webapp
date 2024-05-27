@@ -2,17 +2,20 @@ import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {PaginatedContent, Tile, TilesList} from '@/app/components/ui'
+import {PaginatedContent, Tile, TilesList, Title} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
 const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   return (
     <MasterPage subtitle="Aktualności">
-      <PaginatedContent payload={payload}>
+      <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Aktualności</Title>
+      <PaginatedContent payload={payload} pageSize={9}>
         {(data) => (
           <TilesList
+            cols={[1, 2, 3]}
             tiles={data.map((item, i) => (
               <Tile key={i} {...mapApiNewsToTile(item)} />
             ))}

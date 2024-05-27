@@ -6,6 +6,7 @@ import {Pagination} from '@/app/components/ui'
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem} from '@/app/features/api/types'
 import {getApiResponse, getQueryKey, IGetApiResponseParams} from '@/app/features/api/utils'
+import {theme} from '@/app/styles'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
 
@@ -44,7 +45,12 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
           {data.data.length > 0 ? (
             <>
               <Box cs={{opacity: isFetching ? 0.5 : 1}}>{children(data.data)}</Box>
-              <Pagination currentPage={currentPage} pageCount={data.meta.pagination.pageCount} onChange={setCurrentPage} />
+              <Pagination
+                currentPage={currentPage}
+                pageCount={data.meta.pagination.pageCount}
+                onChange={setCurrentPage}
+                cs={{mt: theme.spacing.l}}
+              />
             </>
           ) : (
             emptyState
