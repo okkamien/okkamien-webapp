@@ -17,7 +17,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>
-      <PaginatedContent payload={payload} pageSize={9} scrollToElement={scrollToElement}>
+      <PaginatedContent payload={payload} scrollToElement={scrollToElement}>
         {(data) => (
           <TilesList
             cols={[1, 2, 3]}
