@@ -14,12 +14,18 @@ export const Pagination: FC<IPaginationProps> = ({cs, currentPage, onChange, pag
   return (
     <>
       {pageCount > 1 && (
-        <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', justifyContent: 'center', columnGap: theme.spacing.xxs, ...cs}}>
-          <Box tag="li">
-            <Button variant="paginationArrow" onClick={() => onChange(Math.max(currentPage - 1, 1))} disabled={currentPage === 1}>
-              <IconChevronLeft size={20} stroke={1.5} />
-            </Button>
-          </Box>
+        <Box
+          tag="ul"
+          composition={['semanticList']}
+          cs={{label: 'Pagination', position: 'relative', display: 'flex', justifyContent: 'center', columnGap: theme.spacing.xxs, ...cs}}
+        >
+          {currentPage !== 1 && (
+            <Box tag="li">
+              <Button variant="paginationArrow" onClick={() => onChange(Math.max(currentPage - 1, 1))}>
+                <IconChevronLeft size={20} stroke={1.5} />
+              </Button>
+            </Box>
+          )}
           <Box tag="li">
             <Button variant={currentPage === 1 ? 'paginationActive' : 'paginationDigit'} onClick={() => onChange(1)}>
               1
@@ -63,15 +69,13 @@ export const Pagination: FC<IPaginationProps> = ({cs, currentPage, onChange, pag
               </Button>
             </Box>
           )}
-          <Box tag="li">
-            <Button
-              variant="paginationArrow"
-              onClick={() => onChange(Math.min(currentPage + 1, pageCount))}
-              disabled={currentPage === pageCount}
-            >
-              <IconChevronRight size={20} stroke={1.5} />
-            </Button>
-          </Box>
+          {currentPage !== pageCount && (
+            <Box tag="li">
+              <Button variant="paginationArrow" onClick={() => onChange(Math.min(currentPage + 1, pageCount))}>
+                <IconChevronRight size={20} stroke={1.5} />
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
     </>

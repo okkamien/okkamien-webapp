@@ -14,6 +14,7 @@ export const text: CSSObject = {
     color: theme.color.primary,
     textDecoration: 'underline',
     cursor: 'pointer',
+    transition: 'color 200ms',
     '&:hover, &:active': {
       textDecoration: 'none',
     },

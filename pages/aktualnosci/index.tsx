@@ -5,7 +5,7 @@ import MasterPage from '@/app/components/masterpages/masterpage'
 import {PaginatedContent, Tile, TilesList, Title} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
-import {useScrollRef} from '@/app/hooks/use-scroll-ref'
+import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
@@ -13,7 +13,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
   const {scrollRef, scrollToElement} = useScrollRef()
 
   return (
-    <MasterPage subtitle="Aktualności">
+    <MasterPage breadcrumbs={{current: 'Aktualności'}}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>

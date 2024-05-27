@@ -1,4 +1,5 @@
 export * from './arrow'
+export * from './breadcrumbs'
 export * from './btn'
 export * from './container'
 export * from './image-tile'
