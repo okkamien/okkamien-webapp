@@ -16,7 +16,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
   return (
     isSuccess && (
-      <MasterPage breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualnosci', link: siteMap.news}]}}>
+      <MasterPage breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualności', link: siteMap.news}]}}>
         <NewsItem {...data.data[0]} />
       </MasterPage>
     )

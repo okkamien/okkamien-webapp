@@ -58,7 +58,7 @@ export const Breadcrumbs: FC<IBreadcrumbsProps> = ({cs, current, links}) => {
     >
       <BreadcrumbsLink label="Strona główna" link="/" />
       {links?.map((link, i) => <BreadcrumbsLink key={i} {...link} />)}
-      <BreadcrumbsLink isActive label={current} link={pathname ?? ''} />
+      {pathname && <BreadcrumbsLink isActive label={current} link={pathname} />}
     </Box>
   )
 }
