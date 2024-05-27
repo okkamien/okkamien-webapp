@@ -39,7 +39,7 @@ const colors = {
 
 // eslint-disable-next-line new-cap
 const roboto = Roboto({
-  weight: ['400', '700'],
+  weight: ['300', '400', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin', 'latin-ext'],
   display: 'swap',

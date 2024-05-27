@@ -68,7 +68,7 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
             </Text>
           )}
           <Text tag="h2">{title}</Text>
-          {teaser && <Text cs={{mt: theme.spacing.ml}}>{teaser}</Text>}
+          {teaser && <Text cs={{mt: theme.spacing.ml, fontWeight: 300}}>{teaser}</Text>}
           {button ? (
             <Btn dark cs={{alignSelf: 'flex-end', mt: theme.spacing.ms}}>
               {button}
