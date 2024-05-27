@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import {Box, PropsWithCS} from '@effortless-ui'
+import {IconArrowDownRight} from '@tabler/icons-react'
 
-import ArrowIcon from '@/app/assets/icons/arrow.svg'
 import {theme} from '@/app/styles'
 
 export const arrowHoverParent = 'arrow-hover-parent'
@@ -25,7 +25,7 @@ export const Arrow: FC<PropsWithCS> = ({cs}) => {
         ...cs,
       }}
     >
-      <ArrowIcon />
+      <IconArrowDownRight size={24} stroke={1.5} />
     </Box>
   )
 }
