@@ -13,7 +13,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "test:eslint": "eslint ./ --ext .ts --ext .tsx",
+    "test:typescript": "tsc -p ./tsconfig.json --noEmit"
   },
   "dependencies": {
     "@emotion/react": "11.11.3",
