@@ -26,7 +26,7 @@ export const Title: FC<PropsWithChildren<ITitle>> = ({breakOnMobile = false, chi
         ...cs,
       }}
     >
-      <Box cs={{display: 'flex', flexShring: '0', mx: 'auto'}}>
+      <Box cs={{display: 'flex', flexShring: '0', mx: 'auto', width: [18, 22]}}>
         <BrandSymbolIcon />
       </Box>
       <Text tag="span" cs={{flexGrow: '1'}}>
