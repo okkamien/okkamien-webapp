@@ -29,6 +29,7 @@ import {Roboto} from 'next/font/google'
 const colors = {
   black: '#000',
   white: '#fff',
+  greyAthens: '#e8ebef',
   greyWoodsmoke: '#151516',
   greyShark: '#1a1b1c',
   blueAllports: '#00739d',
@@ -39,7 +40,7 @@ const colors = {
 
 // eslint-disable-next-line new-cap
 const roboto = Roboto({
-  weight: ['400', '700'],
+  weight: ['300', '400', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
@@ -55,10 +56,11 @@ export const theme = {
     text: colors.greyShark,
     success: colors.greenSalem,
     error: colors.redAlizarinCrimson,
+    border: colors.greyAthens,
     overlay: colors.greyWoodsmoke,
   },
   gradient: {
-    linearLight: 'linear-gradient(0deg, #e8ebef 0%, #f2f2f2 50%, #e8ebef 100%)',
+    radialBackground: 'radial-gradient(circle at right bottom, #b6c0cc 0%, #e8ebef 60%, #f3f5f7 90%, #fff 100%)',
   },
   font: {
     size: {

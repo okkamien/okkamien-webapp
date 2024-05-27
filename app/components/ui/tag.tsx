@@ -1,7 +1,7 @@
 import React, {FC, PropsWithChildren} from 'react'
 import {Box} from '@effortless-ui'
+import {IconMapPin} from '@tabler/icons-react'
 
-import PinIcon from '@/app/assets/icons/pin.svg'
 import {theme} from '@/app/styles'
 
 interface ITagProps {
@@ -32,7 +32,7 @@ export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, icon = true}) =
         },
       }}
     >
-      {icon && <PinIcon />}
+      {icon && <IconMapPin size={12} />}
       {children}
     </Box>
   )
