@@ -1,4 +1,4 @@
-import React, {ReactElement, ReactNode, useState} from 'react'
+import React, {ReactElement, ReactNode, useEffect, useRef, useState} from 'react'
 import {Box, Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 
@@ -16,6 +16,7 @@ interface IPaginatedContentProps<T extends IApiItem<unknown>> {
   page?: number
   pageSize?: number
   payload: IGetApiResponseParams<T>
+  scrollToElement?: HTMLElement
 }
 
 export const PaginatedContent = <T extends IApiItem<unknown>>({
@@ -24,7 +25,9 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
   payload,
   page = payload.pagination?.page ?? DEFAULT_PAGE,
   pageSize = payload.pagination?.pageSize ?? DEFAULT_PAGE_SIZE,
+  scrollToElement,
 }: IPaginatedContentProps<T>) => {
+  const ref = useRef<HTMLElement>()
   const [currentPage, setCurrentPage] = useState<number>(page)
   const {data, isFetching, isSuccess} = useQuery({
     queryKey: getQueryKey({payload, currentPage, pageSize}),
@@ -38,13 +41,30 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
       }),
   })
 
+  useEffect(() => {
+    const resolvedScrollToElement = scrollToElement ?? ref.current
+
+    if (resolvedScrollToElement && resolvedScrollToElement.getBoundingClientRect().top < 0)
+      resolvedScrollToElement.scrollIntoView({behavior: 'smooth'})
+  }, [currentPage])
+
   return (
     <>
       {isSuccess && (
         <>
           {data.data.length > 0 ? (
             <>
-              <Box cs={{opacity: isFetching ? 0.5 : 1}}>{children(data.data)}</Box>
+              <Box
+                ref={ref}
+                className="t"
+                cs={{
+                  scrollMarginTop: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+                  opacity: isFetching ? 0.5 : 1,
+                  pointerEvents: isFetching ? 'none' : 'auto',
+                }}
+              >
+                {children(data.data)}
+              </Box>
               <Pagination
                 currentPage={currentPage}
                 pageCount={data.meta.pagination.pageCount}
