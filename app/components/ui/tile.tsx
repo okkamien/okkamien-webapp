@@ -48,7 +48,8 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
             cs={{
               label: 'Tile-image',
               position: 'relative',
-              aspectRatio: ['1', '1.2363'],
+              // aspectRatio: ['1', '1.2363'],
+              height: 330,
               mx: -1,
               mt: -1,
               borderRadius: theme.radii.m,

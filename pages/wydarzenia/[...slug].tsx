@@ -6,12 +6,12 @@ import {EventsItem} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiEvent} from '@/app/features/api/types'
-import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {getApiCollectionResponse, getDehydratedState, getQueryKey, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
 const Page: NextPage<IPageWithPayload<[TApiEvent]>> = ({payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
-    queryFn: () => getApiResponse(payload),
+    queryFn: () => getApiCollectionResponse(payload),
   })
 
   return (
@@ -25,7 +25,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent]>> = ({payloads: [payload]}) =>
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
-  const payloads: IGetApiResponseParams<TApiEvent>[] = [{endpoint: 'events', filters: {slug: [slug]}}]
+  const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [{endpoint: 'events', filters: {slug: [slug]}}]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})
 
   return hasData

@@ -18,15 +18,11 @@ export const Container: FC<PropsWithChildren<IContainerProps>> = ({children, cs,
         display: 'flex',
         flexDirection: 'column',
         ...(!fluid && {
-          width: [
-            theme.size.container + theme.spacing.ms * 2,
-            theme.size.container + theme.spacing.ml * 2,
-            theme.size.container + theme.spacing.l * 2,
-          ],
+          width: theme.gap.map((gap) => theme.size.container + gap * 2),
         }),
         maxWidth: '100%',
         m: '0 auto',
-        px: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+        px: theme.gap,
         ...cs,
       }}
     >

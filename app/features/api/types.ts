@@ -66,9 +66,18 @@ export type TApiEvent = IApiItem<{
   to?: string
 }>
 
-export type TApiStaff = IApiItem<{
-  email: string
+export type TApiWorkshop = IApiItem<{
   name: string
-  title: string
-  photo: IApiImage
+  slug: string
+  teaser: string
+  thumbnail?: IApiImage
+}>
+
+export type TApiWorkshopsLandingPage = IApiItem<{
+  intro: string
+  workshops?: {
+    data: {
+      id: number
+    }[]
+  }
 }>

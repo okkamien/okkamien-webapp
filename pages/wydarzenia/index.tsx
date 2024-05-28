@@ -5,7 +5,7 @@ import {GetServerSideProps, NextPage} from 'next'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {PaginatedContent, Tile, TilesList} from '@/app/components/ui'
 import {TApiEvent} from '@/app/features/api/types'
-import {getDehydratedState, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 import {mapApiEventToTile} from '@/app/utils'
 
 const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [upcomingPayload, pastPayload]}) => {
@@ -37,7 +37,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [up
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const today = new Date().toISOString()
-  const payloads: IGetApiResponseParams<TApiEvent>[] = [
+  const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [
     {endpoint: 'events', filters: {from: [today, 'gte']}, populate: ['thumbnail'], sort: [['from']]},
     {endpoint: 'events', filters: {from: [today, 'lt']}, populate: ['thumbnail'], sort: [['from']]},
   ]
