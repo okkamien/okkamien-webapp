@@ -42,11 +42,12 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
               .map((item, i) => (
                 <Tile key={i} {...mapApiWorkshopToTile(item)} />
               ))}
+            cs={{mb: theme.gap}}
           />
           <TilesList
             tiles={data.data
               .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-              .slice(2, 5)
+              .slice(2)
               .map((item, i) => (
                 <Tile key={i} {...mapApiWorkshopToTile(item)} />
               ))}
