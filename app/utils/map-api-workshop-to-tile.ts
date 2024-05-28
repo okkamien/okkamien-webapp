@@ -9,7 +9,7 @@ export const mapApiWorkshopToTile = ({attributes: {name, slug, teaser, thumbnail
     title: name
       .split(' ')
       .reduce<[string, string]>((total, current, i) => (i === 0 ? [current, ''] : [total[0], `${total[1]} ${current}`]), ['', '']),
-    ...(thumbnail && {
+    ...(thumbnail?.data && {
       image: `${process.env.NEXT_PUBLIC_DATABASE_URL}${thumbnail.data.attributes.url}`,
     }),
   }
