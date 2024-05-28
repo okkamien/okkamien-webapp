@@ -30,7 +30,8 @@ const colors = {
   black: '#000',
   white: '#fff',
   greyAthens: '#e8ebef',
-  greyWoodsmoke: '#151516',
+  greyMid: '#686869',
+  greyWoodsmoke: '#101111',
   greyShark: '#1a1b1c',
   blueAllports: '#00739d',
   blueCerulean: '#00a2dd',
@@ -57,6 +58,7 @@ export const theme = {
     success: colors.greenSalem,
     error: colors.redAlizarinCrimson,
     border: colors.greyAthens,
+    inactive: colors.greyMid,
     overlay: colors.greyWoodsmoke,
   },
   gradient: {

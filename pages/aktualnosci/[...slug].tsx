@@ -4,6 +4,7 @@ import {GetServerSideProps, NextPage} from 'next'
 
 import {NewsItem} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
+import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiNews} from '@/app/features/api/types'
 import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
 
@@ -15,7 +16,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
   return (
     isSuccess && (
-      <MasterPage subtitle={[data.data[0].attributes.title, 'Aktualności']}>
+      <MasterPage breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualności', link: siteMap.news}]}}>
         <NewsItem {...data.data[0]} />
       </MasterPage>
     )

@@ -2,10 +2,14 @@ import React, {FC, PropsWithChildren} from 'react'
 import {Box} from '@effortless-ui'
 
 import {Footer, Header} from '@/app/components/layout'
-import {Container} from '@/app/components/ui'
+import {Breadcrumbs, Container, IBreadcrumbsProps} from '@/app/components/ui'
 import {theme} from '@/app/styles'
 
-export const DefaultTemplate: FC<PropsWithChildren> = ({children}) => (
+interface IDefaultTemplate {
+  breadcrumbs?: IBreadcrumbsProps
+}
+
+export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadcrumbs, children}) => (
   <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Box cs={{label: 'Layout-header'}}>
       <Container>
@@ -23,7 +27,20 @@ export const DefaultTemplate: FC<PropsWithChildren> = ({children}) => (
         bg: theme.gradient.radialBackground,
       }}
     >
-      <Container>{children}</Container>
+      <Container>
+        {breadcrumbs && (
+          <Breadcrumbs
+            {...breadcrumbs}
+            cs={{
+              position: 'absolute',
+              top: -theme.spacing.xxl,
+              right: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+              left: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+            }}
+          />
+        )}
+        {children}
+      </Container>
     </Box>
     <Box cs={{label: 'Layout-footer', bg: theme.color.white, mt: -theme.spacing.ms, pt: theme.spacing.ms}}>
       <Container>

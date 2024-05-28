@@ -10,7 +10,7 @@ import {mapApiEventToTile} from '@/app/utils'
 
 const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [upcomingPayload, pastPayload]}) => {
   return (
-    <MasterPage subtitle="Wydarzenia">
+    <MasterPage breadcrumbs={{current: 'Wydarzenia'}}>
       <Text>Nadchodzące wydarzenia</Text>
       <PaginatedContent payload={upcomingPayload}>
         {(data) => (

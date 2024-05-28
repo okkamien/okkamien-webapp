@@ -1,62 +1,81 @@
 import React, {FC} from 'react'
-import {Box, Button, CSObject} from '@effortless-ui'
+import {Box, Button, PropsWithCS} from '@effortless-ui'
+import {IconChevronLeft, IconChevronRight} from '@tabler/icons-react'
 
 import {theme} from '@/app/styles'
 
-interface IPaginationProps {
+interface IPaginationProps extends PropsWithCS {
   currentPage: number
   onChange(currentPage: number): void
   pageCount: number
 }
 
-const activeStyles: CSObject = {textDecoration: 'underline'}
-
-export const Pagination: FC<IPaginationProps> = ({currentPage, onChange, pageCount}) => {
+export const Pagination: FC<IPaginationProps> = ({cs, currentPage, onChange, pageCount}) => {
   return (
     <>
       {pageCount > 1 && (
-        <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', columnGap: theme.spacing.xs}}>
+        <Box
+          tag="ul"
+          composition={['semanticList']}
+          cs={{label: 'Pagination', position: 'relative', display: 'flex', justifyContent: 'center', columnGap: theme.spacing.xxs, ...cs}}
+        >
+          {currentPage !== 1 && (
+            <Box tag="li">
+              <Button variant="paginationArrow" onClick={() => onChange(Math.max(currentPage - 1, 1))}>
+                <IconChevronLeft size={20} stroke={1.5} />
+              </Button>
+            </Box>
+          )}
           <Box tag="li">
-            <Button onClick={() => onChange(Math.max(currentPage - 1, 1))} disabled={currentPage === 1}>
-              &lt;
-            </Button>
-          </Box>
-          <Box tag="li">
-            <Button {...(currentPage === 1 && {cs: activeStyles})} onClick={() => onChange(1)}>
+            <Button variant={currentPage === 1 ? 'paginationActive' : 'paginationDigit'} onClick={() => onChange(1)}>
               1
             </Button>
           </Box>
-          {currentPage > 3 && <Box tag="li">...</Box>}
+          {currentPage > 3 && (
+            <Box tag="li" variant="paginationDots">
+              ...
+            </Box>
+          )}
           {currentPage > 2 && (
             <Box tag="li">
-              <Button onClick={() => onChange(currentPage - 1)}>{currentPage - 1}</Button>
+              <Button variant="paginationDigit" onClick={() => onChange(currentPage - 1)}>
+                {currentPage - 1}
+              </Button>
             </Box>
           )}
           {currentPage !== 1 && currentPage !== pageCount && (
             <Box tag="li">
-              <Button cs={activeStyles} onClick={() => onChange(currentPage)}>
+              <Button variant="paginationActive" onClick={() => onChange(currentPage)}>
                 {currentPage}
               </Button>
             </Box>
           )}
           {currentPage < pageCount - 1 && (
             <Box tag="li">
-              <Button onClick={() => onChange(currentPage + 1)}>{currentPage + 1}</Button>
+              <Button variant="paginationDigit" onClick={() => onChange(currentPage + 1)}>
+                {currentPage + 1}
+              </Button>
             </Box>
           )}
-          {currentPage < pageCount - 2 && <Box tag="li">...</Box>}
+          {currentPage < pageCount - 2 && (
+            <Box tag="li" variant="paginationDots">
+              ...
+            </Box>
+          )}
           {pageCount > 1 && (
             <Box tag="li">
-              <Button {...(currentPage === pageCount && {cs: activeStyles})} onClick={() => onChange(pageCount)}>
+              <Button variant={currentPage === pageCount ? 'paginationActive' : 'paginationDigit'} onClick={() => onChange(pageCount)}>
                 {pageCount}
               </Button>
             </Box>
           )}
-          <Box tag="li">
-            <Button onClick={() => onChange(Math.min(currentPage + 1, pageCount))} disabled={currentPage === pageCount}>
-              &gt;
-            </Button>
-          </Box>
+          {currentPage !== pageCount && (
+            <Box tag="li">
+              <Button variant="paginationArrow" onClick={() => onChange(Math.min(currentPage + 1, pageCount))}>
+                <IconChevronRight size={20} stroke={1.5} />
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
     </>

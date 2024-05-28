@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren} from 'react'
+import React, {FC, ForwardedRef, forwardRef, PropsWithChildren} from 'react'
 import {Box, PropsWithCS, Text} from '@effortless-ui'
 
 import BrandSymbolIcon from '@/app/assets/brand-symbol.svg'
@@ -6,11 +6,13 @@ import {theme} from '@/app/styles'
 
 interface ITitle extends PropsWithCS {
   breakOnMobile?: boolean
+  ref?: ForwardedRef<unknown>
 }
 
-export const Title: FC<PropsWithChildren<ITitle>> = ({breakOnMobile = false, children, cs}) => {
+export const Title: FC<PropsWithChildren<ITitle>> = forwardRef(({breakOnMobile = false, children, cs}, ref) => {
   return (
     <Text
+      ref={ref}
       tag="h2"
       variant="h1"
       cs={{
@@ -20,6 +22,7 @@ export const Title: FC<PropsWithChildren<ITitle>> = ({breakOnMobile = false, chi
         alignItems: 'center',
         rowGap: theme.spacing.xxs,
         columnGap: theme.spacing.xs,
+        scrollMarginTop: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
         ...(breakOnMobile && {
           flexDirection: ['column', 'row'],
         }),
@@ -34,4 +37,4 @@ export const Title: FC<PropsWithChildren<ITitle>> = ({breakOnMobile = false, chi
       </Text>
     </Text>
   )
-}
+})
