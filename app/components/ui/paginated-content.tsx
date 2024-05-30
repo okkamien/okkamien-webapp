@@ -5,7 +5,7 @@ import {useQuery} from '@tanstack/react-query'
 import {Pagination} from '@/app/components/ui'
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem} from '@/app/features/api/types'
-import {getApiResponse, getQueryKey, IGetApiResponseParams} from '@/app/features/api/utils'
+import {getApiCollectionResponse, getQueryKey, IGetApiCollectionResponseParams} from '@/app/features/api/utils'
 import {theme} from '@/app/styles'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
@@ -15,7 +15,7 @@ interface IPaginatedContentProps<T extends IApiItem<unknown>> {
   emptyState?: ReactNode
   page?: number
   pageSize?: number
-  payload: IGetApiResponseParams<T>
+  payload: IGetApiCollectionResponseParams<T>
   scrollToElement?: HTMLElement
 }
 
@@ -32,7 +32,7 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
   const {data, isFetching, isSuccess} = useQuery({
     queryKey: getQueryKey({payload, currentPage, pageSize}),
     queryFn: () =>
-      getApiResponse<T>({
+      getApiCollectionResponse<T>({
         ...payload,
         pagination: {
           page: currentPage,
@@ -58,7 +58,7 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                 ref={ref}
                 className="t"
                 cs={{
-                  scrollMarginTop: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+                  scrollMarginTop: theme.gap,
                   opacity: isFetching ? 0.5 : 1,
                   pointerEvents: isFetching ? 'none' : 'auto',
                 }}

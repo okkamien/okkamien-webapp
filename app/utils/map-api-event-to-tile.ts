@@ -11,6 +11,8 @@ export const mapApiEventToTile = ({attributes: {from, location, slug, teaser, th
     tags: [location],
     teaser,
     title,
-    image: `${process.env.NEXT_PUBLIC_DATABASE_URL}${thumbnail.data.attributes.url}`,
+    ...(thumbnail?.data && {
+      image: `${process.env.NEXT_PUBLIC_DATABASE_URL}${thumbnail.data.attributes.url}`,
+    }),
   }
 }

@@ -22,7 +22,7 @@ export const Title: FC<PropsWithChildren<ITitle>> = forwardRef(({breakOnMobile =
         alignItems: 'center',
         rowGap: theme.spacing.xxs,
         columnGap: theme.spacing.xs,
-        scrollMarginTop: [theme.spacing.ms, theme.spacing.ml, theme.spacing.l],
+        scrollMarginTop: theme.gap,
         ...(breakOnMobile && {
           flexDirection: ['column', 'row'],
         }),
