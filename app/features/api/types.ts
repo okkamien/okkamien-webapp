@@ -94,3 +94,12 @@ export type TApiWorkshopsLandingPage = IApiItem<{
     }[]
   }
 }>
+
+export type TApiFacilitiesLandingPage = IApiItem<{
+  intro: string
+  facilities?: {
+    data: {
+      id: number
+    }[]
+  }
+}>
