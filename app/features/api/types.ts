@@ -36,7 +36,7 @@ export interface IApiItem<T> {
 }
 
 interface IApiImage {
-  data?: {
+  data: {
     id: number
     attributes: {
       height: number
