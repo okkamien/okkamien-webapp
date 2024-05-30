@@ -49,6 +49,7 @@ const roboto = Roboto({
 
 export const theme = {
   breakpoints: [768, 992, 1366],
+  gap: [16, 24, 30],
   color: {
     black: colors.black,
     white: colors.white,

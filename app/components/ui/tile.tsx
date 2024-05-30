@@ -16,7 +16,7 @@ export interface ITileProps {
   link: string
   tags?: string[]
   teaser?: string
-  title: string
+  title: string | [string, string]
 }
 
 export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, title}) => {
@@ -48,14 +48,14 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
             cs={{
               label: 'Tile-image',
               position: 'relative',
-              aspectRatio: ['1', '1.2363'],
+              height: 330,
               mx: -1,
               mt: -1,
               borderRadius: theme.radii.m,
               overflow: 'hidden',
             }}
           >
-            <Image src={image} alt={title} fill sizes="100%" style={{objectFit: 'cover'}} />
+            <Image src={image} alt={Array.isArray(title) ? title.join(' ') : title} fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>
         )}
         <Box cs={{label: 'Tile-content', display: 'flex', flexDirection: 'column', flexGrow: '1', p: theme.spacing.ml}}>
@@ -77,7 +77,18 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
               {Array.isArray(date) ? getFormattedDateRange(...date) : date.format('DD/MM/YYYY')}
             </Text>
           )}
-          <Text tag="h2">{title}</Text>
+          <Text tag="h2">
+            {Array.isArray(title) ? (
+              <>
+                {title[0]}{' '}
+                <Text tag="span" cs={{fontWeight: 300, fontStyle: 'italic'}}>
+                  {title[1]}
+                </Text>
+              </>
+            ) : (
+              title
+            )}
+          </Text>
           {teaser && <Text cs={{mt: theme.spacing.ml, fontWeight: 300}}>{teaser}</Text>}
           {button ? (
             <Btn dark cs={{alignSelf: 'flex-end', mt: theme.spacing.ms}}>

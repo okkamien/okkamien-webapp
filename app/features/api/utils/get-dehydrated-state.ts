@@ -2,10 +2,15 @@ import {dehydrate, DehydratedState, QueryClient} from '@tanstack/react-query'
 import {IncomingMessage} from 'http'
 
 import {IApiItem} from '@/app/features/api/types'
-import {getApiResponse, getQueryKey, IGetApiResponseParams, IGetApiResponseSuccessResponse} from '@/app/features/api/utils'
+import {
+  getApiCollectionResponse,
+  getQueryKey,
+  IGetApiCollectionResponseParams,
+  IGetApiCollectionResponseSuccessResponse,
+} from '@/app/features/api/utils'
 
 interface IGetDehydratedStateParams<T extends IApiItem<unknown>> {
-  payloads: IGetApiResponseParams<T>[]
+  payloads: IGetApiCollectionResponseParams<T>[]
   req?: IncomingMessage
 }
 
@@ -19,11 +24,11 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
   req,
 }: IGetDehydratedStateParams<T>): Promise<IGetDehydratedStateReturn> => {
   const queryClient = new QueryClient()
-  const responses: IGetApiResponseSuccessResponse<T>[] = []
+  const responses: IGetApiCollectionResponseSuccessResponse<T>[] = []
 
   await Promise.all(
     payloads.map(async (payload) => {
-      const response = await getApiResponse<T>({req, ...payload})
+      const response = await getApiCollectionResponse<T>({req, ...payload})
 
       responses.push(response)
       await queryClient.prefetchQuery({

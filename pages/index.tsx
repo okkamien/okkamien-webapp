@@ -7,18 +7,24 @@ import MasterPage from '@/app/components/masterpages/masterpage'
 import {Btn, ImageTile, Tile, TilesList, Title} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiEvent, TApiNews} from '@/app/features/api/types'
-import {getApiResponse, getDehydratedState, getQueryKey, IGetApiResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {
+  getApiCollectionResponse,
+  getDehydratedState,
+  getQueryKey,
+  IGetApiCollectionResponseParams,
+  IPageWithPayload,
+} from '@/app/features/api/utils'
 import {theme} from '@/app/styles'
 import {mapApiEventToTile, mapApiNewsToTile} from '@/app/utils'
 
 const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [newsPayload, eventsPayload]}) => {
   const {data: newsData, isSuccess: isNewsDataSuccess} = useQuery({
     queryKey: getQueryKey({payload: newsPayload}),
-    queryFn: () => getApiResponse(newsPayload),
+    queryFn: () => getApiCollectionResponse(newsPayload),
   })
   const {data: eventsData, isSuccess: isEventsDataSuccess} = useQuery({
     queryKey: getQueryKey({payload: eventsPayload}),
-    queryFn: () => getApiResponse(eventsPayload),
+    queryFn: () => getApiCollectionResponse(eventsPayload),
   })
 
   return (
@@ -71,7 +77,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const today = new Date().toISOString()
-  const payloads: [IGetApiResponseParams<TApiNews>, IGetApiResponseParams<TApiEvent>] = [
+  const payloads: [IGetApiCollectionResponseParams<TApiNews>, IGetApiCollectionResponseParams<TApiEvent>] = [
     {endpoint: 'news', pagination: {limit: 2}, sort: [['id', 'desc']]},
     {endpoint: 'events', filters: {from: [today, 'gte']}, pagination: {limit: 3}, populate: ['thumbnail'], sort: [['from']]},
   ]
