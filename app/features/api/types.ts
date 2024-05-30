@@ -74,6 +74,18 @@ export type TApiWorkshop = IApiItem<{
   thumbnail?: IApiImage
 }>
 
+export type TApiFacility = IApiItem<{
+  address: string
+  description: string
+  email?: string
+  facebook?: string
+  name: string
+  splitNameLeft?: string
+  splitNameRight?: string
+  phone?: string
+  thumbnail: IApiImage
+}>
+
 export type TApiWorkshopsLandingPage = IApiItem<{
   intro: string
   workshops?: {
