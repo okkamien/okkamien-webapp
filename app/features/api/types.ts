@@ -68,7 +68,8 @@ export type TApiEvent = IApiItem<{
 
 export type TApiWorkshop = IApiItem<{
   name: string
-  nameCont?: string
+  splitNameLeft?: string
+  splitNameRight?: string
   slug: string
   teaser: string
   thumbnail?: IApiImage
