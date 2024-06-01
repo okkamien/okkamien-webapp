@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const siteMapJson = require('./app/dictionaries/site-map.json')
+
 const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
@@ -21,6 +23,34 @@ const nextConfig = {
     })
 
     return config
+  },
+  async rewrites() {
+    return [
+      {
+        source: siteMapJson.events,
+        destination: '/events',
+      },
+      {
+        source: `${siteMapJson.events}/:slug`,
+        destination: '/events/:slug',
+      },
+      {
+        source: siteMapJson.news,
+        destination: '/news',
+      },
+      {
+        source: `${siteMapJson.news}/:slug`,
+        destination: '/news/:slug',
+      },
+      {
+        source: siteMapJson.workshops,
+        destination: '/workshops',
+      },
+      {
+        source: `${siteMapJson.workshops}/:slug`,
+        destination: '/workshops/:slug',
+      },
+    ]
   },
 }
 
