@@ -35,6 +35,14 @@ const nextConfig = {
         destination: '/events/:slug',
       },
       {
+        source: siteMapJson.facilities,
+        destination: '/facilities',
+      },
+      {
+        source: `${siteMapJson.facilities}/:slug`,
+        destination: '/facilities/:slug',
+      },
+      {
         source: siteMapJson.news,
         destination: '/news',
       },
