@@ -7,7 +7,7 @@ export const siteMap = {
   about: '/o-nas',
   contact: '/kontakt',
   events: '/wydarzenia',
-  facilities: '/placowki',
+  facilities: '/placówki',
   homepage: '/',
   news: '/aktualnosci',
   operations: '/dzialalnosc',
