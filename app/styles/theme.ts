@@ -102,6 +102,9 @@ export const theme = {
     m: 8,
     l: 16,
   },
+  border: {
+    default: `1px solid ${colors.greyAthens}`,
+  },
 }
 
 export const mediaQuery = facepaint(theme.breakpoints.map((breakpoint) => `@media (min-width: ${breakpoint}px)`))
