@@ -37,6 +37,8 @@ const colors = {
   blueCerulean: '#00a2dd',
   redAlizarinCrimson: '#dc2626',
   greenSalem: '#16a34a',
+  blueEastBay: '#435C7D',
+  grayWoodsmoke: '#0C0D0D',
 }
 
 // eslint-disable-next-line new-cap
@@ -61,6 +63,8 @@ export const theme = {
     border: colors.greyAthens,
     inactive: colors.greyMid,
     overlay: colors.greyWoodsmoke,
+    brand400: colors.blueEastBay,
+    gray900: colors.grayWoodsmoke,
   },
   gradient: {
     radialBackground: 'radial-gradient(circle at right bottom, #b6c0cc 0%, #e8ebef 60%, #f3f5f7 90%, #fff 100%)',
