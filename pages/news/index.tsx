@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 
   await Promise.all(
     payloads.map(async (payload) => {
-      const host = `https://localhost:3000`
+      const host = `https://okkamien-webapp.vercel.app`
 
       const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
         params: {
