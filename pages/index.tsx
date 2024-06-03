@@ -75,13 +75,13 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const today = new Date().toISOString()
   const payloads: [IGetApiCollectionResponseParams<TApiNews>, IGetApiCollectionResponseParams<TApiEvent>] = [
     {endpoint: 'news', pagination: {limit: 2}, sort: [['id', 'desc']]},
     {endpoint: 'events', filters: {from: [today, 'gte']}, pagination: {limit: 3}, populate: ['thumbnail'], sort: [['from']]},
   ]
-  const {dehydratedState} = await getDehydratedState<TApiNews & TApiEvent>({payloads})
+  const {dehydratedState} = await getDehydratedState<TApiNews & TApiEvent>({payloads, req})
 
   return {
     props: {dehydratedState, payloads},

@@ -58,12 +58,13 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
       attributes: {intro, workshops},
     },
   } = await getApiSingleResponse<TApiWorkshopsLandingPage>({
+    req,
     endpoint: 'workshops-landing-page',
     populate: ['workshops'],
   })
@@ -72,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
     {endpoint: 'workshops', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
   ]
-  const {dehydratedState} = await getDehydratedState({payloads})
+  const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
     props: {dehydratedState, intro, ids, payloads},

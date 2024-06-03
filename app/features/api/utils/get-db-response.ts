@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {IncomingMessage} from 'http'
 
 import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/features/api/types'
@@ -14,12 +15,14 @@ export interface IGetApiCollectionResponseParams<T extends IApiItem<unknown>> {
     pageSize?: number
   }
   populate?: (keyof T['attributes'])[]
+  req?: IncomingMessage
   sort?: [keyof T['attributes'] | 'id', TStrapiSearchOperator?][]
 }
 
 export interface IGetApiSingleResponseParams<T extends IApiItem<unknown>> {
   endpoint: string
   populate?: (keyof T['attributes'])[]
+  req?: IncomingMessage
 }
 
 export interface IGetApiResponseSuccessResponse {
@@ -49,9 +52,11 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   filters = {},
   pagination = {pageSize: DEFAULT_PAGE_SIZE},
   populate = [],
+  req,
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
-  const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${process.env.NEXT_PUBLIC_API_URL}/api/${endpoint}`, {
+  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
       filters: Object.entries(filters).reduce((t, c) => {
         const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
@@ -70,8 +75,10 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
 export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
   endpoint,
   populate = [],
+  req,
 }: IGetApiSingleResponseParams<T>): Promise<IGetApiSingleResponseSuccessResponse<T>> => {
-  const response = await axios.get<IGetApiSingleResponseSuccessResponse<T>>(`${process.env.NEXT_PUBLIC_API_URL}/api/${endpoint}`, {
+  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  const response = await axios.get<IGetApiSingleResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {populate},
   })
 
