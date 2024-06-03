@@ -26,7 +26,6 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
   const queryClient = new QueryClient()
   const responses: IGetApiCollectionResponseSuccessResponse<T>[] = []
 
-  // if (process.env.VERCEL_ENV !== 'preview') {
   await Promise.all(
     payloads.map(async (payload) => {
       const response = await getApiCollectionResponse<T>({req, ...payload})
@@ -38,7 +37,6 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
       })
     }),
   )
-  // }
 
   return {
     dehydratedState: dehydrate(queryClient),

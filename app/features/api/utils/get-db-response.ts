@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios'
 import {IncomingMessage} from 'http'
 
@@ -56,22 +55,21 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   req,
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
-  const initial = await fetch(`${req ? `${req.headers['x-forwarded-proto']}://${req.headers.host}` : ''}/api/${endpoint}`)
-  const response = await initial.json()
-  // const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
-  //   params: {
-  //     filters: Object.entries(filters).reduce((t, c) => {
-  //       const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
+  const host = req ? `${req.headers['x-forwarded-proto']}://${req.headers.host}` : ''
+  const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
+    params: {
+      filters: Object.entries(filters).reduce((t, c) => {
+        const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
 
-  //       return {...t, [key]: {[`$${operator}`]: value}}
-  //     }, {}),
-  //     pagination,
-  //     populate,
-  //     sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
-  //   },
-  // })
+        return {...t, [key]: {[`$${operator}`]: value}}
+      }, {}),
+      pagination,
+      populate,
+      sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
+    },
+  })
 
-  return response
+  return response.data
 }
 
 export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
