@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import axios from 'axios'
 import {IncomingMessage} from 'http'
 
@@ -58,14 +56,6 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
   const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
-
-  console.log('---')
-  console.log('---')
-  console.log('---')
-  console.log(host)
-  console.log('---')
-  console.log('---')
-  console.log('---')
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
       filters: Object.entries(filters).reduce((t, c) => {
