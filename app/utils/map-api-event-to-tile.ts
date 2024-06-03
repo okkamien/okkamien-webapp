@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import {ITileProps} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiEvent} from '@/app/features/api/types'
+import {getStrapiMediaUrl} from '@/app/utils'
 
 export const mapApiEventToTile = ({attributes: {from, location, slug, teaser, thumbnail, title, to}}: TApiEvent): ITileProps => {
   return {
@@ -12,7 +13,7 @@ export const mapApiEventToTile = ({attributes: {from, location, slug, teaser, th
     teaser,
     title,
     ...(thumbnail?.data && {
-      image: `${process.env.NEXT_PUBLIC_DATABASE_URL}${thumbnail.data.attributes.url}`,
+      image: getStrapiMediaUrl(thumbnail.data.attributes.url),
     }),
   }
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {ShallowTile} from '@/app/components/ui'
 import {TApiFacility} from '@/app/features/api/types'
 import {theme} from '@/app/styles'
+import {getStrapiMediaUrl} from '@/app/utils'
 
 type IFacilityItemViewProps = TApiFacility
 
@@ -15,7 +16,7 @@ export const FacilityItemView: FC<IFacilityItemViewProps> = ({
   return (
     <ShallowTile
       title={splitNameLeft && splitNameRight ? [splitNameLeft, splitNameRight] : name}
-      image={`${process.env.NEXT_PUBLIC_DATABASE_URL}${thumbnail.data.attributes.url}`}
+      image={getStrapiMediaUrl(thumbnail.data.attributes.url)}
     >
       <Text cs={{fontWeight: 300}}>{description}</Text>
       <Box cs={{fontWeight: 300}}>
