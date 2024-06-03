@@ -73,13 +73,11 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   //   }),
   // )
 
-  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
-
   return {
     props: {dehydratedState: dehydrate(queryClient), payloads, h: [
       req.headers['x-forwarded-proto'],
       req.headers.host,
-      payloads,
+      `${req.headers['x-forwarded-proto']}://${req.headers.host}/api/${payloads[0].endpoint}`,
     ]},
   }
 }
