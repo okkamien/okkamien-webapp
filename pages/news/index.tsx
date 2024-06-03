@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import {dehydrate, QueryClient} from '@tanstack/react-query'
 import axios from 'axios'
@@ -18,8 +19,10 @@ import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]> & {host: string}> = ({payloads: [payload], host}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
+
+  console.log(`host: ${host}`)
 
   return (
     <MasterPage breadcrumbs={{current: 'Aktualności'}}>
@@ -40,39 +43,40 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
   const queryClient = new QueryClient()
   const responses: IGetApiCollectionResponseSuccessResponse<TApiNews>[] = []
 
-  await Promise.all(
-    payloads.map(async (payload) => {
-      const host = `https://okkamien-webapp.vercel.app`
+  // await Promise.all(
+  //   payloads.map(async (payload) => {
+  //     const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
 
-      const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
-        params: {
-          filters: Object.entries(payload.filters ?? {}).reduce((t, c) => {
-            const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
+  //     const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
+  //       params: {
+  //         filters: Object.entries(payload.filters ?? {}).reduce((t, c) => {
+  //           const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
 
-            return {...t, [key]: {[`$${operator}`]: value}}
-          }, {}),
-          pagination: payload.pagination ?? {pageSize: DEFAULT_PAGE_SIZE},
-          populate: payload.populate ?? [],
-          sort: (payload.sort ?? []).map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
-        },
-      })
+  //           return {...t, [key]: {[`$${operator}`]: value}}
+  //         }, {}),
+  //         pagination: payload.pagination ?? {pageSize: DEFAULT_PAGE_SIZE},
+  //         populate: payload.populate ?? [],
+  //         sort: (payload.sort ?? []).map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
+  //       },
+  //     })
 
-      responses.push(response)
-      await queryClient.prefetchQuery({
-        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
-        queryFn: () => response,
-      })
-    }),
-  )
+  //     responses.push(response)
+  //     await queryClient.prefetchQuery({
+  //       queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+  //       queryFn: () => response,
+  //     })
+  //   }),
+  // )
+
+  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
 
   return {
-    props: {dehydratedState: dehydrate(queryClient), payloads},
+    props: {dehydratedState: dehydrate(queryClient), payloads, host: `${host}/api/${payloads[0].endpoint}`},
   }
 }
 
