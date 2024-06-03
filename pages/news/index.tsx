@@ -1,10 +1,19 @@
 import React from 'react'
+import {dehydrate, QueryClient} from '@tanstack/react-query'
+import axios from 'axios'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {PaginatedContent, Tile, TilesList, Title} from '@/app/components/ui'
+import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {TApiNews} from '@/app/features/api/types'
-import {getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {
+  getQueryKey,
+  IGetApiCollectionResponseParams,
+  IGetApiCollectionResponseSuccessResponse,
+  IPageWithPayload,
+  TGetApiResponseFilter,
+} from '@/app/features/api/utils'
 import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
@@ -33,10 +42,36 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
-  const {dehydratedState} = await getDehydratedState({payloads, req})
+  const queryClient = new QueryClient()
+  const responses: IGetApiCollectionResponseSuccessResponse<TApiNews>[] = []
+
+  await Promise.all(
+    payloads.map(async (payload) => {
+      const host = `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}`
+
+      const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
+        params: {
+          filters: Object.entries(payload.filters ?? {}).reduce((t, c) => {
+            const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
+
+            return {...t, [key]: {[`$${operator}`]: value}}
+          }, {}),
+          pagination: payload.pagination ?? {pageSize: DEFAULT_PAGE_SIZE},
+          populate: payload.populate ?? [],
+          sort: (payload.sort ?? []).map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
+        },
+      })
+
+      responses.push(response)
+      await queryClient.prefetchQuery({
+        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+        queryFn: () => response,
+      })
+    }),
+  )
 
   return {
-    props: {dehydratedState, payloads},
+    props: {dehydratedState: dehydrate(queryClient), payloads},
   }
 }
 
