@@ -40,6 +40,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
   const queryClient = new QueryClient()
@@ -47,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
 
   await Promise.all(
     payloads.map(async (payload) => {
-      const host = `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}`
+      const host = `https://localhost:3000`
 
       const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
         params: {
