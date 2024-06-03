@@ -10,7 +10,9 @@ import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]> & {enw: unknown}> = ({payloads: [payload], enw}) => {
+  console.log('enw')
+  console.log(enw)
   const {scrollRef, scrollToElement} = useScrollRef()
 
   return (
@@ -37,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   // const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {payloads},
+    props: {payloads, enw: {...process.env}},
   }
 }
 
