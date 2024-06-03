@@ -26,17 +26,19 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
   const queryClient = new QueryClient()
   const responses: IGetApiCollectionResponseSuccessResponse<T>[] = []
 
-  await Promise.all(
-    payloads.map(async (payload) => {
-      const response = await getApiCollectionResponse<T>({req, ...payload})
+  if (process.env.VERCEL_ENV !== 'preview') {
+    await Promise.all(
+      payloads.map(async (payload) => {
+        const response = await getApiCollectionResponse<T>({req, ...payload})
 
-      responses.push(response)
-      await queryClient.prefetchQuery({
-        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
-        queryFn: () => response,
-      })
-    }),
-  )
+        responses.push(response)
+        await queryClient.prefetchQuery({
+          queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+          queryFn: () => response,
+        })
+      }),
+    )
+  }
 
   return {
     dehydratedState: dehydrate(queryClient),
