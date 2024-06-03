@@ -34,7 +34,9 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
-  // const {dehydratedState} = await getDehydratedState({payloads, req})
+  const {dehydratedState} = await getDehydratedState({payloads, req})
+
+  console.log(dehydratedState)
 
   return {
     props: {payloads},
