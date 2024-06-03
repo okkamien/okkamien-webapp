@@ -10,10 +10,11 @@ import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]> & {pro: string}> = ({pro, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]> & {pro: string; host: string}> = ({pro, host, payloads: [payload]}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
 
   console.log(`pro: ${pro}`)
+  console.log(`host: ${host}`)
 
   return (
     <MasterPage breadcrumbs={{current: 'Aktualności'}}>
@@ -39,7 +40,12 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, payloads, pro: process.env.NEXT_PUBLIC_DATABASE_URL},
+    props: {
+      dehydratedState,
+      payloads,
+      pro: process.env.NEXT_PUBLIC_DATABASE_URL,
+      host: `${req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''}/api/${'news'}`,
+    },
   }
 }
 
