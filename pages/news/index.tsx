@@ -48,37 +48,42 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const queryClient = new QueryClient()
   const responses: IGetApiCollectionResponseSuccessResponse<TApiNews>[] = []
 
-  // await Promise.all(
-  //   payloads.map(async (payload) => {
-  //     const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  await Promise.all(
+    payloads.map(async (payload) => {
+      const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(
+        `${req.headers['x-forwarded-proto']}://${req.headers.host}/api/${payload.endpoint}`,
+        {
+          params: {
+            filters: Object.entries(payload.filters ?? {}).reduce((t, c) => {
+              const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
 
-  //     const {data: response} = await axios.get<IGetApiCollectionResponseSuccessResponse<TApiNews>>(`${host}/api/${payload.endpoint}`, {
-  //       params: {
-  //         filters: Object.entries(payload.filters ?? {}).reduce((t, c) => {
-  //           const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
+              return {...t, [key]: {[`$${operator}`]: value}}
+            }, {}),
+            pagination: payload.pagination ?? {pageSize: DEFAULT_PAGE_SIZE},
+            populate: payload.populate ?? [],
+            sort: (payload.sort ?? []).map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
+          },
+        },
+      )
 
-  //           return {...t, [key]: {[`$${operator}`]: value}}
-  //         }, {}),
-  //         pagination: payload.pagination ?? {pageSize: DEFAULT_PAGE_SIZE},
-  //         populate: payload.populate ?? [],
-  //         sort: (payload.sort ?? []).map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
-  //       },
-  //     })
-
-  //     responses.push(response)
-  //     await queryClient.prefetchQuery({
-  //       queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
-  //       queryFn: () => response,
-  //     })
-  //   }),
-  // )
+      responses.push(response)
+      await queryClient.prefetchQuery({
+        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+        queryFn: () => response,
+      })
+    }),
+  )
 
   return {
-    props: {dehydratedState: dehydrate(queryClient), payloads, h: [
-      req.headers['x-forwarded-proto'],
-      req.headers.host,
-      `${req.headers['x-forwarded-proto']}://${req.headers.host}/api/${payloads[0].endpoint}`,
-    ]},
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      payloads,
+      h: [
+        req.headers['x-forwarded-proto'],
+        req.headers.host,
+        `${req.headers['x-forwarded-proto']}://${req.headers.host}/api/${payloads[0].endpoint}`,
+      ],
+    },
   }
 }
 
