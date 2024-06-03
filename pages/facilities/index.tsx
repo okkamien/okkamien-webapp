@@ -23,7 +23,7 @@ interface IWorkshopPageProps {
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro = 'Intro', payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, payloads: [payload]}) => {
   console.log(payload)
   // const {data, isSuccess} = useQuery({
   //   queryKey: getQueryKey({payload}),
@@ -50,24 +50,24 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  // const {
-  //   data: {
-  //     attributes: {intro, facilities},
-  //   },
-  // } = await getApiSingleResponse<TApiFacilitiesLandingPage>({
-  //   req,
-  //   endpoint: 'facilities-landing-page',
-  //   populate: ['facilities'],
-  // })
-  // const ids = facilities?.data.map(({id}) => id) ?? []
+  const {
+    data: {
+      attributes: {intro, facilities},
+    },
+  } = await getApiSingleResponse<TApiFacilitiesLandingPage>({
+    req,
+    endpoint: 'facilities-landing-page',
+    populate: ['facilities'],
+  })
+  const ids = facilities?.data.map(({id}) => id) ?? []
 
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
-    {endpoint: 'facilities', filters: {id: [[1, 2], 'containsi']}, populate: ['thumbnail']},
+    {endpoint: 'facilities', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
   ]
   // const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {payloads},
+    props: {ids, intro, payloads},
   }
 }
 
