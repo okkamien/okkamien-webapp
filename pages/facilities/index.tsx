@@ -1,26 +1,8 @@
 import React from 'react'
-import {Text} from '@effortless-ui'
-import {useQuery} from '@tanstack/react-query'
-import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {TilesList, Title} from '@/app/components/ui'
-import {TApiFacilitiesLandingPage, TApiFacility, TApiWorkshop} from '@/app/features/api/types'
-import {
-  getApiCollectionResponse,
-  getApiSingleResponse,
-  getDehydratedState,
-  getQueryKey,
-  IGetApiCollectionResponseParams,
-  IPageWithPayload,
-} from '@/app/features/api/utils'
+import {Title} from '@/app/components/ui'
 import {theme} from '@/app/styles'
-import {FacilityItemView} from '@/app/views'
-
-interface IWorkshopPageProps {
-  ids: number[]
-  intro: string
-}
 
 const Page = () => {
   // const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, ids, payloads: [payload]}) => {
