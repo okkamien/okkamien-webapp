@@ -31,7 +31,7 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
   return (
     <MasterPage breadcrumbs={{current: 'Pracownie'}}>
       <Title cs={{mb: theme.spacing.ms}}>Pracownie</Title>
-      <Text cs={{mb: theme.spacing.xxl}}>{intro}</Text>
+      <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (
         <>
           <TilesList

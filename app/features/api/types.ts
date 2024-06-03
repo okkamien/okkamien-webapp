@@ -36,7 +36,7 @@ export interface IApiItem<T> {
 }
 
 interface IApiImage {
-  data?: {
+  data: {
     id: number
     attributes: {
       height: number
@@ -75,9 +75,30 @@ export type TApiWorkshop = IApiItem<{
   thumbnail?: IApiImage
 }>
 
+export type TApiFacility = IApiItem<{
+  address: string
+  description: string
+  email?: string
+  facebook?: string
+  name: string
+  splitNameLeft?: string
+  splitNameRight?: string
+  phone?: string
+  thumbnail: IApiImage
+}>
+
 export type TApiWorkshopsLandingPage = IApiItem<{
   intro: string
   workshops?: {
+    data: {
+      id: number
+    }[]
+  }
+}>
+
+export type TApiFacilitiesLandingPage = IApiItem<{
+  intro: string
+  facilities?: {
     data: {
       id: number
     }[]
