@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import {Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
@@ -23,18 +22,17 @@ interface IWorkshopPageProps {
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, payloads: [payload]}) => {
-  console.log(payload)
-  // const {data, isSuccess} = useQuery({
-  //   queryKey: getQueryKey({payload}),
-  //   queryFn: () => getApiCollectionResponse(payload),
-  // })
+const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, ids, payloads: [payload]}) => {
+  const {data, isSuccess} = useQuery({
+    queryKey: getQueryKey({payload}),
+    queryFn: () => getApiCollectionResponse(payload),
+  })
 
   return (
     <MasterPage breadcrumbs={{current: 'Placówki'}}>
       <Title cs={{mb: theme.spacing.ms}}>Placówki</Title>
       <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
-      {/* {isSuccess && (
+      {isSuccess && (
         <TilesList
           cols={1}
           tiles={data.data
@@ -44,7 +42,7 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
             ))}
           cs={{mb: theme.gap}}
         />
-      )} */}
+      )}
     </MasterPage>
   )
 }
@@ -64,10 +62,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
     {endpoint: 'facilities', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
   ]
-  // const {dehydratedState} = await getDehydratedState({payloads, req})
+  const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {ids, intro, payloads},
+    props: {dehydratedState, intro, ids, payloads},
   }
 }
 
