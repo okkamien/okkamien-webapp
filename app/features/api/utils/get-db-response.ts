@@ -55,21 +55,14 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   req,
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
+  console.log(fetch)
   const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
-  const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
-    params: {
-      filters: Object.entries(filters).reduce((t, c) => {
-        const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
+  const response = await fetch(`${host}/api/${endpoint}`)
+  const a = await response.json()
 
-        return {...t, [key]: {[`$${operator}`]: value}}
-      }, {}),
-      pagination,
-      populate,
-      sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
-    },
-  })
+  console.log(a)
 
-  return response.data
+  return a
 }
 
 export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
