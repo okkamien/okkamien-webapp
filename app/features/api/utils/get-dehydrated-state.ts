@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {dehydrate, DehydratedState, QueryClient} from '@tanstack/react-query'
 import {IncomingMessage} from 'http'
 
@@ -30,16 +31,16 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
     payloads.map(async (payload) => {
       const response = await getApiCollectionResponse<T>({req, ...payload})
 
-      responses.push(response)
-      await queryClient.prefetchQuery({
-        queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
-        queryFn: () => response,
-      })
+      // responses.push(response)
+      // await queryClient.prefetchQuery({
+      //   queryKey: getQueryKey({payload, currentPage: payload.pagination?.page, pageSize: payload.pagination?.pageSize}),
+      //   queryFn: () => response,
+      // })
     }),
   )
 
   return {
-    dehydratedState: dehydrate(queryClient),
-    hasData: responses.every((response) => Boolean(response.data.length)),
-  }
+    // dehydratedState: dehydrate(queryClient),
+    // hasData: responses.every((response) => Boolean(response.data.length)),
+  } as IGetDehydratedStateReturn
 }
