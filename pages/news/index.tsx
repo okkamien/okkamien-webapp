@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 
@@ -37,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {payloads},
+    props: {dehydratedState, payloads},
   }
 }
 
