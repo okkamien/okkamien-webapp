@@ -58,7 +58,7 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
   console.log(fetch)
   const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
-  const response = await fetch(`${host}/api/${endpoint}`)
+  const response = await fetch('https://okkamien-webapp.vercel.app/api/events')
   const a = await response.json()
 
   console.log(a)
