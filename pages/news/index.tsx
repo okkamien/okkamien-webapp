@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 
@@ -10,11 +9,8 @@ import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]> & {pro: string; host: string}> = ({pro, host, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
-
-  console.log(`pro: ${pro}`)
-  console.log(`host: ${host}`)
 
   return (
     <MasterPage breadcrumbs={{current: 'Aktualności'}}>
@@ -35,17 +31,12 @@ const Page: NextPage<IPageWithPayload<[TApiNews]> & {pro: string; host: string}>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
-  const {dehydratedState} = await getDehydratedState({payloads, req})
+  const {dehydratedState} = await getDehydratedState({payloads})
 
   return {
-    props: {
-      dehydratedState,
-      payloads,
-      pro: process.env.NEXT_PUBLIC_DATABASE_URL,
-      host: `${req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''}/api/${'news'}`,
-    },
+    props: {dehydratedState, payloads},
   }
 }
 
