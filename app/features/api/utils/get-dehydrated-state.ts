@@ -29,7 +29,7 @@ export const getDehydratedState = async <T extends IApiItem<unknown>>({
 
   await Promise.all(
     payloads.map(async (payload) => {
-      const response = await getApiCollectionResponse<T>({req, ...payload})
+      // const response = await getApiCollectionResponse<T>({req, ...payload})
 
       // responses.push(response)
       // await queryClient.prefetchQuery({
