@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 
@@ -33,10 +34,10 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
-  const {dehydratedState} = await getDehydratedState({payloads, req})
+  // const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, payloads},
+    props: {payloads},
   }
 }
 
