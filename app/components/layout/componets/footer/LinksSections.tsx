@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {Box, Text} from '@effortless-ui'
+import {Anchor, Box, Text} from '@effortless-ui'
 import {IconBrandFacebook} from '@tabler/icons-react'
 import {SecondSection} from 'app/components/layout/componets/footer/SecondSection'
 import Link from 'next/link'
@@ -21,13 +21,13 @@ const FirstSection: FC = () => (
   >
     <Box cs={{label: 'Footer-links-section', width: '200px'}}>
       <Text cs={{color: theme.color.brand400, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>Gdzie nas znajdziesz</Text>
-      <Text tag="p" css={{color: theme.color.gray900}}>
+      <Text tag="p" cs={{color: theme.color.gray900}}>
         Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim
       </Text>
-      <Text tag="p" css={{color: theme.color.gray900}}>
+      <Text tag="p" cs={{color: theme.color.gray900}}>
         ul. Sępoleńska 4
       </Text>
-      <Text tag="p" css={{color: theme.color.gray900}}>
+      <Text tag="p" cs={{color: theme.color.gray900}}>
         89-430 Kamień Krajeński
       </Text>
     </Box>
@@ -35,19 +35,14 @@ const FirstSection: FC = () => (
       <Text cs={{color: theme.color.brand400, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>Skontaktuj się z nami</Text>
       <Text
         tag="p"
-        css={{paddingBottom: theme.spacing.xxs, color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}
+        cs={{paddingBottom: theme.spacing.xxs, color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}
       >
         Tel. (0-52) 3 88 60 68
       </Text>
-      <Text tag="p" css={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}>
+      <Text tag="p" cs={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}>
         E-mail:{' '}
-        <Link
-          href="mailto:mgok.kamienkraj@wp.pl"
-          legacyBehavior
-          passHref
-          css={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}
-        >
-          mgok.kamienkraj@wp.pl
+        <Link href="mailto:mgok.kamienkraj@wp.pl" legacyBehavior passHref>
+          <Anchor cs={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}>mgok.kamienkraj@wp.pl</Anchor>
         </Link>
       </Text>
     </Box>
