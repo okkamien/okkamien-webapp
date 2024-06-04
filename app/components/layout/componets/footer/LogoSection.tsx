@@ -18,7 +18,7 @@ export const LogoSection: FC = () => (
         overflow: 'hidden',
       }}
     >
-      <Logo sizes="100%" style={{objectFit: 'cover'}} />
+      <Logo />
     </Box>
     <Text cs={{display: ['none', 'block']}}>
       <Link href="/" legacyBehavior passHref>
