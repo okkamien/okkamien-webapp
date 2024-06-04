@@ -55,7 +55,7 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   req,
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
-  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
       filters: Object.entries(filters).reduce((t, c) => {
@@ -77,7 +77,7 @@ export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
   populate = [],
   req,
 }: IGetApiSingleResponseParams<T>): Promise<IGetApiSingleResponseSuccessResponse<T>> => {
-  const host = req ? `${req.headers['x-forwarded-proto'] ?? 'http'}://${req.headers.host}` : ''
+  const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiSingleResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {populate},
   })
