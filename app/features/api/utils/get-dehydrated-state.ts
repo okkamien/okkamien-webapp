@@ -11,7 +11,7 @@ import {
 
 interface IGetDehydratedStateParams<T extends IApiItem<unknown>> {
   payloads: IGetApiCollectionResponseParams<T>[]
-  req?: IncomingMessage
+  req: IncomingMessage
 }
 
 interface IGetDehydratedStateReturn {

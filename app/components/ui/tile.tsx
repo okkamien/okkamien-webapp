@@ -5,7 +5,7 @@ import {Dayjs} from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {Arrow, arrowHoverParent, Btn, btnHoverParent, Tag, tagHoverParent} from '@/app/components/ui'
+import {Arrow, arrowHoverParent, Btn, btnHoverParent, SplitTitle, Tag, tagHoverParent} from '@/app/components/ui'
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'
 
@@ -78,16 +78,7 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
             </Text>
           )}
           <Text tag="h2">
-            {Array.isArray(title) ? (
-              <>
-                {title[0]}{' '}
-                <Text tag="span" cs={{fontWeight: 300, fontStyle: 'italic'}}>
-                  {title[1]}
-                </Text>
-              </>
-            ) : (
-              title
-            )}
+            <SplitTitle title={title} />
           </Text>
           {teaser && <Text cs={{mt: theme.spacing.ml, fontWeight: 300}}>{teaser}</Text>}
           {button ? (

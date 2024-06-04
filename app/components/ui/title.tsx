@@ -4,12 +4,12 @@ import {Box, PropsWithCS, Text} from '@effortless-ui'
 import BrandSymbolIcon from '@/app/assets/brand-symbol.svg'
 import {theme} from '@/app/styles'
 
-interface ITitle extends PropsWithCS {
+interface ITitleProps extends PropsWithCS {
   breakOnMobile?: boolean
   ref?: ForwardedRef<unknown>
 }
 
-export const Title: FC<PropsWithChildren<ITitle>> = forwardRef(({breakOnMobile = false, children, cs}, ref) => {
+export const Title: FC<PropsWithChildren<ITitleProps>> = forwardRef(({breakOnMobile = false, children, cs}, ref) => {
   return (
     <Text
       ref={ref}

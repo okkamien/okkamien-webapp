@@ -16,6 +16,7 @@ export const text: CSSObject = {
     cursor: 'pointer',
     transition: 'color 200ms',
     '&:hover, &:active': {
+      color: theme.color.primary,
       textDecoration: 'none',
     },
   },

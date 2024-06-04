@@ -31,7 +31,7 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
   return (
     <MasterPage breadcrumbs={{current: 'Pracownie'}}>
       <Title cs={{mb: theme.spacing.ms}}>Pracownie</Title>
-      <Text cs={{mb: theme.spacing.xxl}}>{intro}</Text>
+      <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (
         <>
           <TilesList
@@ -71,7 +71,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const ids = workshops?.data.map(({id}) => id) ?? []
 
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
-    {endpoint: 'workshops', filters: {id: [ids, 'contains']}, populate: ['thumbnail']},
+    {endpoint: 'workshops', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 

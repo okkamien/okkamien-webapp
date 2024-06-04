@@ -29,9 +29,11 @@ export const ImageTile: FC<IImageTileProps> = ({button, image, link, title}) => 
           color: theme.color.white,
           borderRadius: theme.radii.m,
           overflow: 'hidden',
+          '&:hover': {
+            color: theme.color.white,
+          },
         }}
       >
-        {/* <Box cs={{label: 'Tile-image', aspectRatio: ['1', '1.2363']}}> */}
         <Image src={image} alt={title} fill sizes="100%" style={{objectFit: 'cover'}} />
         <Box
           cs={{

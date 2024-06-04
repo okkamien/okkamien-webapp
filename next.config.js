@@ -13,6 +13,10 @@ const nextConfig = {
         port: '1337',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: process.env.DATABASE_MEDIA_HOST,
+      },
     ],
   },
   reactStrictMode: true,

@@ -24,6 +24,10 @@ const headers = {
     fontSize: [16, 20],
     fontWeight: 400,
   },
+  h6: {
+    fontSize: [16, 16],
+    fontWeight: 400,
+  },
 }
 
 const pagination = {
