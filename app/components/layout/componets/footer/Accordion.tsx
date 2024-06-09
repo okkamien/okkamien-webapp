@@ -1,6 +1,6 @@
 import React, {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
 import {Box, Text} from '@effortless-ui'
-import {ExpandableArrow} from 'app/components/layout/componets/footer/ExpandableArrow'
+import {IconChevronDown} from '@tabler/icons-react'
 
 import {theme} from '@/app/styles'
 
@@ -34,7 +34,14 @@ export const Accordion: FC<PropsWithChildren<IAccordionProps>> = ({title, childr
         >
           {title}
         </Text>
-        <ExpandableArrow direction="down" size={20} />
+        <Box
+          cs={{
+            transform: isOpen ? 'rotate(180deg)' : 'none',
+            transition: 'transform 200ms',
+          }}
+        >
+          <IconChevronDown size={20} />
+        </Box>
       </Box>
       <Box
         cs={{
