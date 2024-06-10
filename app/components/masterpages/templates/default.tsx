@@ -12,9 +12,7 @@ interface IDefaultTemplate {
 export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadcrumbs, children}) => (
   <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Box cs={{label: 'Layout-header'}}>
-      <Container>
-        <Header />
-      </Container>
+      <Header />
     </Box>
     <Box
       cs={{
