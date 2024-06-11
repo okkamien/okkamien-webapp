@@ -1,63 +1,59 @@
-import React, {FC, PropsWithChildren} from 'react'
+import React, {FC} from 'react'
 import {Anchor, Box} from '@effortless-ui'
 import {Accordion} from 'app/components/layout/componets/footer/Accordion'
 import Link from 'next/link'
 
+import {navigationAnotherLinks, navigationLinks} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
-
-const SecondSectionAnchor: FC<PropsWithChildren> = ({children}) => (
-  <Anchor
-    cs={{
-      color: theme.color.gray900,
-      textDecoration: 'none',
-      padding: [`${theme.spacing.xxs} ${theme.spacing.xs}`, `${theme.spacing.xxs} 0`],
-      mb: [4, 0],
-      '&:hover': {
-        textDecoration: 'underline',
-      },
-    }}
-  >
-    {children}
-  </Anchor>
-)
 
 const AccordionMenu: FC = () => (
   <Accordion title="Menu">
-    <Box cs={{display: 'flex', flexDirection: 'column', pr: [0, theme.spacing.xxl]}}>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Aktualności</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Wydarzenia</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Pracownie</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Placówki</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>O nas</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Kontakt</SecondSectionAnchor>
-      </Link>
+    <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexDirection: 'column', pr: [0, theme.spacing.xxl]}}>
+      {navigationLinks.map(({label, link}, i) => (
+        <Box tag="li" key={i} cs={{padding: [`${theme.spacing.xxs}px ${theme.spacing.xs}px`, `${theme.spacing.xxs}px 0`], mb: [4, 0]}}>
+          <Link href={link} legacyBehavior passHref>
+            <Anchor
+              cs={{
+                color: theme.color.text,
+                textDecoration: 'none',
+                fontWeight: 300,
+                '&:hover': {
+                  textDecoration: 'underline',
+                  color: theme.color.text,
+                },
+              }}
+            >
+              {label}
+            </Anchor>
+          </Link>
+        </Box>
+      ))}
     </Box>
   </Accordion>
 )
 
 const AccordionDiff: FC = () => (
   <Accordion title="Inne">
-    <Box cs={{display: 'flex', flexDirection: 'column'}}>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Nazwa kategorii</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Nazwa kategorii</SecondSectionAnchor>
-      </Link>
-      <Link href="" legacyBehavior passHref>
-        <SecondSectionAnchor>Nazwa kategorii</SecondSectionAnchor>
-      </Link>
+    <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexDirection: 'column'}}>
+      {navigationAnotherLinks.map(({label, link}, i) => (
+        <Box tag="li" key={i} cs={{padding: [`${theme.spacing.xxs}px ${theme.spacing.xs}px`, `${theme.spacing.xxs}px 0`], mb: [4, 0]}}>
+          <Link href={link} legacyBehavior passHref>
+            <Anchor
+              cs={{
+                color: theme.color.text,
+                textDecoration: 'none',
+                fontWeight: 300,
+                '&:hover': {
+                  textDecoration: 'underline',
+                  color: theme.color.text,
+                },
+              }}
+            >
+              {label}
+            </Anchor>
+          </Link>
+        </Box>
+      ))}
     </Box>
   </Accordion>
 )
@@ -73,7 +69,7 @@ export const SecondSection: FC = () => (
       maxWidth: 430,
       pr: [0, 52],
       pl: [0, 52],
-      pb: [theme.spacing.s, theme.spacing.m],
+      pb: [theme.spacing.ms, theme.spacing.m],
       borderBottom: [theme.border.default, 0],
       borderRight: [0, theme.border.default],
       minWidth: [0, '350px'],

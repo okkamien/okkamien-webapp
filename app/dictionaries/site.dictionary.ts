@@ -54,3 +54,18 @@ export const navigationLinks = [
     link: siteMap.contact,
   },
 ]
+
+export const navigationAnotherLinks = [
+  {
+    label: 'Nazwa kategorii',
+    link: '#',
+  },
+  {
+    label: 'Nazwa kategorii',
+    link: '#',
+  },
+  {
+    label: 'Nazwa kategorii',
+    link: '#',
+  },
+]

@@ -38,6 +38,7 @@ export const Accordion: FC<PropsWithChildren<IAccordionProps>> = ({title, childr
           cs={{
             transform: isOpen ? 'rotate(180deg)' : 'none',
             transition: 'transform 200ms',
+            display: ['block', 'none'],
           }}
         >
           <IconChevronDown size={20} />

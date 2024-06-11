@@ -22,7 +22,7 @@ export const LogoSection: FC = () => (
     </Box>
     <Text cs={{display: ['none', 'block']}}>
       <Link href="/" legacyBehavior passHref>
-        <Anchor cs={{color: '#1B1B1B', fontSize: theme.font.size.small}}>Wróć do góry</Anchor>
+        <Anchor cs={{color: theme.color.primary, fontSize: theme.font.size.small}}>Wróć do góry</Anchor>
       </Link>
     </Text>
   </Box>

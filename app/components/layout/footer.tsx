@@ -12,10 +12,22 @@ export const Footer: FC = () => (
   <Box tag="footer" cs={{py: theme.spacing.m}}>
     <LogoSection />
     <LinksSection />
-    <Box cs={{pt: theme.spacing.ml, textAlign: 'center'}}>
+    <Box cs={{pt: theme.spacing.ml, textAlign: 'center', fontSize: theme.font.size.small, color: theme.color.overlay}}>
       &copy; {getFormattedRange(siteFoundedYear, new Date().getFullYear())} |{' '}
       <Link href="/" legacyBehavior passHref>
-        <Anchor>{siteDomain}</Anchor>
+        <Anchor
+          cs={{
+            fontSize: theme.font.size.small,
+            textDecoration: 'none',
+            color: theme.color.overlay,
+            '&:hover': {
+              textDecoration: 'underline',
+              color: theme.color.overlay,
+            },
+          }}
+        >
+          {siteDomain}
+        </Anchor>
       </Link>
     </Box>
   </Box>
