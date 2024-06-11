@@ -6,9 +6,11 @@ import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/feat
 
 type TGetApiResponseFilter = [string | number | string[] | number[], TStrapiFilterOperator?]
 
+export type TGetApiResponseFilters<T extends IApiItem<unknown>> = {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
+
 export interface IGetApiCollectionResponseParams<T extends IApiItem<unknown>> {
   endpoint: string
-  filters?: {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
+  filters?: TGetApiResponseFilters<T>
   pagination?: {
     limit?: number
     page?: number

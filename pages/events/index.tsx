@@ -17,7 +17,24 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [pa
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Wydarzenia
       </Title>
-      <PaginatedContent payload={payload} scrollToElement={scrollToElement}>
+      <PaginatedContent
+        payload={payload}
+        filters={[
+          {
+            type: 'select',
+            name: 'location',
+            options: {
+              title: 'Lokalizacja',
+              multiple: true,
+              options: [
+                {label: 'Torwar', value: 'Torwar'},
+                {label: 'Stadion Narodowy', value: 'Stadion Narodowy'},
+              ],
+            },
+          },
+        ]}
+        scrollToElement={scrollToElement}
+      >
         {(data) => (
           <TilesList
             tiles={data.map((item, i) => (

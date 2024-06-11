@@ -5,22 +5,23 @@ import {IconCheck, IconChevronDown, IconChevronUp} from '@tabler/icons-react'
 import {useOutsideElementClickHandler} from '@/app/hooks'
 import {theme} from '@/app/styles'
 
-interface ISelectProps {
+export interface ISelectProps {
   multiple?: boolean
   onChange?(value: string[]): void
   options: {
     label: ReactNode
     value: string
   }[]
+  title?: string
   value?: string[]
 }
 
-export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple, onChange, options, value}) => {
+export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple, onChange, options, title, value}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const ref = useOutsideElementClickHandler(() => setIsOpen(false))
 
   return (
-    <Box cs={{label: 'Select', position: 'relative', mr: 'auto'}} ref={ref}>
+    <Box cs={{label: 'Select', position: 'relative'}} ref={ref}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
         cs={{
@@ -44,7 +45,7 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple,
           },
         }}
       >
-        {children}
+        {title ?? children}
         {isOpen ? <IconChevronUp size={20} /> : <IconChevronDown size={20} />}
       </Button>
       <Box
