@@ -4,7 +4,7 @@ import {IncomingMessage} from 'http'
 import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/features/api/types'
 
-type TGetApiResponseFilter = [string | number | string[] | number[], TStrapiFilterOperator?]
+type TGetApiResponseFilter = [string[] | number[], TStrapiFilterOperator?]
 
 export type TGetApiResponseFilters<T extends IApiItem<unknown>> = {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
 

@@ -97,6 +97,16 @@ export const effortlessTheme: EffortlessTheme = {
         border: 'none',
         bg: theme.color.text,
       },
+      text: {
+        p: 0,
+        color: theme.color.primary,
+        textDecoration: 'underline',
+        border: 'none',
+        cursor: 'pointer',
+        '&:hover': {
+          textDecoration: 'none',
+        },
+      },
     },
   },
 }

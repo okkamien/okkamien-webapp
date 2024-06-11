@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, ReactNode, useState} from 'react'
+import React, {FC, PropsWithChildren, useState} from 'react'
 import {Box, Button} from '@effortless-ui'
 import {IconCheck, IconChevronDown, IconChevronUp} from '@tabler/icons-react'
 
@@ -7,9 +7,15 @@ import {theme} from '@/app/styles'
 
 export interface ISelectProps {
   multiple?: boolean
-  onChange?(value: string[]): void
+  onChange?(
+    value: string[],
+    current: {
+      label: string
+      value: string
+    },
+  ): void
   options: {
-    label: ReactNode
+    label: string
     value: string
   }[]
   title?: string
@@ -76,9 +82,13 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple,
             tag="li"
             onClick={() => {
               if (multiple && value) {
-                if (value.includes(optionValue)) onChange?.(value.filter((item) => item !== optionValue))
-                else onChange?.([...value, optionValue])
-              } else onChange?.([optionValue])
+                if (value.includes(optionValue))
+                  onChange?.(
+                    value.filter((item) => item !== optionValue),
+                    {label, value: optionValue},
+                  )
+                else onChange?.([...value, optionValue], {label, value: optionValue})
+              } else onChange?.([optionValue], {label, value: optionValue})
               if (!multiple) setIsOpen(false)
             }}
             cs={{
@@ -90,6 +100,7 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple,
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               cursor: 'pointer',
+              userSelect: 'none',
               transition: 'color 200ms',
               '&:hover': {
                 color: theme.color.primary,
