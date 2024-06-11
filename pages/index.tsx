@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
       endpoint: 'events',
       filters: {from: [[new Date().toISOString()], 'gte']},
       pagination: {limit: 3},
-      populate: ['thumbnail'],
+      populate: ['location', 'thumbnail'],
       sort: [['from']],
     },
   ]

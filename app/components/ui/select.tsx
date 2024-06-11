@@ -5,24 +5,25 @@ import {IconCheck, IconChevronDown, IconChevronUp} from '@tabler/icons-react'
 import {useOutsideElementClickHandler} from '@/app/hooks'
 import {theme} from '@/app/styles'
 
+export interface ISelectOption {
+  label: string
+  value: string
+}
+
 export interface ISelectProps {
-  multiple?: boolean
   onChange?(
     value: string[],
-    current: {
-      label: string
-      value: string
+    selected: {
+      selectedLabel: string
+      selectedValue: string
     },
   ): void
-  options: {
-    label: string
-    value: string
-  }[]
+  options: ISelectOption[]
   title?: string
   value?: string[]
 }
 
-export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple, onChange, options, title, value}) => {
+export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, onChange, options, title, value}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const ref = useOutsideElementClickHandler(() => setIsOpen(false))
 
@@ -81,15 +82,12 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple,
             key={i}
             tag="li"
             onClick={() => {
-              if (multiple && value) {
-                if (value.includes(optionValue))
-                  onChange?.(
-                    value.filter((item) => item !== optionValue),
-                    {label, value: optionValue},
-                  )
-                else onChange?.([...value, optionValue], {label, value: optionValue})
-              } else onChange?.([optionValue], {label, value: optionValue})
-              if (!multiple) setIsOpen(false)
+              if (value?.includes(optionValue))
+                onChange?.(
+                  value.filter((item) => item !== optionValue),
+                  {selectedLabel: label, selectedValue: optionValue},
+                )
+              else onChange?.([...(value ? [...value] : []), optionValue], {selectedLabel: label, selectedValue: optionValue})
             }}
             cs={{
               display: 'flex',
@@ -110,25 +108,23 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, multiple,
               },
             }}
           >
-            {multiple && (
-              <Box
-                className="checkbox"
-                cs={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 16,
-                  height: 16,
-                  color: theme.color.text,
-                  border: '1px solid',
-                  borderColor: theme.color.faded,
-                  borderRadius: theme.radii.s,
-                  transition: 'border-color 200ms',
-                }}
-              >
-                <IconCheck size={16} css={{opacity: value?.includes(optionValue) ? '1' : '0', transition: 'opacity 200ms'}} />
-              </Box>
-            )}
+            <Box
+              className="checkbox"
+              cs={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 16,
+                height: 16,
+                color: theme.color.text,
+                border: '1px solid',
+                borderColor: theme.color.faded,
+                borderRadius: theme.radii.s,
+                transition: 'border-color 200ms',
+              }}
+            >
+              <IconCheck size={16} css={{opacity: value?.includes(optionValue) ? '1' : '0', transition: 'opacity 200ms'}} />
+            </Box>
             {label}
           </Box>
         ))}

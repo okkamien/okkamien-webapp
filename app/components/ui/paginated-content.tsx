@@ -10,10 +10,13 @@ import {theme} from '@/app/styles'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
 
-interface SelectedFilter<T extends IApiItem<unknown>> {
-  name: keyof T['attributes']
-  value: string
+type TFilterPath<T extends IApiItem<unknown>> = [keyof T['attributes'], ...string[]]
+
+interface ISelectedFilter<T extends IApiItem<unknown>> {
+  label: string
   operator: TStrapiFilterOperator
+  path: TFilterPath<T>
+  value: string
 }
 
 interface IPaginatedContentFiltersSelect {
@@ -31,7 +34,7 @@ interface IPaginatedContentProps<T extends IApiItem<unknown>> {
   children(data: T[]): ReactElement
   emptyState?: ReactNode
   filters?: ((IPaginatedContentFiltersSelect | IPaginatedContentFiltersDateRange) & {
-    name: keyof T['attributes']
+    path: TFilterPath<T>
   })[]
   page?: number
   pageSize?: number
@@ -51,15 +54,13 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
   const ref = useRef<HTMLElement>()
   const [currentPage, setCurrentPage] = useState<number>(page)
 
-  const [selectedFiltersList, setSelectedFiltersList] = useState<SelectedFilter<T>[]>([])
+  const [selectedFiltersList, setSelectedFiltersList] = useState<ISelectedFilter<T>[]>([])
   const selectedFilters = useMemo(
     () =>
       selectedFiltersList.reduce<TGetApiResponseFilters<T>>(
-        (total, current) => ({
+        (total, {operator, path: [name, ...nested], value}) => ({
           ...total,
-          ...(total[current.name]
-            ? {[current.name]: [[...(total[current.name]?.[0] ?? []), current.value], 'eq']}
-            : {[current.name]: [[current.value], 'eq']}),
+          ...(total[name] ? {[name]: [[...(total[name]?.[0] ?? []), value], operator, nested]} : {[name]: [[value], operator, nested]}),
         }),
         {},
       ),
@@ -75,7 +76,10 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
           page: currentPage,
           pageSize,
         },
-        filters: selectedFilters,
+        filters: {
+          ...payload.filters,
+          ...selectedFilters,
+        },
       }),
   })
 
@@ -97,19 +101,22 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                 composition={['semanticList']}
                 cs={{position: 'relative', display: 'flex', columnGap: theme.spacing.m, zIndex: '2'}}
               >
-                {filters.map(({name, options, type}, i) => (
+                {filters.map(({options, path: [name, ...nested], type}, i) => (
                   <Fragment key={i}>
                     {type === 'select' && (
                       <Select
                         {...options}
                         value={selectedFilters[name]?.[0].map((item) => String(item))}
-                        onChange={(_, current) =>
+                        onChange={(_, {selectedLabel, selectedValue}) =>
                           setSelectedFiltersList((_selectedFiltersList) =>
-                            _selectedFiltersList.find((item) => name === item.name && item.value === current.value)
+                            _selectedFiltersList.find(({path: [_name], value}) => name === _name && value === selectedValue)
                               ? _selectedFiltersList.filter(
-                                  (item) => name !== item.name || (name === item.name && item.value !== current.value),
+                                  ({path: [_name], value}) => name !== _name || (name === _name && value !== selectedValue),
                                 )
-                              : [..._selectedFiltersList, {name, operator: 'eq', value: current.value}],
+                              : [
+                                  ..._selectedFiltersList,
+                                  {path: [name, ...nested], operator: 'eq', label: selectedLabel, value: selectedValue},
+                                ],
                           )
                         }
                       />
@@ -134,18 +141,14 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                 >
                   Wybrane filtry:
                   <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', columnGap: theme.spacing.s}}>
-                    {selectedFiltersList.map(({name, value}) => (
+                    {selectedFiltersList.map(({label, path: [name], value}, i) => (
                       <Box key={`${String(name)}-${value}`} tag="li">
                         <Tag
                           close
                           icon={false}
-                          onClick={() =>
-                            setSelectedFiltersList((_selectedFiltersList) =>
-                              _selectedFiltersList.filter((item) => !(name === item.name && value === item.value)),
-                            )
-                          }
+                          onClick={() => setSelectedFiltersList((_selectedFiltersList) => _selectedFiltersList.filter((_, j) => i !== j))}
                         >
-                          {value}
+                          {label}
                         </Tag>
                       </Box>
                     ))}

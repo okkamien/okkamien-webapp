@@ -4,7 +4,11 @@ import {IncomingMessage} from 'http'
 import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/features/api/types'
 
-type TGetApiResponseFilter = [string[] | number[], TStrapiFilterOperator?]
+interface INestedRecord<T> {
+  [key: string]: T | INestedRecord<T>
+}
+
+type TGetApiResponseFilter = [string[] | number[], TStrapiFilterOperator, string[]?]
 
 export type TGetApiResponseFilters<T extends IApiItem<unknown>> = {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
 
@@ -60,15 +64,23 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
-      filters: Object.entries(filters).reduce((t, c) => {
-        const [key, [value, operator = 'eq']]: [string, TGetApiResponseFilter] = c
-
-        return {...t, [key]: {[`$${operator}`]: value}}
+      filters: Object.entries(filters).reduce((total, [key, [value, operator, nested = []]]: [string, TGetApiResponseFilter]) => {
+        return {
+          ...total,
+          [key]: nested.reduce<INestedRecord<typeof value>>((nestedRecord, nestedKey) => ({[nestedKey]: nestedRecord}), {
+            [`$${operator}`]: value,
+          }),
+        }
       }, {}),
       pagination,
       populate,
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },
+    ...(req && {
+      headers: {
+        Authorization: `bearer ${process.env.DATABASE_API_TOKEN}`,
+      },
+    }),
   })
 
   return response.data
@@ -82,6 +94,11 @@ export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
   const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiSingleResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {populate},
+    ...(req && {
+      headers: {
+        Authorization: `bearer ${process.env.DATABASE_API_TOKEN}`,
+      },
+    }),
   })
 
   return response.data
