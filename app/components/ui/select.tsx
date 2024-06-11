@@ -82,14 +82,12 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, onChange,
           <Box
             key={i}
             tag="li"
-            onClick={() => {
-              if (value?.includes(optionValue))
-                onChange?.(
-                  value.filter((item) => item !== optionValue),
-                  {selectedLabel: label, selectedValue: optionValue},
-                )
-              else onChange?.([...(value ? [...value] : []), optionValue], {selectedLabel: label, selectedValue: optionValue})
-            }}
+            onClick={() =>
+              onChange?.(
+                value?.includes(optionValue) ? value.filter((item) => item !== optionValue) : [...(value ? [...value] : []), optionValue],
+                {selectedLabel: label, selectedValue: optionValue},
+              )
+            }
             cs={{
               display: 'flex',
               alignItems: 'center',
