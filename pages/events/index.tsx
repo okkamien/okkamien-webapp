@@ -1,28 +1,23 @@
 import React from 'react'
-import {Text} from '@effortless-ui'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {PaginatedContent, Tile, TilesList} from '@/app/components/ui'
+import {PaginatedContent, Tile, TilesList, Title} from '@/app/components/ui'
 import {TApiEvent} from '@/app/features/api/types'
 import {getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {useScrollRef} from '@/app/hooks'
+import {theme} from '@/app/styles'
 import {mapApiEventToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [upcomingPayload, pastPayload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [payload]}) => {
+  const {scrollRef, scrollToElement} = useScrollRef()
+
   return (
     <MasterPage breadcrumbs={{current: 'Wydarzenia'}}>
-      <Text>Nadchodzące wydarzenia</Text>
-      <PaginatedContent payload={upcomingPayload}>
-        {(data) => (
-          <TilesList
-            tiles={data.map((item, i) => (
-              <Tile key={i} {...mapApiEventToTile(item)} />
-            ))}
-          />
-        )}
-      </PaginatedContent>
-      <Text>Minione wydarzenia</Text>
-      <PaginatedContent payload={pastPayload}>
+      <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
+        Wydarzenia
+      </Title>
+      <PaginatedContent payload={payload} scrollToElement={scrollToElement}>
         {(data) => (
           <TilesList
             tiles={data.map((item, i) => (
@@ -36,10 +31,8 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]>> = ({payloads: [up
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const today = new Date().toISOString()
   const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [
-    {endpoint: 'events', filters: {from: [today, 'gte']}, populate: ['thumbnail'], sort: [['from']]},
-    {endpoint: 'events', filters: {from: [today, 'lt']}, populate: ['thumbnail'], sort: [['from']]},
+    {endpoint: 'events', filters: {from: [new Date().toISOString(), 'gte']}, populate: ['thumbnail'], sort: [['from']]},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
