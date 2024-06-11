@@ -74,6 +74,7 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, onChange,
           opacity: isOpen ? '1' : '0',
           pointerEvents: isOpen ? 'auto' : 'none',
           transform: isOpen ? 'translateY(0)' : `translateY(-${theme.spacing.xxs}px)`,
+          zIndex: 3,
           transition: 'opacity 200ms, transform 200ms',
         }}
       >

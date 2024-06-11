@@ -99,7 +99,14 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
               <Box
                 tag="ul"
                 composition={['semanticList']}
-                cs={{position: 'relative', display: 'flex', columnGap: theme.spacing.m, zIndex: '2'}}
+                cs={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  rowGap: theme.spacing.xs,
+                  columnGap: theme.spacing.m,
+                  zIndex: '2',
+                }}
               >
                 {filters.map(({options, path: [name, ...nested], type}, i) => (
                   <Fragment key={i}>
@@ -129,7 +136,9 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                 <Box
                   cs={{
                     display: 'inline-flex',
+                    flexWrap: 'wrap',
                     alignItems: 'center',
+                    rowGap: theme.spacing.s,
                     columnGap: theme.spacing.ms,
                     mt: theme.spacing.s,
                     px: theme.spacing.s,
@@ -140,7 +149,11 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                   }}
                 >
                   Wybrane filtry:
-                  <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', columnGap: theme.spacing.s}}>
+                  <Box
+                    tag="ul"
+                    composition={['semanticList']}
+                    cs={{display: 'flex', flexWrap: 'wrap', rowGap: theme.spacing.xs, columnGap: theme.spacing.s}}
+                  >
                     {selectedFiltersList.map(({label, path: [name], value}, i) => (
                       <Box key={`${String(name)}-${value}`} tag="li">
                         <Tag
