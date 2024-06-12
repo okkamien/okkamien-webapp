@@ -1,30 +1,32 @@
-import React, {FC, PropsWithChildren, useEffect, useRef, useState} from 'react'
+import React, {FC, PropsWithChildren, ReactNode, useEffect, useRef, useState} from 'react'
 import {Box, Text} from '@effortless-ui'
 import {IconChevronDown} from '@tabler/icons-react'
 
 import {theme} from '@/app/styles'
 
 interface IAccordionProps {
-  title: string
+  title: ReactNode
 }
 
 export const Accordion: FC<PropsWithChildren<IAccordionProps>> = ({title, children}) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const expandableItems = useRef<HTMLInputElement>()
+  const expandableItemsRef = useRef<HTMLInputElement>()
   const [height, setHeight] = useState(0)
 
   useEffect(() => {
-    if (expandableItems.current) setHeight(expandableItems.current.offsetHeight)
-  })
+    if (expandableItemsRef.current) setHeight(expandableItemsRef.current.offsetHeight)
+  }, [])
 
   return (
-    <Box cs={{pl: [0, theme.spacing.xs]}}>
+    <Box cs={{label: 'Accordion', pl: [0, theme.spacing.xs]}}>
       <Box
         onClick={() => setIsOpen(!isOpen)}
-        cs={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer'}}
+        cs={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: ['pointer', 'auto']}}
       >
         <Text
+          tag="h3"
+          variant="h6"
           cs={{
             color: theme.color.brand400,
             pb: theme.spacing.xxs,
@@ -53,7 +55,7 @@ export const Accordion: FC<PropsWithChildren<IAccordionProps>> = ({title, childr
           overflow: 'hidden',
         }}
       >
-        <Box ref={expandableItems}>{children}</Box>
+        <Box ref={expandableItemsRef}>{children}</Box>
       </Box>
     </Box>
   )
