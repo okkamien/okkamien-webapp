@@ -3,7 +3,7 @@ import {Anchor, Box, Text} from '@effortless-ui'
 import {IconBrandFacebook, IconBrandInstagram} from '@tabler/icons-react'
 import Link from 'next/link'
 
-import {Accordion} from '@/app/components/ui/Accordion'
+import {Accordion} from '@/app/components/ui'
 import {navigationAnotherLinks, navigationLinks, siteExternalLinks} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
