@@ -1,7 +1,8 @@
 import React, {FC, PropsWithChildren, useState} from 'react'
 import {Box, Button} from '@effortless-ui'
-import {IconCheck, IconChevronDown, IconChevronUp} from '@tabler/icons-react'
+import {IconCheck} from '@tabler/icons-react'
 
+import {ExpandableArrow} from '@/app/components/ui'
 import {useOutsideElementClickHandler} from '@/app/hooks'
 import {theme} from '@/app/styles'
 
@@ -25,17 +26,20 @@ export interface ISelectProps {
 
 export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, onChange, options, title, value}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
   const ref = useOutsideElementClickHandler(() => setIsOpen(false))
 
   return (
     <Box cs={{label: 'Select', position: 'relative'}} ref={ref}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
+        onMouseEnter={() => setIsMouseOver(true)}
+        onMouseLeave={() => setIsMouseOver(false)}
         cs={{
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          columnGap: theme.spacing.xxs,
+          columnGap: theme.spacing.xs,
           px: theme.spacing.s,
           py: theme.spacing.xs,
           color: theme.color.text,
@@ -53,7 +57,7 @@ export const Select: FC<PropsWithChildren<ISelectProps>> = ({children, onChange,
         }}
       >
         {title ?? children}
-        {isOpen ? <IconChevronUp size={20} /> : <IconChevronDown size={20} />}
+        <ExpandableArrow direction={isOpen ? 'up' : 'down'} color={isMouseOver ? theme.color.primary : theme.color.text} size={22} />
       </Button>
       <Box
         tag="ul"
