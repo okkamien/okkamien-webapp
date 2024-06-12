@@ -1,6 +1,5 @@
 import React, {FC} from 'react'
-import {Anchor, Box, Button, Text} from '@effortless-ui'
-import Link from 'next/link'
+import {Box, Button, Text} from '@effortless-ui'
 
 import Logo from '@/app/assets/logo.svg'
 import {theme} from '@/app/styles'
@@ -27,9 +26,6 @@ export const LogoSection: FC = () => (
       >
         Wróć do góry
       </Button>
-      {/* <Link href="/" legacyBehavior passHref>
-        <Anchor cs={{color: theme.color.primary, fontSize: theme.font.size.small}}>Wróć do góry</Anchor>
-      </Link> */}
     </Text>
   </Box>
 )
