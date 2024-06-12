@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const locations: ISelectOption[] = data.map(({attributes: {name}, id}) => ({label: name, value: id.toString()}))
 
   const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [
-    {endpoint: 'events', filters: {from: [[new Date().toISOString()], 'gte']}, populate: ['location', 'thumbnail'], sort: [['from']]},
+    {endpoint: 'events', populate: ['location', 'thumbnail'], sort: [['from', 'desc']]},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
