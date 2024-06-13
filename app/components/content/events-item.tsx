@@ -15,7 +15,7 @@ export const EventsItem: FC<TEventsItemProps> = ({attributes: {description, from
       <Text tag="h1">{title}</Text>
       <Text>
         <strong>
-          {location}, {to ? getFormattedDateRange(dayjs(from), dayjs(to)) : dayjs(from).format('DD/MM/YYYY')}
+          {location.data.attributes.name}, {to ? getFormattedDateRange(dayjs(from), dayjs(to)) : dayjs(from).format('DD/MM/YYYY')}
         </strong>
       </Text>
       <Text>{description}</Text>

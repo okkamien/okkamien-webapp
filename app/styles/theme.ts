@@ -30,6 +30,7 @@ const colors = {
   black: '#000',
   white: '#fff',
   greyAthens: '#e8ebef',
+  greyHeather: '#b6c0cc',
   greyMid: '#686869',
   greyWoodsmoke: '#101111',
   greyShark: '#1a1b1c',
@@ -60,6 +61,7 @@ export const theme = {
     error: colors.redAlizarinCrimson,
     border: colors.greyAthens,
     inactive: colors.greyMid,
+    faded: colors.greyHeather,
     overlay: colors.greyWoodsmoke,
   },
   gradient: {

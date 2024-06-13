@@ -33,6 +33,10 @@ export interface IApiItem<T> {
   } & T
 }
 
+interface IApiRelation<T> {
+  data: T
+}
+
 interface IApiImage {
   data: {
     id: number
@@ -46,6 +50,10 @@ interface IApiImage {
   }
 }
 
+export type TApiLocation = IApiItem<{
+  name: string
+}>
+
 export type TApiNews = IApiItem<{
   content: string
   slug: string
@@ -56,7 +64,7 @@ export type TApiNews = IApiItem<{
 export type TApiEvent = IApiItem<{
   description: string
   from: string
-  location: string
+  location: IApiRelation<TApiLocation>
   slug: string
   teaser: string
   thumbnail?: IApiImage

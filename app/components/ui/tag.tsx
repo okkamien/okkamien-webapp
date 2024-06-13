@@ -1,16 +1,18 @@
 import React, {FC, PropsWithChildren} from 'react'
 import {Box} from '@effortless-ui'
-import {IconMapPin} from '@tabler/icons-react'
+import {IconMapPin, IconX} from '@tabler/icons-react'
 
 import {theme} from '@/app/styles'
 
 interface ITagProps {
+  close?: boolean
   icon?: boolean
+  onClick?(): void
 }
 
 export const tagHoverParent = 'tag-hover-parent'
 
-export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, icon = true}) => {
+export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, close, icon = true, onClick}) => {
   return (
     <Box
       cs={{
@@ -26,14 +28,19 @@ export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, icon = true}) =
         bg: theme.color.text,
         borderRadius: theme.radii.s,
         transition: 'color 200ms, background-color 200ms',
+        ...(close && {
+          cursor: 'pointer',
+        }),
         [`&:hover, .${tagHoverParent}:hover &`]: {
           color: theme.color.primary,
           bg: theme.color.white,
         },
       }}
+      {...(onClick && {onClick})}
     >
       {icon && <IconMapPin size={12} />}
       {children}
+      {close && <IconX size={14} />}
     </Box>
   )
 }
