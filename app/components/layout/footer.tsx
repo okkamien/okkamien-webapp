@@ -9,7 +9,7 @@ import {theme} from '@/app/styles'
 import {getFormattedRange} from '@/app/utils'
 
 export const Footer: FC = () => (
-  <Box tag="footer" cs={{py: theme.spacing.m}}>
+  <Box tag="footer" cs={{py: theme.spacing.ml}}>
     <LogoSection />
     <LinksSection />
     <Box cs={{pt: theme.spacing.ml, textAlign: 'center', fontSize: theme.font.size.small, color: theme.color.overlay}}>

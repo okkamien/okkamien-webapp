@@ -8,10 +8,10 @@ import {navigationAnotherLinks, navigationLinks, siteExternalLinks} from '@/app/
 import {theme} from '@/app/styles'
 
 export const LinksSection: FC = () => (
-  <Box tag="div" cs={{label: 'Footer-links-section', display: ['block', 'flex'], pt: [0, theme.spacing.l]}}>
+  <Box cs={{label: 'Footer-links-section', display: ['block', 'flex'], mt: [theme.spacing.m, theme.spacing.l]}}>
     <Box
       cs={{
-        label: 'footer-about-as-section',
+        label: 'Footer-about-as-section',
         mr: [theme.spacing.s, 0],
         pr: [0, 52],
         pb: theme.spacing.m,
@@ -58,7 +58,6 @@ export const LinksSection: FC = () => (
       </Box>
     </Box>
     <Box
-      tag="div"
       cs={{
         label: 'footer-accordions',
         display: 'flex',

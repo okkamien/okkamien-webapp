@@ -1,23 +1,20 @@
 import React, {FC} from 'react'
 import {Box, Button, Text} from '@effortless-ui'
+import Image from 'next/image'
 
-import Logo from '@/app/assets/logo.svg'
+import {siteName} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
 export const LogoSection: FC = () => (
-  <Box tag="div" cs={{height: '64px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+  <Box cs={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
     <Box
       cs={{
         label: 'Footer-image',
-        position: 'relative',
-        width: [128, 168],
-        height: [32, 63],
-        mx: -1,
-        mt: -1,
-        overflow: 'hidden',
+        width: [120, 168],
+        py: [theme.spacing.xxs, theme.spacing.s],
       }}
     >
-      <Logo />
+      <Image src="/logo.svg" width={168} height={40} alt={siteName} sizes="100%" />
     </Box>
     <Text cs={{display: ['none', 'block']}}>
       <Button
