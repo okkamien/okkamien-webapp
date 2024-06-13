@@ -55,7 +55,7 @@ export const navigationLinks = [
   },
 ]
 
-export const navigationAnotherLinks = [
+export const footerAnotherLinks = [
   {
     label: 'Nazwa kategorii',
     link: '#',

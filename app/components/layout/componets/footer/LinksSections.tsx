@@ -4,7 +4,7 @@ import {IconBrandFacebook, IconBrandInstagram} from '@tabler/icons-react'
 import Link from 'next/link'
 
 import {Accordion} from '@/app/components/ui'
-import {navigationAnotherLinks, navigationLinks, siteExternalLinks} from '@/app/dictionaries/site.dictionary'
+import {footerAnotherLinks, navigationLinks, siteExternalLinks} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
 export const LinksSection: FC = () => (
@@ -23,7 +23,7 @@ export const LinksSection: FC = () => (
       }}
     >
       <Box cs={{label: 'Footer-links-section', width: '200px'}}>
-        <Text tag="h3" variant="h6" cs={{color: theme.color.brand400, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
+        <Text tag="h3" variant="h6" cs={{color: theme.color.footerTitle, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
           Gdzie nas znajdziesz
         </Text>
         <Text tag="address" cs={{color: theme.color.inactive, fontWeight: 300, fontStyle: 'normal'}}>
@@ -34,25 +34,23 @@ export const LinksSection: FC = () => (
         </Text>
       </Box>
       <Box cs={{label: 'Footer-links-section', width: '240px', pt: [theme.spacing.ms, theme.spacing.xxl]}}>
-        <Text tag="h3" variant="h6" cs={{color: theme.color.brand400, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
+        <Text tag="h3" variant="h6" cs={{color: theme.color.footerTitle, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
           Skontaktuj się z nami
         </Text>
         <Text
           cs={{
             pb: theme.spacing.xxs,
-            color: theme.color.gray900,
+            color: theme.color.text,
             fontSize: [theme.font.size.small, theme.font.size.base],
             fontWeight: 300,
           }}
         >
           Tel. (0-52) 3 88 60 68
         </Text>
-        <Text cs={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base], fontWeight: 300}}>
+        <Text cs={{color: theme.color.text, fontSize: [theme.font.size.small, theme.font.size.base], fontWeight: 300}}>
           E-mail:{' '}
           <Link href="mailto:mgok.kamienkraj@wp.pl" legacyBehavior passHref>
-            <Anchor cs={{color: theme.color.gray900, fontSize: [theme.font.size.small, theme.font.size.base]}}>
-              mgok.kamienkraj@wp.pl
-            </Anchor>
+            <Anchor cs={{color: theme.color.text, fontSize: [theme.font.size.small, theme.font.size.base]}}>mgok.kamienkraj@wp.pl</Anchor>
           </Link>
         </Text>
       </Box>
@@ -74,10 +72,25 @@ export const LinksSection: FC = () => (
       }}
     >
       <Box cs={{label: 'footer-accordion-menu', pb: [theme.spacing.s, theme.spacing.m]}}>
-        <Accordion title="Menu">
+        <Accordion
+          title={
+            <Text
+              tag="h3"
+              variant="h6"
+              cs={{
+                color: theme.color.footerTitle,
+                pb: theme.spacing.xxs,
+                pt: [theme.spacing.xxs, 0],
+                fontSize: theme.font.size.base,
+              }}
+            >
+              Menu
+            </Text>
+          }
+        >
           <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexDirection: 'column', pr: [0, theme.spacing.xxl]}}>
             {navigationLinks.map(({label, link}, i) => (
-              <Box tag="li" key={i} cs={{px: theme.spacing.xxs, py: [theme.spacing.xs, 0], mb: [4, 0]}}>
+              <Box tag="li" key={i} cs={{px: [theme.spacing.xxs, 0], py: [theme.spacing.xs, theme.spacing.xxs], mb: [4, 0]}}>
                 <Link href={link} legacyBehavior passHref>
                   <Anchor
                     cs={{
@@ -99,14 +112,25 @@ export const LinksSection: FC = () => (
         </Accordion>
       </Box>
       <Box cs={{label: 'footer-acordion-diff', pl: [0, theme.spacing.xl]}}>
-        <Accordion title="Inne">
+        <Accordion
+          title={
+            <Text
+              tag="h3"
+              variant="h6"
+              cs={{
+                color: theme.color.footerTitle,
+                pb: theme.spacing.xxs,
+                pt: [theme.spacing.xxs, 0],
+                fontSize: theme.font.size.base,
+              }}
+            >
+              Inne
+            </Text>
+          }
+        >
           <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexDirection: 'column'}}>
-            {navigationAnotherLinks.map(({label, link}, i) => (
-              <Box
-                tag="li"
-                key={i}
-                cs={{padding: [`${theme.spacing.xxs}px ${theme.spacing.xs}px`, `${theme.spacing.xxs}px 0`], mb: [4, 0]}}
-              >
+            {footerAnotherLinks.map(({label, link}, i) => (
+              <Box tag="li" key={i} cs={{px: [theme.spacing.xxs, 0], py: [theme.spacing.xs, theme.spacing.xxs], mb: [4, 0]}}>
                 <Link href={link} legacyBehavior passHref>
                   <Anchor
                     cs={{
@@ -138,7 +162,7 @@ export const LinksSection: FC = () => (
         minWidth: [0, '235px'],
       }}
     >
-      <Text tag="h3" variant="h6" cs={{color: theme.color.brand400, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
+      <Text tag="h3" variant="h6" cs={{color: theme.color.footerTitle, pb: theme.spacing.xs, fontSize: theme.font.size.base}}>
         M-GOK w sieci
       </Text>
       <Box tag="ul" composition={['semanticList']} cs={{display: 'flex'}}>
