@@ -28,8 +28,15 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
             type: 'select',
             path: ['location', 'id'],
             options: {
-              title: 'Lokalizacja',
+              label: 'Lokalizacja',
               options: locations,
+            },
+          },
+          {
+            type: 'datepicker',
+            path: ['from'],
+            options: {
+              endRangePath: ['from'],
             },
           },
         ]}

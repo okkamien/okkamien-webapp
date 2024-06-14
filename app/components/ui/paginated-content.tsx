@@ -1,12 +1,14 @@
 import React, {Fragment, ReactElement, ReactNode, useEffect, useMemo, useRef, useState} from 'react'
 import {Box, Button, Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
+import dayjs from 'dayjs'
 
-import {ISelectProps, Pagination, Select, Tag} from '@/app/components/ui'
+import {Datepicker, ISelectProps, Pagination, Select, Tag} from '@/app/components/ui'
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
 import {IApiItem, TStrapiFilterOperator} from '@/app/features/api/types'
 import {getApiCollectionResponse, getQueryKey, IGetApiCollectionResponseParams, TGetApiResponseFilters} from '@/app/features/api/utils'
 import {theme} from '@/app/styles'
+import {getFormattedDateRange} from '@/app/utils'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
 
@@ -16,24 +18,24 @@ interface ISelectedFilter<T extends IApiItem<unknown>> {
   label: string
   operator: TStrapiFilterOperator
   path: TFilterPath<T>
-  value: string
+  value: string | string[]
 }
 
 interface IPaginatedContentFiltersSelect {
   type: 'select'
   options: Omit<ISelectProps, 'onChange' | 'value'>
 }
-interface IPaginatedContentFiltersDateRange {
-  type: 'dateRange'
+interface IPaginatedContentFiltersDateRange<T extends IApiItem<unknown>> {
+  type: 'datepicker'
   options: {
-    foo: string
+    endRangePath: TFilterPath<T>
   }
 }
 
 interface IPaginatedContentProps<T extends IApiItem<unknown>> {
   children(data: T[]): ReactElement
   emptyState?: ReactNode
-  filters?: ((IPaginatedContentFiltersSelect | IPaginatedContentFiltersDateRange) & {
+  filters?: ((IPaginatedContentFiltersSelect | IPaginatedContentFiltersDateRange<T>) & {
     path: TFilterPath<T>
   })[]
   page?: number
@@ -60,7 +62,9 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
       selectedFiltersList.reduce<TGetApiResponseFilters<T>>(
         (total, {operator, path: [name, ...nested], value}) => ({
           ...total,
-          ...(total[name] ? {[name]: [[...(total[name]?.[0] ?? []), value], operator, nested]} : {[name]: [[value], operator, nested]}),
+          ...(total[name]
+            ? {[name]: [[...(total[name]?.[0] ?? []), ...(Array.isArray(value) ? value : [value])], operator, nested]}
+            : {[name]: [Array.isArray(value) ? value : [value], operator, nested]}),
         }),
         {},
       ),
@@ -108,29 +112,55 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                   zIndex: '2',
                 }}
               >
-                {filters.map(({options, path: [name, ...nested], type}, i) => (
-                  <Fragment key={i}>
-                    {type === 'select' && (
-                      <Select
-                        {...options}
-                        value={selectedFilters[name]?.[0].map((item) => String(item))}
-                        onChange={(_, {selectedLabel, selectedValue}) =>
-                          setSelectedFiltersList((_selectedFiltersList) =>
-                            _selectedFiltersList.find(({path: [_name], value}) => name === _name && value === selectedValue)
-                              ? _selectedFiltersList.filter(
-                                  ({path: [_name], value}) => name !== _name || (name === _name && value !== selectedValue),
-                                )
-                              : [
-                                  ..._selectedFiltersList,
-                                  {path: [name, ...nested], operator: 'eq', label: selectedLabel, value: selectedValue},
-                                ],
-                          )
-                        }
-                      />
-                    )}
-                    {type === 'dateRange' && 'Implement me'}
-                  </Fragment>
-                ))}
+                {filters.map(({options, path: [name, ...nested], type}, i) => {
+                  switch (type) {
+                    case 'select': {
+                      return (
+                        <Select
+                          key={i}
+                          {...options}
+                          value={selectedFilters[name]?.[0].map((item) => String(item))}
+                          onChange={(_, {selectedLabel, selectedValue}) =>
+                            setSelectedFiltersList((_selectedFiltersList) =>
+                              _selectedFiltersList.find(({path: [_name], value}) => name === _name && value === selectedValue)
+                                ? _selectedFiltersList.filter(
+                                    ({path: [_name], value}) => name !== _name || (name === _name && value !== selectedValue),
+                                  )
+                                : [
+                                    ..._selectedFiltersList,
+                                    {path: [name, ...nested], operator: 'eq', label: selectedLabel, value: selectedValue},
+                                  ],
+                            )
+                          }
+                        />
+                      )
+                    }
+                    case 'datepicker': {
+                      const range = selectedFilters[name]?.[0].map((item) => new Date(item)).slice(0, 2)
+
+                      return (
+                        // @ts-expect-error
+                        <Datepicker
+                          key={i}
+                          onChange={([from, to]) => {
+                            setSelectedFiltersList((_selectedFiltersList) => [
+                              ..._selectedFiltersList.filter(({path: [_name]}) => _name !== name),
+                              {
+                                path: [name, ...nested],
+                                operator: 'between',
+                                label: getFormattedDateRange(dayjs(from), dayjs(to)),
+                                value: [from.toISOString(), to.toISOString()],
+                              },
+                            ])
+                          }}
+                          {...(range && {value: range})}
+                        />
+                      )
+                    }
+                    default:
+                      return null
+                  }
+                })}
               </Box>
               {selectedFiltersList.length > 0 && (
                 <Box
