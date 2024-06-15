@@ -11,6 +11,7 @@ export interface IDatepickerProps {
   value?: [Date, Date]
 }
 
+// imported and modified `react-calendar/dist/Calendar.css` file
 const reactCalendarStyles: CSObject = {
   '.react-calendar': {
     width: 300,
@@ -22,96 +23,96 @@ const reactCalendarStyles: CSObject = {
     '*:disabled': {
       opacity: 0.5,
     },
-  },
-  '.react-calendar__navigation': {
-    display: 'flex',
-    mb: theme.spacing.s,
-    button: {
-      p: 0,
-      border: 'none',
-      transition: 'color 200ms',
+    '&__navigation': {
+      display: 'flex',
+      mb: theme.spacing.s,
+      button: {
+        p: 0,
+        border: 'none',
+        transition: 'color 200ms',
+        '&:enabled:hover': {
+          color: theme.color.primary,
+        },
+      },
     },
-    'button:enabled:hover': {
-      color: theme.color.primary,
+    '&__month-view': {
+      '&__weekdays': {
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        fontSize: theme.font.size.small,
+        '&__weekday': {
+          py: theme.spacing.xs,
+        },
+      },
+      '&__days': {
+        '&__day': {
+          '&--weekend': {
+            color: theme.color.error,
+          },
+          '&--neighboringMonth': {
+            color: theme.color.faded,
+          },
+        },
+      },
     },
-  },
-  '.react-calendar__month-view__weekdays': {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    fontSize: theme.font.size.small,
-  },
-  '.react-calendar__month-view__weekdays__weekday': {
-    py: theme.spacing.xs,
-  },
-  '.react-calendar__month-view__days__day--weekend': {
-    color: theme.color.error,
-  },
-  '.react-calendar__month-view__days__day--neighboringMonth, .react-calendar__decade-view__years__year--neighboringDecade, .react-calendar__century-view__decades__decade--neighboringCentury':
-    {
-      color: theme.color.faded,
+    '&__tile': {
+      maxWidth: '100%',
+      p: theme.spacing.xs,
+      background: 'transparent',
+      textAlign: 'center',
+      fontSize: theme.font.size.small,
+      transition: 'color 100ms, background-color 100ms, border-color 100ms',
+      border: '1px solid',
+      borderColor: theme.color.white,
+      '&:enabled:hover': {
+        color: theme.color.primary,
+      },
+      '&--now': {
+        borderColor: theme.color.text,
+        borderRadius: theme.radii.s,
+        ':enabled:hover': {
+          borderColor: theme.color.primary,
+        },
+      },
+      '&--active, &--active, &--hasActive, &--hover': {
+        color: theme.color.white,
+        borderColor: theme.color.text,
+        backgroundColor: theme.color.text,
+        '&:enabled:hover': {
+          color: theme.color.white,
+          borderColor: theme.color.text,
+        },
+      },
+      '&--hasActive': {
+        borderRadius: theme.radii.s,
+      },
+      '&--range, &--hover': {
+        borderRadius: 0,
+      },
+      '&--rangeStart': {
+        borderStartStartRadius: theme.radii.s,
+        borderEndStartRadius: theme.radii.s,
+      },
+      '&--rangeEnd': {
+        borderStartEndRadius: theme.radii.s,
+        borderEndEndRadius: theme.radii.s,
+      },
+      '&--hoverStart': {
+        borderStartStartRadius: theme.radii.s,
+        borderEndStartRadius: theme.radii.s,
+        borderStartEndRadius: 0,
+        borderEndEndRadius: 0,
+      },
+      '&--hoverEnd': {
+        borderStartStartRadius: 0,
+        borderEndStartRadius: 0,
+        borderStartEndRadius: theme.radii.s,
+        borderEndEndRadius: theme.radii.s,
+      },
+      '&--hoverBothEnds': {
+        borderRadius: theme.radii.s,
+      },
     },
-  '.react-calendar__year-view .react-calendar__tile, .react-calendar__decade-view .react-calendar__tile, .react-calendar__century-view .react-calendar__tile':
-    {},
-  '.react-calendar__tile': {
-    maxWidth: '100%',
-    p: theme.spacing.xs,
-    background: 'transparent',
-    textAlign: 'center',
-    fontSize: theme.font.size.small,
-    transition: 'color 100ms, background-color 100ms, border-color 100ms',
-    border: '1px solid',
-    borderColor: theme.color.white,
-    '&:enabled:hover': {
-      color: theme.color.primary,
-    },
-  },
-  '.react-calendar__tile--now': {
-    borderColor: theme.color.text,
-    borderRadius: theme.radii.s,
-    ':enabled:hover': {
-      borderColor: theme.color.primary,
-    },
-  },
-  '.react-calendar__tile--active, .react-calendar__tile--range, .react-calendar__tile--hasActive, .react-calendar__tile--hover': {
-    color: theme.color.white,
-    borderColor: theme.color.text,
-    backgroundColor: theme.color.text,
-    '&:enabled:hover': {
-      color: theme.color.white,
-      borderColor: theme.color.text,
-    },
-  },
-  '.react-calendar__tile--hasActive': {
-    borderRadius: theme.radii.s,
-  },
-  '.react-calendar__tile--range, .react-calendar__tile--hover': {
-    borderRadius: 0,
-  },
-  '.react-calendar__tile--rangeStart': {
-    borderStartStartRadius: theme.radii.s,
-    borderEndStartRadius: theme.radii.s,
-  },
-  '.react-calendar__tile--rangeEnd': {
-    borderStartEndRadius: theme.radii.s,
-    borderEndEndRadius: theme.radii.s,
-  },
-  '.react-calendar__tile--hoverStart': {
-    borderStartStartRadius: theme.radii.s,
-    borderEndStartRadius: theme.radii.s,
-    borderStartEndRadius: 0,
-    borderEndEndRadius: 0,
-  },
-  '.react-calendar__tile--hoverEnd': {
-    borderStartStartRadius: 0,
-    borderEndStartRadius: 0,
-    borderStartEndRadius: theme.radii.s,
-    borderEndEndRadius: theme.radii.s,
-  },
-  '.react-calendar__tile--hoverBothEnds': {
-    borderStartStartRadius: theme.radii.s,
-    borderEndStartRadius: theme.radii.s,
-    borderStartEndRadius: theme.radii.s,
-    borderEndEndRadius: theme.radii.s,
   },
 }
 
