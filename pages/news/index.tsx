@@ -17,7 +17,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>
-      <DynamicContent payload={payload} scrollToElement={scrollToElement}>
+      <DynamicContent payload={payload} filters={[{type: 'datepicker', key: 'publishedAt'}]} scrollToElement={scrollToElement}>
         {(data) => (
           <TilesList
             cols={[1, 2, 3]}

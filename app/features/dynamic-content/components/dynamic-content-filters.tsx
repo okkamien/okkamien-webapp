@@ -14,7 +14,7 @@ interface IDynamicContentFiltersSelect {
 }
 interface IDynamicContentFiltersDateRange<T extends TApiCommonItem> {
   type: 'datepicker'
-  options: {
+  options?: {
     endKey?: TApiItemKey<T>
   }
 }
@@ -86,7 +86,7 @@ export const DynamicContentFilters = <T extends TApiCommonItem>({filters, onChan
             }
             case 'datepicker': {
               const range = selectedFilters
-                .filter(({key: _key}) => key === _key || options.endKey === _key)
+                .filter(({key: _key}) => key === _key || options?.endKey === _key)
                 .flatMap(({value}) => value)
                 .map((value) => new Date(value))
                 .slice(0, 2)
@@ -95,13 +95,13 @@ export const DynamicContentFilters = <T extends TApiCommonItem>({filters, onChan
                 <Datepicker
                   key={i}
                   onChange={([from, to]) => {
-                    const fromFormatted = dayjs(from).format('YYYY-MM-DD')
-                    const toFormatted = dayjs(to).format('YYYY-MM-DD')
+                    const fromFormatted = dayjs(from).format('YYYY-MM-DDT00:00:00')
+                    const toFormatted = dayjs(to).format('YYYY-MM-DDT23:59:59')
 
                     setSelectedFiltersList((_selectedFiltersList) => [
                       ..._selectedFiltersList.filter(({filters: _filters}) => _filters.every(({key: _key}) => key !== _key)),
                       {
-                        filters: options.endKey
+                        filters: options?.endKey
                           ? [
                               {key, operator: 'lte', path, type: 'and', value: [toFormatted]},
                               {key: options.endKey, operator: 'gte', path, type: 'and', value: [fromFormatted]},
@@ -111,7 +111,7 @@ export const DynamicContentFilters = <T extends TApiCommonItem>({filters, onChan
                       },
                     ])
                   }}
-                  {...(range.length && {value: (options.endKey ? range.reverse() : range) as [Date, Date]})}
+                  {...(range.length && {value: (options?.endKey ? range.reverse() : range) as [Date, Date]})}
                 />
               )
             }
