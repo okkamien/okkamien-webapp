@@ -3,7 +3,7 @@ import {Anchor, Text} from '@effortless-ui'
 import Link from 'next/link'
 
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiNews} from '@/app/features/api/types'
+import {TApiNews} from '@/app/features/api'
 
 type TNewsItemProps = TApiNews
 

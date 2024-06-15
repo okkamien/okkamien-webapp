@@ -6,14 +6,15 @@ import {GetServerSideProps, NextPage} from 'next'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {Btn, ImageTile, Tile, TilesList, Title} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiEvent, TApiNews} from '@/app/features/api/types'
 import {
   getApiCollectionResponse,
   getDehydratedState,
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
-} from '@/app/features/api/utils'
+  TApiEvent,
+  TApiNews,
+} from '@/app/features/api'
 import {theme} from '@/app/styles'
 import {mapApiEventToTile, mapApiNewsToTile} from '@/app/utils'
 

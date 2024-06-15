@@ -5,7 +5,6 @@ import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {Tile, TilesList, Title} from '@/app/components/ui'
-import {TApiWorkshop, TApiWorkshopsLandingPage} from '@/app/features/api/types'
 import {
   getApiCollectionResponse,
   getApiSingleResponse,
@@ -13,7 +12,9 @@ import {
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
-} from '@/app/features/api/utils'
+  TApiWorkshop,
+  TApiWorkshopsLandingPage,
+} from '@/app/features/api'
 import {theme} from '@/app/styles'
 import {mapApiWorkshopToTile} from '@/app/utils'
 

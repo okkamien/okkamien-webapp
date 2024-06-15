@@ -1,17 +1,15 @@
 import {QueryKey} from '@tanstack/react-query'
 
-import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
-import {IApiFilters, IApiItem} from '@/app/features/api/types'
-import {IGetApiCollectionResponseParams} from '@/app/features/api/utils'
+import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE, IApiFilters, IGetApiCollectionResponseParams, TApiCommonItem} from '@/app/features/api'
 
-interface IGetQueryKeyParams<T extends IApiItem<unknown>> {
+interface IGetQueryKeyParams<T extends TApiCommonItem> {
   currentPage?: number
   filters?: IApiFilters<T>[]
   pageSize?: number
   payload: IGetApiCollectionResponseParams<T>
 }
 
-export const getQueryKey = <T extends IApiItem<unknown>>({
+export const getQueryKey = <T extends TApiCommonItem>({
   filters,
   currentPage = DEFAULT_PAGE,
   pageSize = DEFAULT_PAGE_SIZE,

@@ -1,8 +1,7 @@
 import axios from 'axios'
 import {IncomingMessage} from 'http'
 
-import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
-import {IApiFilters, TApiCommonItem, TApiItemKey, TApiParsedFilters, TStrapiSearchOperator} from '@/app/features/api/types'
+import {DEFAULT_PAGE_SIZE, IApiFilters, TApiCommonItem, TApiItemKey, TApiParsedFilters, TStrapiSearchOperator} from '@/app/features/api'
 
 interface INestedRecord<T> {
   [key: string]: T | INestedRecord<T>

@@ -114,9 +114,9 @@ export type TApiFacilitiesLandingPage = IApiItem<{
 
 export type TApiCommonItem = IApiItem<unknown>
 
-export type TApiItemKey<T extends IApiItem<unknown>> = ExtractKeys<T['attributes']> | 'id'
+export type TApiItemKey<T extends TApiCommonItem> = ExtractKeys<T['attributes']> | 'id'
 
-export interface IApiFilters<T extends IApiItem<unknown>> {
+export interface IApiFilters<T extends TApiCommonItem> {
   key: TApiItemKey<T>
   operator?: TStrapiFilterOperator
   path?: string[]
@@ -124,7 +124,7 @@ export interface IApiFilters<T extends IApiItem<unknown>> {
   value: string[]
 }
 
-export type TApiParsedFilters<T extends IApiItem<unknown>> = {
+export type TApiParsedFilters<T extends TApiCommonItem> = {
   [type in `$${TStrapiFilterType}`]?: {
     [key in TApiItemKey<T>]?: {
       [operator in `$${TStrapiFilterOperator}`]?: string[] | number[]

@@ -3,8 +3,14 @@ import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {ISelectOption, Tile, TilesList, Title} from '@/app/components/ui'
-import {TApiEvent, TApiLocation} from '@/app/features/api/types'
-import {getApiCollectionResponse, getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {
+  getApiCollectionResponse,
+  getDehydratedState,
+  IGetApiCollectionResponseParams,
+  IPageWithPayload,
+  TApiEvent,
+  TApiLocation,
+} from '@/app/features/api'
 import {DynamicContent} from '@/app/features/dynamic-content'
 import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'

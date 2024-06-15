@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 import {ITileProps} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiEvent} from '@/app/features/api/types'
+import {TApiEvent} from '@/app/features/api'
 import {getStrapiMediaUrl} from '@/app/utils'
 
 export const mapApiEventToTile = ({attributes: {from, location, slug, teaser, thumbnail, title, to}}: TApiEvent): ITileProps => {

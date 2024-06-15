@@ -3,7 +3,7 @@ import {Box, Button} from '@effortless-ui'
 import dayjs from 'dayjs'
 
 import {Datepicker, ISelectProps, Select, Tag} from '@/app/components/ui'
-import {IApiFilters, TApiCommonItem, TApiItemKey} from '@/app/features/api/types'
+import {IApiFilters, TApiCommonItem, TApiItemKey} from '@/app/features/api'
 import {ISelectedFilter} from '@/app/features/dynamic-content'
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'

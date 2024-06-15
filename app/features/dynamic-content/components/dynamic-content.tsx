@@ -3,9 +3,15 @@ import {Box} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 
 import {Pagination} from '@/app/components/ui'
-import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
-import {IApiFilters, TApiCommonItem} from '@/app/features/api/types'
-import {getApiCollectionResponse, getQueryKey, IGetApiCollectionResponseParams} from '@/app/features/api/utils'
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_SIZE,
+  getApiCollectionResponse,
+  getQueryKey,
+  IApiFilters,
+  IGetApiCollectionResponseParams,
+  TApiCommonItem,
+} from '@/app/features/api'
 import {DynamicContentEmptyState, DynamicContentFilters, IDynamicContentFiltersProps} from '@/app/features/dynamic-content'
 import {theme} from '@/app/styles'
 

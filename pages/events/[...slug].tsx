@@ -5,14 +5,14 @@ import {GetServerSideProps, NextPage} from 'next'
 import {EventsItem} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiEvent} from '@/app/features/api/types'
 import {
   getApiCollectionResponse,
   getDehydratedState,
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
-} from '@/app/features/api/utils'
+  TApiEvent,
+} from '@/app/features/api'
 
 const Page: NextPage<IPageWithPayload<[TApiEvent]>> = ({payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({

@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiEvent} from '@/app/features/api/types'
+import {TApiEvent} from '@/app/features/api'
 import {getFormattedDateRange} from '@/app/utils'
 
 type TEventsItemProps = TApiEvent

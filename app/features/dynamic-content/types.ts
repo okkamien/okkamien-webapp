@@ -1,4 +1,4 @@
-import {IApiFilters, TApiCommonItem} from '@/app/features/api/types'
+import {IApiFilters, TApiCommonItem} from '@/app/features/api'
 
 export * from './components/dynamic-content'
 
