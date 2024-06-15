@@ -1,20 +1,15 @@
 import axios from 'axios'
 import {IncomingMessage} from 'http'
 
-import {DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
-import {IApiItem, TStrapiFilterOperator, TStrapiSearchOperator} from '@/app/features/api/types'
+import {DEFAULT_PAGE_SIZE, IApiFilters, TApiCommonItem, TApiItemKey, TApiParsedFilters, TStrapiSearchOperator} from '@/app/features/api'
 
 interface INestedRecord<T> {
   [key: string]: T | INestedRecord<T>
 }
 
-type TGetApiResponseFilter = [string[] | number[], TStrapiFilterOperator, string[]?]
-
-export type TGetApiResponseFilters<T extends IApiItem<unknown>> = {[key in keyof T['attributes'] | 'id']?: TGetApiResponseFilter}
-
-export interface IGetApiCollectionResponseParams<T extends IApiItem<unknown>> {
+export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
   endpoint: string
-  filters?: TGetApiResponseFilters<T>
+  filters?: IApiFilters<T>[]
   pagination?: {
     limit?: number
     page?: number
@@ -22,10 +17,10 @@ export interface IGetApiCollectionResponseParams<T extends IApiItem<unknown>> {
   }
   populate?: (keyof T['attributes'])[]
   req?: IncomingMessage
-  sort?: [keyof T['attributes'] | 'id', TStrapiSearchOperator?][]
+  sort?: [TApiItemKey<T>, TStrapiSearchOperator?][]
 }
 
-export interface IGetApiSingleResponseParams<T extends IApiItem<unknown>> {
+export interface IGetApiSingleResponseParams<T extends TApiCommonItem> {
   endpoint: string
   populate?: (keyof T['attributes'])[]
   req?: IncomingMessage
@@ -49,13 +44,13 @@ export interface IGetApiSingleResponseSuccessResponse<T> extends IGetApiResponse
   data: T
 }
 
-export interface IPageWithPayload<T extends IApiItem<unknown>[]> {
+export interface IPageWithPayload<T extends TApiCommonItem[]> {
   payloads: {[P in keyof T]: IGetApiCollectionResponseParams<T[P]>}
 }
 
-export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
+export const getApiCollectionResponse = async <T extends TApiCommonItem>({
   endpoint,
-  filters = {},
+  filters = [],
   pagination = {pageSize: DEFAULT_PAGE_SIZE},
   populate = [],
   req,
@@ -64,14 +59,20 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
-      filters: Object.entries(filters).reduce((total, [key, [value, operator, nested = []]]: [string, TGetApiResponseFilter]) => {
-        return {
+      filters: filters.reduce<TApiParsedFilters<T>>(
+        (total, {key, operator, path = [], type = 'and', value}) => ({
           ...total,
-          [key]: nested.reduce<INestedRecord<typeof value>>((nestedRecord, nestedKey) => ({[nestedKey]: nestedRecord}), {
-            [`$${operator}`]: value,
-          }),
-        }
-      }, {}),
+          [`$${type}`]: [
+            ...(total[`$${type}`] ?? []),
+            {
+              [key]: path.reverse().reduce<INestedRecord<typeof value>>((_total, _key) => ({[_key]: _total}), {
+                [`$${operator}`]: value,
+              }),
+            },
+          ],
+        }),
+        {},
+      ),
       pagination,
       populate,
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
@@ -86,7 +87,7 @@ export const getApiCollectionResponse = async <T extends IApiItem<unknown>>({
   return response.data
 }
 
-export const getApiSingleResponse = async <T extends IApiItem<unknown>>({
+export const getApiSingleResponse = async <T extends TApiCommonItem>({
   endpoint,
   populate = [],
   req,
