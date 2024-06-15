@@ -17,10 +17,11 @@ import {
   TApiWorkshop,
 } from '@/app/features/api'
 import {theme} from '@/app/styles'
+import {sortByIdList} from '@/app/utils'
 import {FacilityItemView} from '@/app/views'
 
 interface IWorkshopPageProps {
-  ids: number[]
+  ids: string[]
   intro: string
 }
 
@@ -38,7 +39,7 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
         <TilesList
           cols={1}
           tiles={data.data
-            .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+            .sort((a, b) => sortByIdList(ids, a, b))
             .map((facility, i) => (
               <FacilityItemView key={i} {...facility} />
             ))}

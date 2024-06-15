@@ -16,10 +16,10 @@ import {
   TApiWorkshopsLandingPage,
 } from '@/app/features/api'
 import {theme} from '@/app/styles'
-import {mapApiWorkshopToTile} from '@/app/utils'
+import {mapApiWorkshopToTile, sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
-  ids: number[]
+  ids: string[]
   intro: string
 }
 
@@ -38,7 +38,7 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
           <TilesList
             cols={[1, 2]}
             tiles={data.data
-              .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+              .sort((a, b) => sortByIdList(ids, a, b))
               .slice(0, 2)
               .map((item, i) => (
                 <Tile key={i} {...mapApiWorkshopToTile(item)} />
@@ -47,7 +47,7 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
           />
           <TilesList
             tiles={data.data
-              .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+              .sort((a, b) => sortByIdList(ids, a, b))
               .slice(2)
               .map((item, i) => (
                 <Tile key={i} {...mapApiWorkshopToTile(item)} />

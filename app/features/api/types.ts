@@ -94,6 +94,14 @@ export type TApiFacility = IApiItem<{
   thumbnail: IApiImage
 }>
 
+export type TApiHomePage = IApiItem<{
+  events?: {
+    data: {
+      id: number
+    }[]
+  }
+}>
+
 export type TApiWorkshopsLandingPage = IApiItem<{
   intro: string
   workshops?: {

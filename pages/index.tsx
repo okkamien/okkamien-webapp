@@ -8,17 +8,24 @@ import {Btn, ImageTile, Tile, TilesList, Title} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {
   getApiCollectionResponse,
+  getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiEvent,
+  TApiHomePage,
   TApiNews,
 } from '@/app/features/api'
 import {theme} from '@/app/styles'
-import {mapApiEventToTile, mapApiNewsToTile} from '@/app/utils'
+import {mapApiEventToTile, mapApiNewsToTile, sortByIdList} from '@/app/utils'
 
-const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [newsPayload, eventsPayload]}) => {
+interface IHomePageProps {
+  ids: string[]
+  intro: string
+}
+
+const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> = ({ids, payloads: [newsPayload, eventsPayload]}) => {
   const {data: newsData, isSuccess: isNewsDataSuccess} = useQuery({
     queryKey: getQueryKey({payload: newsPayload}),
     queryFn: () => getApiCollectionResponse(newsPayload),
@@ -34,9 +41,11 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
         <Box cs={{label: 'Events-section', mb: [theme.spacing.xxxl, theme.spacing.xxxxl]}}>
           <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Wydarzenia</Title>
           <TilesList
-            tiles={eventsData.data.map((item, i) => (
-              <Tile key={i} {...mapApiEventToTile(item)} />
-            ))}
+            tiles={eventsData.data
+              .sort((a, b) => sortByIdList(ids, a, b))
+              .map((item, i) => (
+                <Tile key={i} {...mapApiEventToTile(item)} />
+              ))}
           />
           <Btn link={siteMap.events} dark cs={{width: ['100%', 'auto'], mt: [theme.spacing.l, theme.spacing.xxl]}}>
             Sprawdź wszystkie wydarzenia
@@ -77,20 +86,25 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]>> = ({payloads: [new
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
+  const {
+    data: {
+      attributes: {events},
+    },
+  } = await getApiSingleResponse<TApiHomePage>({
+    req,
+    endpoint: 'home-page',
+    populate: ['events'],
+  })
+  const ids = events?.data.map(({id}) => id.toString()) ?? []
+
   const payloads: [IGetApiCollectionResponseParams<TApiNews>, IGetApiCollectionResponseParams<TApiEvent>] = [
     {endpoint: 'news', pagination: {limit: 2}, sort: [['id', 'desc']]},
-    {
-      endpoint: 'events',
-      filters: [{key: 'from', value: [new Date().toISOString()], operator: 'gte'}],
-      pagination: {limit: 3},
-      populate: ['location', 'thumbnail'],
-      sort: [['from']],
-    },
+    {endpoint: 'events', filters: [{key: 'id', value: ids, operator: 'containsi'}], populate: ['location', 'thumbnail']},
   ]
   const {dehydratedState} = await getDehydratedState<TApiNews & TApiEvent>({payloads, req})
 
   return {
-    props: {dehydratedState, payloads},
+    props: {ids, dehydratedState, payloads},
   }
 }
 
