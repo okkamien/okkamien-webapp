@@ -68,10 +68,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     endpoint: 'workshops-landing-page',
     populate: ['workshops'],
   })
-  const ids = workshops?.data.map(({id}) => id) ?? []
+  const ids = workshops?.data.map(({id}) => id.toString()) ?? []
 
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
-    {endpoint: 'workshops', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
+    {endpoint: 'workshops', filters: [{key: 'id', value: ids, operator: 'containsi'}], populate: ['thumbnail']},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 

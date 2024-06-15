@@ -2,9 +2,10 @@ import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
-import {ISelectOption, PaginatedContent, Tile, TilesList, Title} from '@/app/components/ui'
+import {ISelectOption, Tile, TilesList, Title} from '@/app/components/ui'
 import {TApiEvent, TApiLocation} from '@/app/features/api/types'
 import {getApiCollectionResponse, getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload} from '@/app/features/api/utils'
+import {DynamicContent} from '@/app/features/dynamic-content'
 import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiEventToTile} from '@/app/utils'
@@ -21,7 +22,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Wydarzenia
       </Title>
-      <PaginatedContent
+      <DynamicContent
         payload={payload}
         filters={[
           {
@@ -50,7 +51,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
             ))}
           />
         )}
-      </PaginatedContent>
+      </DynamicContent>
     </MasterPage>
   )
 }
