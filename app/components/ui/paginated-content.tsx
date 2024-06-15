@@ -5,38 +5,35 @@ import dayjs from 'dayjs'
 
 import {Datepicker, ISelectProps, Pagination, Select, Tag} from '@/app/components/ui'
 import {DEFAULT_PAGE, DEFAULT_PAGE_SIZE} from '@/app/features/api/constants'
-import {IApiItem, TStrapiFilterOperator} from '@/app/features/api/types'
-import {getApiCollectionResponse, getQueryKey, IGetApiCollectionResponseParams, TGetApiResponseFilters} from '@/app/features/api/utils'
+import {IApiFilters, TApiCommonItem, TApiItemKey} from '@/app/features/api/types'
+import {getApiCollectionResponse, getQueryKey, IGetApiCollectionResponseParams} from '@/app/features/api/utils'
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'
 
 const DEFAULT_EMPTY_STATE = <Text>Brak elementów kolekcji dla określnych parametrów</Text>
 
-type TFilterPath<T extends IApiItem<unknown>> = [keyof T['attributes'], ...string[]]
-
-interface ISelectedFilter<T extends IApiItem<unknown>> {
+interface ISelectedFilter<T extends TApiCommonItem> {
+  filters: IApiFilters<T>[]
   label: string
-  operator: TStrapiFilterOperator
-  path: TFilterPath<T>
-  value: string | string[]
 }
 
 interface IPaginatedContentFiltersSelect {
   type: 'select'
   options: Omit<ISelectProps, 'onChange' | 'value'>
 }
-interface IPaginatedContentFiltersDateRange<T extends IApiItem<unknown>> {
+interface IPaginatedContentFiltersDateRange<T extends TApiCommonItem> {
   type: 'datepicker'
   options: {
-    endRangePath: TFilterPath<T>
+    endKey?: TApiItemKey<T>
   }
 }
 
-interface IPaginatedContentProps<T extends IApiItem<unknown>> {
+interface IPaginatedContentProps<T extends TApiCommonItem> {
   children(data: T[]): ReactElement
   emptyState?: ReactNode
   filters?: ((IPaginatedContentFiltersSelect | IPaginatedContentFiltersDateRange<T>) & {
-    path: TFilterPath<T>
+    key: TApiItemKey<T>
+    path?: string[]
   })[]
   page?: number
   pageSize?: number
@@ -44,7 +41,7 @@ interface IPaginatedContentProps<T extends IApiItem<unknown>> {
   scrollToElement?: HTMLElement
 }
 
-export const PaginatedContent = <T extends IApiItem<unknown>>({
+export const PaginatedContent = <T extends TApiCommonItem>({
   children,
   emptyState = DEFAULT_EMPTY_STATE,
   filters,
@@ -59,15 +56,19 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
   const [selectedFiltersList, setSelectedFiltersList] = useState<ISelectedFilter<T>[]>([])
   const selectedFilters = useMemo(
     () =>
-      selectedFiltersList.reduce<TGetApiResponseFilters<T>>(
-        (total, {operator, path: [name, ...nested], value}) => ({
-          ...total,
-          ...(total[name]
-            ? {[name]: [[...(total[name]?.[0] ?? []), ...(Array.isArray(value) ? value : [value])], operator, nested]}
-            : {[name]: [Array.isArray(value) ? value : [value], operator, nested]}),
-        }),
-        {},
-      ),
+      selectedFiltersList
+        .flatMap(({filters: _filters}) => [..._filters])
+        .reduce<IApiFilters<T>[]>(
+          (total, current) =>
+            total.filter((item) => current.key === item.key && current.operator === item.operator).length
+              ? total.map((item) =>
+                  current.key === item.key && current.operator === item.operator
+                    ? {...item, value: [...item.value, ...current.value]}
+                    : item,
+                )
+              : [...total, current],
+          [],
+        ),
     [selectedFiltersList],
   )
 
@@ -80,10 +81,7 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
           page: currentPage,
           pageSize,
         },
-        filters: {
-          ...payload.filters,
-          ...selectedFilters,
-        },
+        filters: [...(payload.filters ?? []), ...selectedFilters],
       }),
   })
 
@@ -112,23 +110,21 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                   zIndex: '2',
                 }}
               >
-                {filters.map(({options, path: [name, ...nested], type}, i) => {
+                {filters.map(({key, options, path = [], type}, i) => {
                   switch (type) {
                     case 'select': {
                       return (
                         <Select
                           key={i}
                           {...options}
-                          value={selectedFilters[name]?.[0].map((item) => String(item))}
+                          value={selectedFilters.filter(({key: _key}) => key === _key).flatMap(({value}) => value)}
                           onChange={(_, {selectedLabel, selectedValue}) =>
                             setSelectedFiltersList((_selectedFiltersList) =>
-                              _selectedFiltersList.find(({path: [_name], value}) => name === _name && value === selectedValue)
-                                ? _selectedFiltersList.filter(
-                                    ({path: [_name], value}) => name !== _name || (name === _name && value !== selectedValue),
-                                  )
+                              _selectedFiltersList.map(({label}) => label).includes(selectedLabel)
+                                ? _selectedFiltersList.filter(({label}) => label !== selectedLabel)
                                 : [
                                     ..._selectedFiltersList,
-                                    {path: [name, ...nested], operator: 'eq', label: selectedLabel, value: selectedValue},
+                                    {filters: [{key, operator: 'in', path, type: 'and', value: [selectedValue]}], label: selectedLabel},
                                   ],
                             )
                           }
@@ -136,24 +132,33 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                       )
                     }
                     case 'datepicker': {
-                      const range = selectedFilters[name]?.[0].map((item) => new Date(item)).slice(0, 2)
+                      const range = selectedFilters
+                        .filter(({key: _key}) => key === _key || options.endKey === _key)
+                        .flatMap(({value}) => value)
+                        .map((value) => new Date(value))
+                        .slice(0, 2)
 
                       return (
-                        // @ts-expect-error
                         <Datepicker
                           key={i}
                           onChange={([from, to]) => {
+                            const fromFormatted = dayjs(from).format('YYYY-MM-DD')
+                            const toFormatted = dayjs(to).format('YYYY-MM-DD')
+
                             setSelectedFiltersList((_selectedFiltersList) => [
-                              ..._selectedFiltersList.filter(({path: [_name]}) => _name !== name),
+                              ..._selectedFiltersList.filter(({filters: _filters}) => _filters.every(({key: _key}) => key !== _key)),
                               {
-                                path: [name, ...nested],
-                                operator: 'between',
+                                filters: options.endKey
+                                  ? [
+                                      {key, operator: 'lte', path, type: 'and', value: [toFormatted]},
+                                      {key: options.endKey, operator: 'gte', path, type: 'and', value: [fromFormatted]},
+                                    ]
+                                  : [{key, operator: 'between', path, type: 'and', value: [fromFormatted, toFormatted]}],
                                 label: getFormattedDateRange(dayjs(from), dayjs(to)),
-                                value: [from.toISOString(), to.toISOString()],
                               },
                             ])
                           }}
-                          {...(range && {value: range})}
+                          {...(range.length && {value: (options.endKey ? range.reverse() : range) as [Date, Date]})}
                         />
                       )
                     }
@@ -184,8 +189,8 @@ export const PaginatedContent = <T extends IApiItem<unknown>>({
                     composition={['semanticList']}
                     cs={{display: 'flex', flexWrap: 'wrap', rowGap: theme.spacing.xs, columnGap: theme.spacing.s}}
                   >
-                    {selectedFiltersList.map(({label, path: [name], value}, i) => (
-                      <Box key={`${String(name)}-${value}`} tag="li">
+                    {selectedFiltersList.map(({label, filters: _filters}, i) => (
+                      <Box key={_filters.map(({key, type, value}) => `${type}-${key}-${value}`).join('-')} tag="li">
                         <Tag
                           close
                           icon={false}

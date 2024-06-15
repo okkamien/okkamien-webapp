@@ -72,7 +72,7 @@ const reactCalendarStyles: CSObject = {
       borderColor: theme.color.primary,
     },
   },
-  '.react-calendar__tile--active, .react-calendar--selectRange .react-calendar__tile--hover': {
+  '.react-calendar__tile--active, .react-calendar__tile--range, .react-calendar__tile--hasActive, .react-calendar__tile--hover': {
     color: theme.color.white,
     borderColor: theme.color.text,
     backgroundColor: theme.color.text,
@@ -80,6 +80,9 @@ const reactCalendarStyles: CSObject = {
       color: theme.color.white,
       borderColor: theme.color.text,
     },
+  },
+  '.react-calendar__tile--hasActive': {
+    borderRadius: theme.radii.s,
   },
   '.react-calendar__tile--range, .react-calendar__tile--hover': {
     borderRadius: 0,

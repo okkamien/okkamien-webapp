@@ -26,7 +26,8 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
         filters={[
           {
             type: 'select',
-            path: ['location', 'id'],
+            key: 'location',
+            path: ['id'],
             options: {
               label: 'Lokalizacja',
               options: locations,
@@ -34,9 +35,9 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
           },
           {
             type: 'datepicker',
-            path: ['from'],
+            key: 'from',
             options: {
-              endRangePath: ['from'],
+              endKey: 'to',
             },
           },
         ]}
@@ -55,10 +56,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const {data} = await getApiCollectionResponse<TApiLocation>({
-    req,
-    endpoint: 'locations',
-  })
+  const {data} = await getApiCollectionResponse<TApiLocation>({req, endpoint: 'locations'})
   const locations: ISelectOption[] = data.map(({attributes: {name}, id}) => ({label: name, value: id.toString()}))
 
   const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [
