@@ -82,8 +82,10 @@ export const DynamicContent = <T extends TApiCommonItem>({
                 cs={{mt: theme.spacing.l}}
               />
             </>
-          ) : (
+          ) : typeof emptyState === 'string' ? (
             <DynamicContentEmptyState>{emptyState}</DynamicContentEmptyState>
+          ) : (
+            emptyState
           )}
         </>
       )}
