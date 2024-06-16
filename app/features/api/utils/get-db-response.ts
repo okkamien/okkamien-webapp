@@ -60,7 +60,7 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
       filters: filters.reduce<TApiParsedFilters<T>>(
-        (total, {key, operator, path = [], type = 'and', value}) => ({
+        (total, {key, operator = 'eq', path = [], type = 'and', value}) => ({
           ...total,
           [`$${type}`]: [
             ...(total[`$${type}`] ?? []),

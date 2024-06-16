@@ -21,13 +21,23 @@ export interface IBreadcrumbsProps extends PropsWithCS {
 
 export const BreadcrumbsLink: FC<IBreadcrumbsLinkProps> = ({isActive, label, link}) => {
   return (
-    <Box tag="li" cs={{'&:not(:first-of-type)::before': {content: '"/"', mx: theme.spacing.s, color: theme.color.inactive}}}>
+    <Box
+      tag="li"
+      cs={{
+        fontSize: theme.font.size.small,
+        fontWeight: 300,
+        '&:not(:first-of-type)::before': {
+          content: '"/"',
+          mx: theme.spacing.xs,
+          color: theme.color.inactive,
+        },
+      }}
+    >
       <Link href={link} legacyBehavior passHref>
         <Anchor
           cs={{
             color: isActive ? theme.color.overlay : theme.color.inactive,
             textDecoration: 'none',
-            fontWeight: 300,
             whiteSpace: 'nowrap',
             '&:hover': {
               color: theme.color.primary,

@@ -1,3 +1,5 @@
+import {BlocksContent} from '@strapi/blocks-react-renderer'
+
 import {ExtractKeys} from '@/app/utils'
 
 export type TStrapiFilterType = 'and' | 'or'
@@ -60,6 +62,12 @@ export type TApiNews = IApiItem<{
   slug: string
   teaser: string
   title: string
+  poster?: IApiImage
+  textContent?: {
+    id: number
+    title: string
+    content: BlocksContent
+  }[]
 }>
 
 export type TApiEvent = IApiItem<{

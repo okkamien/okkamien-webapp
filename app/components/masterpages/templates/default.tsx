@@ -33,9 +33,10 @@ export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadc
             {...breadcrumbs}
             cs={{
               position: 'absolute',
-              top: -theme.spacing.xxl,
+              top: -theme.spacing.xl,
               right: theme.gap,
               left: theme.gap,
+              mt: -theme.spacing.s,
             }}
           />
         )}
