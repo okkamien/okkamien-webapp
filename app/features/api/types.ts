@@ -36,8 +36,11 @@ export interface IApiItem<T> {
   } & T
 }
 
-interface IApiRelation<T> {
+interface IApiRelationSingle<T> {
   data: T
+}
+interface IApiRelationMultiple<T> {
+  data: T[]
 }
 
 interface IApiImage {
@@ -69,7 +72,7 @@ interface TApiDetailsSectionWhen {
 }
 interface TApiDetailsSectionWhere {
   __component: 'details-block.where'
-  location: IApiRelation<TApiLocation>
+  location: IApiRelationSingle<TApiLocation>
 
   from?: never
   label?: never
@@ -90,24 +93,10 @@ export type TApiDetailsSection = (TApiDetailsSectionWhen | TApiDetailsSectionWhe
   id: number
 }
 
-export type TApiNews = IApiItem<{
-  content: string
-  detailsSection?: TApiDetailsSection[]
-  slug: string
-  teaser: string
-  textContent?: {
-    id: number
-    title: string
-    content: BlocksContent
-  }[]
-  title: string
-  poster?: IApiImage
-}>
-
 export type TApiEvent = IApiItem<{
   description: string
   from: string
-  location: IApiRelation<TApiLocation>
+  location: IApiRelationSingle<TApiLocation>
   slug: string
   teaser: string
   thumbnail?: IApiImage
@@ -122,6 +111,21 @@ export type TApiWorkshop = IApiItem<{
   slug: string
   teaser: string
   thumbnail?: IApiImage
+}>
+
+export type TApiNews = IApiItem<{
+  content: string
+  detailsSection: TApiDetailsSection[]
+  events: IApiRelationMultiple<TApiEvent>
+  slug: string
+  teaser: string
+  textContent?: {
+    id: number
+    title: string
+    content: BlocksContent
+  }[]
+  title: string
+  poster?: IApiImage
 }>
 
 export type TApiFacility = IApiItem<{

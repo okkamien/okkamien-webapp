@@ -1,15 +1,15 @@
 import React, {FC} from 'react'
-import {Box} from '@effortless-ui'
+import {Box, Text} from '@effortless-ui'
 import Image from 'next/image'
 
-import {DetailsSection, TextContent, TwoColumns} from '@/app/components/ui'
+import {DetailsSection, TextContent, Tile, TilesSlider, TwoColumns} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api'
 import {theme} from '@/app/styles'
-import {getStrapiMediaUrl} from '@/app/utils'
+import {getStrapiMediaUrl, mapApiEventToTile} from '@/app/utils'
 
 type TNewsItemProps = TApiNews
 
-export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, poster, textContent, title}}) => {
+export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, events, poster, textContent, title}}) => {
   return (
     <TwoColumns title={title}>
       {poster?.data && (
@@ -23,8 +23,20 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, poste
           />
         </Box>
       )}
-      {detailsSection && <DetailsSection blocks={detailsSection} />}
+      {detailsSection.length > 0 && <DetailsSection blocks={detailsSection} />}
       {textContent?.map((item, i) => <TextContent key={i} {...item} />)}
+      {events.data.length > 0 && (
+        <Box id="news-event-section" cs={{scrollMarginTop: theme.spacing.l}}>
+          <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
+            Planowane wydarzenia
+          </Text>
+          <TilesSlider
+            tiles={events.data.map((item, i) => (
+              <Tile key={i} {...mapApiEventToTile(item)} />
+            ))}
+          />
+        </Box>
+      )}
     </TwoColumns>
   )
 }
