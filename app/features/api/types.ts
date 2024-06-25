@@ -43,7 +43,7 @@ interface IApiRelationMultiple<T> {
   data: T[]
 }
 
-interface IApiImage {
+export interface IApiImage {
   data: {
     id: number
     attributes: {
@@ -54,6 +54,17 @@ interface IApiImage {
       width: number
     }
   }
+}
+
+export interface IApiFiles {
+  data: {
+    id: number
+    attributes: {
+      name: string
+      size: number
+      url: string
+    }
+  }[]
 }
 
 export type TApiLocation = IApiItem<{
@@ -117,6 +128,7 @@ export type TApiNews = IApiItem<{
   content: string
   detailsSection: TApiDetailsSection[]
   events: IApiRelationMultiple<TApiEvent>
+  files: IApiFiles
   slug: string
   teaser: string
   textContent?: {

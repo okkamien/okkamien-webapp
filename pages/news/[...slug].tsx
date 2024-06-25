@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
     {
       endpoint: 'news',
       filters: [{key: 'slug', value: [slug]}],
-      populate: [['detailsSection', ['location']], ['events', ['location', 'thumbnail']], ['poster'], ['textContent']],
+      populate: [['detailsSection', ['location']], ['events', ['location', 'thumbnail']], ['files'], ['poster'], ['textContent']],
     },
   ]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})

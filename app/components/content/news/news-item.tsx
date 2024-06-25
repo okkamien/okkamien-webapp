@@ -2,14 +2,14 @@ import React, {FC} from 'react'
 import {Box, Text} from '@effortless-ui'
 import Image from 'next/image'
 
-import {DetailsSection, TextContent, Tile, TilesSlider, TwoColumns} from '@/app/components/ui'
+import {DetailsSection, FilesToDownload, TextContent, Tile, TilesSlider, TwoColumns} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api'
 import {theme} from '@/app/styles'
 import {getStrapiMediaUrl, mapApiEventToTile} from '@/app/utils'
 
 type TNewsItemProps = TApiNews
 
-export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, events, poster, textContent, title}}) => {
+export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, events, files, poster, textContent, title}}) => {
   return (
     <TwoColumns title={title}>
       {poster?.data && (
@@ -35,6 +35,14 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
               <Tile key={i} {...mapApiEventToTile(item)} />
             ))}
           />
+        </Box>
+      )}
+      {files.data.length > 0 && (
+        <Box>
+          <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
+            Dokumenty do pobrania
+          </Text>
+          <FilesToDownload files={files.data} />
         </Box>
       )}
     </TwoColumns>
