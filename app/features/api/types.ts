@@ -54,20 +54,54 @@ interface IApiImage {
 }
 
 export type TApiLocation = IApiItem<{
+  address?: string
   name: string
 }>
 
+interface TApiDetailsSectionWhen {
+  __component: 'details-block.when'
+  from: string
+  to: string
+  time?: string
+
+  label?: never
+  location?: never
+}
+interface TApiDetailsSectionWhere {
+  __component: 'details-block.where'
+  location: IApiRelation<TApiLocation>
+
+  from?: never
+  label?: never
+  time?: never
+  to?: never
+}
+interface TApiDetailsSectionAnchor {
+  __component: 'details-block.sign-up-anchor'
+  label: string
+
+  from?: never
+  location?: never
+  time?: never
+  to?: never
+}
+
+export type TApiDetailsSection = (TApiDetailsSectionWhen | TApiDetailsSectionWhere | TApiDetailsSectionAnchor) & {
+  id: number
+}
+
 export type TApiNews = IApiItem<{
   content: string
+  detailsSection?: TApiDetailsSection[]
   slug: string
   teaser: string
-  title: string
-  poster?: IApiImage
   textContent?: {
     id: number
     title: string
     content: BlocksContent
   }[]
+  title: string
+  poster?: IApiImage
 }>
 
 export type TApiEvent = IApiItem<{

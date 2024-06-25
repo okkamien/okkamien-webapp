@@ -15,7 +15,7 @@ export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
     page?: number
     pageSize?: number
   }
-  populate?: (keyof T['attributes'])[]
+  populate?: [keyof T['attributes'], string[]?][]
   req?: IncomingMessage
   sort?: [TApiItemKey<T>, TStrapiSearchOperator?][]
 }
@@ -74,7 +74,10 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
         {},
       ),
       pagination,
-      populate,
+      populate: populate.reduce<INestedRecord<string[]>>(
+        (total, [key, _populate = ['']]) => ({...total, [key]: {populate: _populate}}),
+        {},
+      ),
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },
     ...(req && {

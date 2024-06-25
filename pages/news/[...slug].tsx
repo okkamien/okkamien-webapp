@@ -32,13 +32,13 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [
-    {endpoint: 'news', filters: [{key: 'slug', value: [slug]}], populate: ['textContent', 'poster']},
+    {endpoint: 'news', filters: [{key: 'slug', value: [slug]}], populate: [['textContent'], ['poster'], ['detailsSection', ['location']]]},
   ]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})
 
   return hasData
     ? {
-        props: {payloads},
+        props: {dehydratedState, payloads},
       }
     : {
         notFound: true,
