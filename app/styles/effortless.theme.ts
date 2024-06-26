@@ -71,7 +71,7 @@ export const effortlessTheme: EffortlessTheme = {
       ...headers,
     },
     Button: {
-      paginationArrow: {
+      solid: {
         ...pagination,
         '&:enabled': {
           cursor: 'pointer',

@@ -54,7 +54,7 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
         </Box>
       </Box>
       <Button
-        variant="paginationArrow"
+        variant="solid"
         cs={{
           position: 'absolute',
           top: '42%',
@@ -68,7 +68,7 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
         <IconChevronLeft size={20} stroke={1.5} />
       </Button>
       <Button
-        variant="paginationArrow"
+        variant="solid"
         cs={{
           position: 'absolute',
           top: '42%',

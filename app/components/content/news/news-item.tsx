@@ -37,20 +37,20 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
           />
         </Box>
       )}
-      {files.data && (
-        <Box>
-          <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
-            Dokumenty do pobrania
-          </Text>
-          <FilesToDownload files={files.data} />
-        </Box>
-      )}
       {gallery.data && (
         <Box>
           <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
             Galeria zdjęć
           </Text>
           <Gallery images={gallery.data} />
+        </Box>
+      )}
+      {files.data && (
+        <Box>
+          <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
+            Dokumenty do pobrania
+          </Text>
+          <FilesToDownload files={files.data} />
         </Box>
       )}
     </TwoColumns>

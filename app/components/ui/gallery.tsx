@@ -1,6 +1,6 @@
-import React, {FC, ReactNode, useCallback, useEffect, useState} from 'react'
-import {Box, Button, PropsWithCS, Text} from '@effortless-ui'
-import {IconChevronLeft, IconChevronRight} from '@tabler/icons-react'
+import React, {FC, useCallback, useEffect, useState} from 'react'
+import {Box, Button} from '@effortless-ui'
+import {IconArrowsDiagonal2, IconChevronLeft, IconChevronRight, IconX} from '@tabler/icons-react'
 import AutoHeight from 'embla-carousel-auto-height'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
@@ -18,6 +18,7 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
   const {screenWidth} = useScreenSize()
   const isMobile = screenWidth <= theme.breakpoints[0]
   const mainSlidesToScroll = 1
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false)
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(
     {
       align: 'start',
@@ -28,6 +29,7 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
     [AutoHeight()],
   )
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
+    axis: isFullScreen ? 'y' : 'x',
     containScroll: 'keepSnaps',
     dragFree: true,
   })
@@ -58,49 +60,134 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
   }
 
   emblaMainApi?.on('select', () => updateSliderUI())
-  useEffect(() => updateSliderUI(), [isMobile])
+  useEffect(() => updateSliderUI(), [isMobile, isFullScreen])
 
   return (
-    <Box cs={{position: 'relative'}}>
-      <Box ref={emblaMainRef} cs={{overflow: 'hidden'}}>
-        <Box
-          tag="ul"
-          composition={['semanticList']}
-          cs={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            backfaceVisibility: 'hidden',
-            touchAction: 'pan-y',
-            transition: 'height 200ms',
-          }}
+    <Box
+      id="gallery"
+      cs={{
+        position: isFullScreen ? 'fixed' : 'relative',
+        ...(isFullScreen && {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          display: 'flex',
+          flexDirection: 'row-reverse',
+          borderWidth: [0, 0, theme.spacing.xl],
+          borderStyle: 'solid',
+          borderColor: theme.color.text,
+          bg: theme.color.text,
+          zIndex: 9,
+        }),
+      }}
+    >
+      <Box cs={{position: 'relative'}}>
+        <Button
+          variant="solid"
+          cs={{position: 'absolute', top: theme.spacing.ml, right: theme.spacing.ml, bg: theme.color.white, zIndex: 2}}
+          onClick={() => setIsFullScreen(!isFullScreen)}
         >
-          {images?.map(({attributes: {height, name, url, width}}, i) => (
-            <Box
-              key={i}
-              tag="li"
+          {isFullScreen ? <IconX /> : <IconArrowsDiagonal2 />}
+        </Button>
+        {isFullScreen && (
+          <>
+            <Button
+              variant="solid"
               cs={{
-                flex: `0 0 ${100 / mainSlidesToScroll}%`,
-                borderRadius: theme.radii.m,
-                overflow: 'hidden',
-                img: {
-                  width: '100%',
-                },
+                position: 'absolute',
+                bottom: theme.spacing.ml,
+                left: theme.spacing.ml,
+                bg: theme.color.white,
+                opacity: canScrollPrev ? 1 : 0,
+                zIndex: 2,
+                transition: 'opacity 200ms',
               }}
+              onClick={() => emblaMainApi?.scrollPrev()}
             >
-              <Image src={getStrapiMediaUrl(url)} alt={name} width={width} height={height} sizes="100%" />
-            </Box>
-          ))}
+              <IconChevronLeft />
+            </Button>
+            <Button
+              variant="solid"
+              cs={{
+                position: 'absolute',
+                bottom: theme.spacing.ml,
+                right: theme.spacing.ml,
+                bg: theme.color.white,
+                opacity: canScrollNext ? 1 : 0,
+                zIndex: 2,
+                transition: 'opacity 200ms',
+              }}
+              onClick={() => emblaMainApi?.scrollNext()}
+            >
+              <IconChevronRight />
+            </Button>
+          </>
+        )}
+        <Box ref={emblaMainRef} cs={{overflow: 'hidden'}}>
+          <Box
+            tag="ul"
+            composition={['semanticList']}
+            cs={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              backfaceVisibility: 'hidden',
+              touchAction: 'pan-y',
+              transition: 'height 200ms',
+            }}
+          >
+            {images?.map(({attributes: {height, name, url, width}}, i) => (
+              <Box
+                key={i}
+                tag="li"
+                cs={{
+                  position: 'relative',
+                  flex: `0 0 ${100 / mainSlidesToScroll}%`,
+                  borderRadius: isFullScreen ? 0 : theme.radii.m,
+                  overflow: 'hidden',
+                  ...(isFullScreen && {
+                    height: ['100vh', '100vh', `calc(100vh - ${theme.spacing.xl * 2}px)`],
+                  }),
+                  img: {
+                    width: '100%',
+                    ...(isFullScreen && {
+                      height: '100%',
+                      objectFit: 'contain',
+                    }),
+                  },
+                }}
+              >
+                <Image src={getStrapiMediaUrl(url)} alt={name} width={width} height={height} sizes="100%" />
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Box>
-      <Box ref={emblaThumbsRef} cs={{mt: theme.spacing.m, overflow: 'hidden'}}>
+      <Box
+        ref={emblaThumbsRef}
+        cs={{
+          flexShrink: 0,
+          mt: isFullScreen ? 0 : theme.spacing.m,
+          overflow: 'hidden',
+          ...(isFullScreen && {
+            display: ['none', 'none', 'block'],
+            p: theme.spacing.ml,
+            bg: theme.gradient.radialBackground,
+          }),
+        }}
+      >
         <Box
           tag="ul"
           composition={['semanticList']}
           cs={{
             display: 'flex',
+            flexDirection: isFullScreen ? 'column' : 'row',
             gap: theme.spacing.s,
             backfaceVisibility: 'hidden',
             touchAction: 'pan-y',
+            ...(isFullScreen && {
+              height: '100%',
+            }),
           }}
         >
           {images?.map(({attributes: {name, url}}, i) => (
