@@ -12,16 +12,13 @@ interface ITilesSliderProps extends PropsWithCS {
 
 export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
   const {screenWidth} = useScreenSize()
+
   const isMobile = screenWidth <= theme.breakpoints[0]
   const slidesToScroll = isMobile ? 1 : 2
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
-    containScroll: false,
-    slidesToScroll,
-  })
 
   const [canScrollPrev, setCanScrollPrev] = useState<boolean>(false)
   const [canScrollNext, setCanScrollNext] = useState<boolean>(true)
+  const [emblaRef, emblaApi] = useEmblaCarousel({align: 'start', containScroll: false, slidesToScroll})
 
   const updateSliderUI = () => {
     if (emblaApi) {
