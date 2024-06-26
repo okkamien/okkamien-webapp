@@ -26,17 +26,33 @@ const iconProps = {color: theme.color.contentIcon, size: 14, css: {flexShrink: 0
 export const DetailsSection: FC<IDetailsSectionProps> = ({blocks}) => {
   return (
     <Grid
-      cols={[3]}
+      cols={[1, 3]}
       cs={{
         label: 'Details-section',
-        columnGap: theme.spacing.xxxxxl,
-        p: theme.spacing.ml,
+        columnGap: [theme.spacing.l, theme.spacing.l, theme.spacing.xxxl, theme.spacing.xxxxxl],
+        rowGap: theme.spacing.l,
+        px: [theme.spacing.ml, theme.spacing.l],
+        py: theme.spacing.ml,
         bg: theme.color.white,
         borderRadius: theme.radii.m,
       }}
     >
       {blocks.map((block, i) => (
-        <Box key={i}>
+        <Box
+          key={i}
+          cs={{
+            position: 'relative',
+            '&:not(:first-of-type)::before': {
+              content: '""',
+              position: 'absolute',
+              width: ['100%', 1],
+              height: [1, '100%'],
+              top: [-theme.spacing.l / 2, 0],
+              left: [0, -theme.spacing.l / 2, -theme.spacing.xxxl / 2, -theme.spacing.xxxxxl / 2],
+              bg: theme.color.border,
+            },
+          }}
+        >
           <Text tag="h2" variant="h5" cs={{mb: theme.spacing.ms, fontWeight: 300, fontStyle: 'italic'}}>
             {titleMap[block.__component]}
           </Text>

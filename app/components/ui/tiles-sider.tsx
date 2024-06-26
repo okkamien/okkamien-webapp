@@ -1,8 +1,9 @@
-import React, {FC, ReactNode, useState} from 'react'
+import React, {FC, ReactNode, useEffect, useState} from 'react'
 import {Box, Button, PropsWithCS} from '@effortless-ui'
 import {IconChevronLeft, IconChevronRight} from '@tabler/icons-react'
 import useEmblaCarousel from 'embla-carousel-react'
 
+import {useScreenSize} from '@/app/hooks'
 import {theme} from '@/app/styles'
 
 interface ITilesSliderProps extends PropsWithCS {
@@ -10,10 +11,13 @@ interface ITilesSliderProps extends PropsWithCS {
 }
 
 export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
+  const {width} = useScreenSize()
+  const isMobile = width <= theme.breakpoints[0]
+  const slidesToScroll = isMobile ? 1 : 2
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: false,
-    slidesToScroll: 2,
+    slidesToScroll,
   })
 
   const [canScrollPrev, setCanScrollPrev] = useState<boolean>(false)
@@ -22,15 +26,16 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
   const updateSliderUI = () => {
     if (emblaApi) {
       setCanScrollPrev(emblaApi.canScrollPrev())
-      setCanScrollNext(emblaApi.canScrollNext() && tiles.length > 2)
+      setCanScrollNext(emblaApi.canScrollNext() && tiles.length > slidesToScroll)
     }
   }
 
   emblaApi?.on('select', () => updateSliderUI())
+  useEffect(() => updateSliderUI(), [isMobile])
 
   return (
     <Box cs={{position: 'relative'}}>
-      <Box ref={emblaRef} cs={{overflow: 'hidden', ...cs}}>
+      <Box ref={emblaRef} cs={{overflow: ['visible', 'hidden'], ...cs}}>
         <Box
           tag="ul"
           composition={['semanticList']}
@@ -42,7 +47,7 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
           }}
         >
           {tiles.map((tile, i) => (
-            <Box key={i} tag="li" cs={{flex: `0 0 ${100 / 2}%`, pl: theme.gap}}>
+            <Box key={i} tag="li" cs={{flex: `0 0 ${100 / slidesToScroll}%`, pl: theme.gap}}>
               {tile}
             </Box>
           ))}
@@ -53,7 +58,7 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
         cs={{
           position: 'absolute',
           top: '42%',
-          left: -theme.spacing.ms,
+          left: [-theme.spacing.xs, -theme.spacing.ms],
           bg: theme.color.white,
           opacity: canScrollPrev ? 1 : 0,
           transition: 'opacity 200ms',
@@ -67,7 +72,7 @@ export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
         cs={{
           position: 'absolute',
           top: '42%',
-          right: -theme.spacing.ms,
+          right: [-theme.spacing.xs, -theme.spacing.ms],
           bg: theme.color.white,
           opacity: canScrollNext ? 1 : 0,
           transition: 'opacity 200ms',
