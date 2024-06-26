@@ -57,7 +57,7 @@ export interface IApiImage {
 }
 
 export interface IApiFiles {
-  data: {
+  data?: {
     id: number
     attributes: {
       name: string

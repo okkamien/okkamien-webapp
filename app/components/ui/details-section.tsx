@@ -21,7 +21,7 @@ const blockListItemStyles: CSObject = {
   display: 'flex',
   columnGap: theme.spacing.xxs,
 }
-const iconProps = {color: theme.color.contentIcon, size: 14, css: {marginTop: 2}}
+const iconProps = {color: theme.color.contentIcon, size: 14, css: {flexShrink: 0, marginTop: 2}}
 
 export const DetailsSection: FC<IDetailsSectionProps> = ({blocks}) => {
   return (

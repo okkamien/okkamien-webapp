@@ -37,7 +37,7 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
           />
         </Box>
       )}
-      {files.data.length > 0 && (
+      {files.data && (
         <Box>
           <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
             Dokumenty do pobrania
