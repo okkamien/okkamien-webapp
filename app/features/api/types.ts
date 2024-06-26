@@ -56,6 +56,19 @@ export interface IApiImage {
   }
 }
 
+export interface IApiGallery {
+  data?: {
+    id: number
+    attributes: {
+      height: number
+      name: string
+      size: number
+      url: string
+      width: number
+    }
+  }[]
+}
+
 export interface IApiFiles {
   data?: {
     id: number
@@ -127,6 +140,7 @@ export type TApiWorkshop = IApiItem<{
 export type TApiNews = IApiItem<{
   content: string
   detailsSection: TApiDetailsSection[]
+  gallery: IApiGallery
   events: IApiRelationMultiple<TApiEvent>
   files: IApiFiles
   slug: string

@@ -11,8 +11,8 @@ interface ITilesSliderProps extends PropsWithCS {
 }
 
 export const TilesSlider: FC<ITilesSliderProps> = ({cs, tiles}) => {
-  const {width} = useScreenSize()
-  const isMobile = width <= theme.breakpoints[0]
+  const {screenWidth} = useScreenSize()
+  const isMobile = screenWidth <= theme.breakpoints[0]
   const slidesToScroll = isMobile ? 1 : 2
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
