@@ -1,9 +1,9 @@
 import React, {FC} from 'react'
 import {Anchor, Box} from '@effortless-ui'
-import {LinksSection} from 'app/components/layout/componets/footer/LinksSections'
-import {LogoSection} from 'app/components/layout/componets/footer/LogoSection'
 import Link from 'next/link'
 
+import {LinksSection} from '@/app/components/layout/content/footer/LinksSections'
+import {LogoSection} from '@/app/components/layout/content/footer/LogoSection'
 import {siteDomain, siteFoundedYear} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 import {getFormattedRange} from '@/app/utils'

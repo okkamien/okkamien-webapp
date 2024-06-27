@@ -38,7 +38,6 @@ const colors = {
   blueCerulean: '#00a2dd',
   redAlizarinCrimson: '#dc2626',
   greenSalem: '#16a34a',
-  blueEastBay: '#435C7D',
 }
 
 // eslint-disable-next-line new-cap
@@ -64,7 +63,6 @@ export const theme = {
     inactive: colors.greyMid,
     faded: colors.greyHeather,
     overlay: colors.greyWoodsmoke,
-    footerTitle: colors.blueEastBay,
   },
   gradient: {
     radialBackground: 'radial-gradient(circle at right bottom, #b6c0cc 0%, #e8ebef 60%, #f3f5f7 90%, #fff 100%)',
@@ -101,9 +99,6 @@ export const theme = {
     s: 4,
     m: 8,
     l: 16,
-  },
-  border: {
-    default: `1px solid ${colors.greyAthens}`,
   },
 }
 
