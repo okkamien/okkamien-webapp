@@ -4,7 +4,7 @@ import {IconBrandFacebook} from '@tabler/icons-react'
 import Link from 'next/link'
 
 import {ShallowTile} from '@/app/components/ui'
-import {TApiFacility} from '@/app/features/api/types'
+import {TApiFacility} from '@/app/features/api'
 import {theme} from '@/app/styles'
 import {getStrapiMediaUrl} from '@/app/utils'
 

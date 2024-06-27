@@ -1,3 +1,7 @@
+import {ExtractKeys} from '@/app/utils'
+
+export type TStrapiFilterType = 'and' | 'or'
+
 export type TStrapiFilterOperator =
   | 'eq'
   | 'eqi'
@@ -18,9 +22,6 @@ export type TStrapiFilterOperator =
   | 'startsWithi'
   | 'endsWith'
   | 'endsWithi'
-  | 'or'
-  | 'and'
-  | 'not'
 
 export type TStrapiSearchOperator = 'asc' | 'desc'
 
@@ -93,6 +94,14 @@ export type TApiFacility = IApiItem<{
   thumbnail: IApiImage
 }>
 
+export type TApiHomePage = IApiItem<{
+  events?: {
+    data: {
+      id: number
+    }[]
+  }
+}>
+
 export type TApiWorkshopsLandingPage = IApiItem<{
   intro: string
   workshops?: {
@@ -110,3 +119,23 @@ export type TApiFacilitiesLandingPage = IApiItem<{
     }[]
   }
 }>
+
+export type TApiCommonItem = IApiItem<unknown>
+
+export type TApiItemKey<T extends TApiCommonItem> = ExtractKeys<T['attributes']> | 'id'
+
+export interface IApiFilters<T extends TApiCommonItem> {
+  key: TApiItemKey<T>
+  operator?: TStrapiFilterOperator
+  path?: string[]
+  type?: TStrapiFilterType
+  value: string[]
+}
+
+export type TApiParsedFilters<T extends TApiCommonItem> = {
+  [type in `$${TStrapiFilterType}`]?: {
+    [key in TApiItemKey<T>]?: {
+      [operator in `$${TStrapiFilterOperator}`]?: string[] | number[]
+    }
+  }[]
+}

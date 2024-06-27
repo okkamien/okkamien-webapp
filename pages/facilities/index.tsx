@@ -5,7 +5,6 @@ import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {TilesList, Title} from '@/app/components/ui'
-import {TApiFacilitiesLandingPage, TApiFacility, TApiWorkshop} from '@/app/features/api/types'
 import {
   getApiCollectionResponse,
   getApiSingleResponse,
@@ -13,12 +12,16 @@ import {
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
-} from '@/app/features/api/utils'
+  TApiFacilitiesLandingPage,
+  TApiFacility,
+  TApiWorkshop,
+} from '@/app/features/api'
 import {theme} from '@/app/styles'
+import {sortByIdList} from '@/app/utils'
 import {FacilityItemView} from '@/app/views'
 
 interface IWorkshopPageProps {
-  ids: number[]
+  ids: string[]
   intro: string
 }
 
@@ -36,7 +39,7 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
         <TilesList
           cols={1}
           tiles={data.data
-            .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+            .sort((a, b) => sortByIdList(ids, a, b))
             .map((facility, i) => (
               <FacilityItemView key={i} {...facility} />
             ))}
@@ -57,10 +60,10 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     endpoint: 'facilities-landing-page',
     populate: ['facilities'],
   })
-  const ids = facilities?.data.map(({id}) => id) ?? []
+  const ids = facilities?.data.map(({id}) => id.toString()) ?? []
 
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
-    {endpoint: 'facilities', filters: {id: [ids, 'containsi']}, populate: ['thumbnail']},
+    {endpoint: 'facilities', filters: [{key: 'id', value: ids, operator: 'containsi'}], populate: ['thumbnail']},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 

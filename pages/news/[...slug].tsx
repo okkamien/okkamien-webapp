@@ -5,14 +5,14 @@ import {GetServerSideProps, NextPage} from 'next'
 import {NewsItem} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
-import {TApiNews} from '@/app/features/api/types'
 import {
   getApiCollectionResponse,
   getDehydratedState,
   getQueryKey,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
-} from '@/app/features/api/utils'
+  TApiNews,
+} from '@/app/features/api'
 
 const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
@@ -31,7 +31,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
-  const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', filters: {slug: [[slug], 'eq']}}]
+  const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', filters: [{key: 'slug', value: [slug]}]}]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})
 
   return hasData
