@@ -16,14 +16,9 @@ export const Header: FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      setScroll(window.scrollY > 10)
+      setScroll(window.scrollY > 0)
     })
   }, [])
-
-  useEffect(() => {
-    if (isMenuOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = 'auto'
-  }, [isMenuOpen])
 
   return (
     <>
@@ -31,7 +26,7 @@ export const Header: FC = () => {
         tag="header"
         cs={{
           py: [theme.spacing.ml, theme.spacing.s],
-          position: scroll ? 'fixed' : 'static',
+          position: 'fixed',
           top: 0,
           width: '100%',
           zIndex: 5,
@@ -69,23 +64,23 @@ export const Header: FC = () => {
               )}
             </Link>
             <Box
-              cs={{display: ['flex', 'none'], justifyContent: 'center', alignItems: 'center', zIndex: 4}}
+              cs={{display: ['flex', 'flex', 'none'], justifyContent: 'center', alignItems: 'center', zIndex: 4}}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <IconMenu2 css={{color: scroll ? theme.color.black : theme.color.white}} />
             </Box>
             <Box
               cs={{
-                position: ['fixed', 'static'],
+                position: ['fixed', 'fixed', 'static'],
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                zIndex: [isMenuOpen ? 4 : -1, 4],
+                zIndex: [isMenuOpen ? 4 : -1, isMenuOpen ? 4 : -1, 4],
                 '&::before': {
                   content: '""',
                   position: 'fixed',
-                  display: [isMenuOpen ? 'block' : 'none', 'none'],
+                  display: [isMenuOpen ? 'block' : 'none', isMenuOpen ? 'block' : 'none', 'none'],
                   top: 0,
                   left: 0,
                   right: 0,
@@ -99,30 +94,30 @@ export const Header: FC = () => {
               <Box
                 ref={ref}
                 cs={{
-                  display: [isMenuOpen ? 'flex' : 'none', 'flex'],
-                  position: ['fixed', 'static'],
+                  display: [isMenuOpen ? 'flex' : 'none', isMenuOpen ? 'flex' : 'none', 'flex'],
+                  position: ['fixed', 'fixed', 'static'],
                   top: 0,
                   right: 0,
                   bottom: 0,
-                  left: theme.spacing.ml,
-                  p: [theme.spacing.ms, 0],
+                  left: [theme.spacing.ml, theme.spacing.l, 0],
+                  p: [theme.spacing.ms, theme.spacing.ml, 0],
                   zIndex: 5,
                   borderTopLeftRadius: theme.radii.l,
                   borderBottomLeftRadius: theme.radii.l,
                   flexDirection: 'column',
-                  height: ['100%', 'auto'],
-                  background: [theme.color.white, 'transparent'],
+                  height: ['100%', '100%', 'auto'],
+                  background: [theme.color.white, theme.color.white, 'transparent'],
                 }}
               >
                 <Box
                   cs={{
-                    display: ['flex', 'none'],
+                    display: ['flex', 'flex', 'none'],
                     justifyContent: 'end',
                     alignItems: 'center',
                     zIndex: 4,
                     width: '100%',
-                    pt: [theme.spacing.ms, 0],
-                    mb: [theme.spacing.ml, 0],
+                    pt: [theme.spacing.ms, theme.spacing.xs, theme.spacing.ms, 0],
+                    mb: [theme.spacing.ml, theme.spacing.ml, theme.spacing.ml, 0],
                   }}
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
@@ -131,10 +126,10 @@ export const Header: FC = () => {
                 <Box
                   cs={{
                     display: 'flex',
-                    flexDirection: ['column-reverse', 'column'],
+                    flexDirection: ['column-reverse', 'column-reverse', 'column'],
                     justifyContent: 'space-between',
-                    alignItems: ['start', 'end'],
-                    height: ['100%', 'auto'],
+                    alignItems: ['start', 'start', 'end'],
+                    height: ['100%', '100%', 'auto'],
                     mt: theme.spacing.xxs,
                   }}
                 >
@@ -143,10 +138,10 @@ export const Header: FC = () => {
                     composition={['semanticList']}
                     cs={{
                       display: 'flex',
-                      width: ['100%', 'auto'],
-                      columnGap: [theme.spacing.xl, theme.spacing.l],
-                      mt: [0, theme.spacing.xxs],
-                      mb: [0, theme.spacing.xs],
+                      width: ['100%', '100%', 'auto'],
+                      columnGap: [theme.spacing.xl, theme.spacing.xl, theme.spacing.l],
+                      mt: 0,
+                      mb: [0, 0, theme.spacing.xs],
                     }}
                   >
                     {navigationSocials.map(({label, link}, i) => (
@@ -172,9 +167,9 @@ export const Header: FC = () => {
                       display: 'flex',
                       columnGap: theme.spacing.xxl,
                       rowGap: theme.spacing.ml,
-                      width: ['100%', 'auto'],
+                      width: ['100%', '100%', 'auto'],
                       paddingBottom: theme.spacing.s,
-                      flexDirection: ['column', 'row'],
+                      flexDirection: ['column', 'column', 'row'],
                     }}
                   >
                     {navigationLinks.map(({label, link}, i) => (
@@ -188,11 +183,11 @@ export const Header: FC = () => {
                         <Link href={link} legacyBehavior passHref>
                           <Anchor
                             cs={{
-                              color: [theme.color.black, scroll ? theme.color.black : theme.color.white],
+                              color: [theme.color.black, theme.color.black, scroll ? theme.color.black : theme.color.white],
                               textDecoration: 'none',
-                              fontSize: [theme.font.size.big, theme.font.size.base],
-                              letterSpacing: [theme.font.spacing.small, theme.font.spacing.xsm],
-                              display: ['flex', 'inline'],
+                              fontSize: [theme.font.size.big, theme.font.size.big, theme.font.size.base],
+                              letterSpacing: [theme.font.spacing.small, theme.font.spacing.small, theme.font.spacing.xsm],
+                              display: ['flex', 'flex', 'inline'],
                               justifyContent: 'space-between',
                               alignItems: 'center',
                             }}
@@ -213,7 +208,7 @@ export const Header: FC = () => {
         </Container>
       </Box>
 
-      {scroll && <Box cs={{height: 106}} />}
+      <Box cs={{height: 106}} />
     </>
   )
 }

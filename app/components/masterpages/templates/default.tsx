@@ -13,6 +13,7 @@ export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadc
   <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Box cs={{label: 'Layout-header'}}>
       <Header />
+      <Box cs={{label: 'Layout-cover', height: '150px'}} />
     </Box>
     <Box
       cs={{
