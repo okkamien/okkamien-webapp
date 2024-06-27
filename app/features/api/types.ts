@@ -139,6 +139,7 @@ export type TApiWorkshop = IApiItem<{
 
 export type TApiNews = IApiItem<{
   content: string
+  date: string
   detailsSection: TApiDetailsSection[]
   gallery: IApiGallery
   events: IApiRelationMultiple<TApiEvent>

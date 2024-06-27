@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const ids = events?.data.map(({id}) => id.toString()) ?? []
 
   const payloads: [IGetApiCollectionResponseParams<TApiNews>, IGetApiCollectionResponseParams<TApiEvent>] = [
-    {endpoint: 'news', pagination: {limit: 2}, sort: [['id', 'desc']]},
+    {endpoint: 'news', pagination: {limit: 2}, sort: [['date', 'desc']]},
     {endpoint: 'events', filters: [{key: 'id', value: ids, operator: 'containsi'}], populate: [['location'], ['thumbnail']]},
   ]
   const {dehydratedState} = await getDehydratedState<TApiNews & TApiEvent>({payloads, req})
