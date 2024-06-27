@@ -1,3 +1,4 @@
+export * from './accordion'
 export * from './arrow'
 export * from './breadcrumbs'
 export * from './btn'
