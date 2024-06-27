@@ -17,7 +17,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>
-      <DynamicContent payload={payload} filters={[{type: 'datepicker', key: 'publishedAt'}]} scrollToElement={scrollToElement}>
+      <DynamicContent payload={payload} filters={[{type: 'datepicker', key: 'date'}]} scrollToElement={scrollToElement}>
         {(data) => (
           <TilesList
             cols={[1, 2, 3]}
@@ -32,7 +32,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
-  const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['id', 'desc']]}]
+  const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['date', 'desc']]}]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
