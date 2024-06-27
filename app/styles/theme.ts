@@ -71,6 +71,7 @@ export const theme = {
   },
   font: {
     size: {
+      big: 25,
       base: 16,
       small: 13,
     },
@@ -79,6 +80,8 @@ export const theme = {
     },
     spacing: {
       base: 1.2,
+      small: 0.5,
+      xsm: 0.1,
     },
   },
   size: {
