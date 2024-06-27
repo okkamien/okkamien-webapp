@@ -6,7 +6,7 @@ import {CSObject} from '@/app/components/@effortless-ui/types'
 import {toMediaQueryArray} from '@/app/components/@effortless-ui/utils/to-media-query-array'
 
 export type GridCols = number | (number | null)[]
-export type GridTemplate = number[] | (number[] | null)[]
+export type GridTemplate = (number | string)[] | ((number | string)[] | null)[]
 
 interface GridProps {
   cols?: GridCols
@@ -24,7 +24,7 @@ const getGridTemplate = (template: GridTemplate) => {
 
   return {
     gridTemplateColumns: toMediaQueryArray<GridTemplate>(templatesArray, (item) =>
-      item.map((single) => `${(single as number) / 12}fr`).join(' '),
+      item.map((single) => (typeof single === 'number' ? `minmax(0, ${(single as number) / 12}fr)` : single)).join(' '),
     ),
   }
 }

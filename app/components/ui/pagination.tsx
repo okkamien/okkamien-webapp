@@ -21,7 +21,7 @@ export const Pagination: FC<IPaginationProps> = ({cs, currentPage, onChange, pag
         >
           {currentPage !== 1 && (
             <Box tag="li">
-              <Button variant="paginationArrow" onClick={() => onChange(Math.max(currentPage - 1, 1))}>
+              <Button variant="solid" onClick={() => onChange(Math.max(currentPage - 1, 1))}>
                 <IconChevronLeft size={20} stroke={1.5} />
               </Button>
             </Box>
@@ -71,7 +71,7 @@ export const Pagination: FC<IPaginationProps> = ({cs, currentPage, onChange, pag
           )}
           {currentPage !== pageCount && (
             <Box tag="li">
-              <Button variant="paginationArrow" onClick={() => onChange(Math.min(currentPage + 1, pageCount))}>
+              <Button variant="solid" onClick={() => onChange(Math.min(currentPage + 1, pageCount))}>
                 <IconChevronRight size={20} stroke={1.5} />
               </Button>
             </Box>

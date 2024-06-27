@@ -27,4 +27,7 @@ export const base: CSSObject = {
   img: {
     display: 'block',
   },
+  '#nprogress .bar': {
+    bg: theme.color.primary,
+  },
 }

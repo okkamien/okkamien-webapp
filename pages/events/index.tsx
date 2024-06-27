@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     req,
     endpoint: 'events',
     filters: [{key: 'id', value: ids, operator: 'containsi'}],
-    populate: ['location', 'thumbnail'],
+    populate: [['location'], ['thumbnail']],
   })
   const promotedEvents = promotedEventsData.sort((a, b) => sortByIdList(ids, a, b))
 
@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const locations: ISelectOption[] = locationsData.map(({attributes: {name}, id}) => ({label: name, value: id.toString()}))
 
   const payloads: IGetApiCollectionResponseParams<TApiEvent>[] = [
-    {endpoint: 'events', populate: ['location', 'thumbnail'], sort: [['from', 'desc']]},
+    {endpoint: 'events', populate: [['location'], ['thumbnail']], sort: [['from', 'desc']]},
   ]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 

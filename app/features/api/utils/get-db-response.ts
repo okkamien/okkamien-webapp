@@ -15,7 +15,7 @@ export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
     page?: number
     pageSize?: number
   }
-  populate?: (keyof T['attributes'])[]
+  populate?: [keyof T['attributes'], string[]?][]
   req?: IncomingMessage
   sort?: [TApiItemKey<T>, TStrapiSearchOperator?][]
 }
@@ -60,7 +60,7 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
   const response = await axios.get<IGetApiCollectionResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
     params: {
       filters: filters.reduce<TApiParsedFilters<T>>(
-        (total, {key, operator, path = [], type = 'and', value}) => ({
+        (total, {key, operator = 'eq', path = [], type = 'and', value}) => ({
           ...total,
           [`$${type}`]: [
             ...(total[`$${type}`] ?? []),
@@ -74,7 +74,10 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
         {},
       ),
       pagination,
-      populate,
+      populate: populate.reduce<INestedRecord<string[]>>(
+        (total, [key, _populate = ['']]) => ({...total, [key]: {populate: _populate}}),
+        {},
+      ),
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },
     ...(req && {

@@ -34,6 +34,7 @@ const colors = {
   greyMid: '#686869',
   greyWoodsmoke: '#101111',
   greyShark: '#1a1b1c',
+  blueZodiac: '#14335c',
   blueAllports: '#00739d',
   blueCerulean: '#00a2dd',
   redAlizarinCrimson: '#dc2626',
@@ -63,6 +64,7 @@ export const theme = {
     inactive: colors.greyMid,
     faded: colors.greyHeather,
     overlay: colors.greyWoodsmoke,
+    contentIcon: colors.blueZodiac,
   },
   gradient: {
     radialBackground: 'radial-gradient(circle at right bottom, #b6c0cc 0%, #e8ebef 60%, #f3f5f7 90%, #fff 100%)',
@@ -94,6 +96,7 @@ export const theme = {
     xxl: 44,
     xxxl: 64,
     xxxxl: 72,
+    xxxxxl: 94,
   },
   radii: {
     s: 4,
