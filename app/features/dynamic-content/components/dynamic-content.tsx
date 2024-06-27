@@ -68,7 +68,7 @@ export const DynamicContent = <T extends TApiCommonItem>({
               <Box
                 ref={ref}
                 cs={{
-                  scrollMarginTop: theme.gap,
+                  scrollMarginTop: theme.gap.map((value) => value + theme.size.nav),
                   opacity: isFetching ? 0.5 : 1,
                   pointerEvents: isFetching ? 'none' : 'auto',
                 }}

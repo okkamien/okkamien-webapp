@@ -60,7 +60,7 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
         id="gallery"
         cs={{
           position: isFullScreen ? 'fixed' : 'relative',
-          scrollMarginTop: theme.spacing.xxxxxl,
+          scrollMarginTop: theme.spacing.xxxxxl + theme.size.nav,
           ...(isFullScreen && {
             top: 0,
             right: 0,

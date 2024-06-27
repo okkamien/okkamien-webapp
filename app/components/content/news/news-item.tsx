@@ -26,7 +26,7 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
       {detailsSection.length > 0 && <DetailsSection blocks={detailsSection} />}
       {textContent?.map((item, i) => <TextContent key={i} {...item} />)}
       {events.data.length > 0 && (
-        <Box id="news-event-section" cs={{scrollMarginTop: theme.spacing.l}}>
+        <Box id="news-event-section" cs={{scrollMarginTop: theme.spacing.l + theme.size.nav}}>
           <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
             Planowane wydarzenia
           </Text>
