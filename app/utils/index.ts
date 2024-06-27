@@ -1,6 +1,7 @@
 export * from './extract-keys'
 export * from './get-formatted-date-range'
 export * from './get-formatted-range'
+export * from './get-strapi-image-url'
 export * from './get-strapi-media-url'
 export * from './map-api-event-to-tile'
 export * from './map-api-news-to-tile'

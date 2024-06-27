@@ -3,6 +3,7 @@ import {Text} from '@effortless-ui'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
 
+import {FacilityItemView} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {TilesList, Title} from '@/app/components/ui'
 import {
@@ -18,7 +19,6 @@ import {
 } from '@/app/features/api'
 import {theme} from '@/app/styles'
 import {sortByIdList} from '@/app/utils'
-import {FacilityItemView} from '@/app/views'
 
 interface IWorkshopPageProps {
   ids: string[]

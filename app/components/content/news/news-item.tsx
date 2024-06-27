@@ -5,7 +5,7 @@ import Image from 'next/image'
 import {DetailsSection, FilesToDownload, Gallery, TextContent, Tile, TilesSlider, TwoColumns} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api'
 import {theme} from '@/app/styles'
-import {getStrapiMediaUrl, mapApiEventToTile} from '@/app/utils'
+import {getStrapiImageUrl, mapApiEventToTile} from '@/app/utils'
 
 type TNewsItemProps = TApiNews
 
@@ -15,7 +15,7 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
       {poster?.data && (
         <Box cs={{position: 'relative', borderRadius: theme.radii.m, overflow: 'hidden'}}>
           <Image
-            src={getStrapiMediaUrl(poster.data.attributes.url)}
+            src={getStrapiImageUrl(poster.data.attributes, ['large'])}
             alt={title}
             width={poster.data.attributes.width}
             height={poster.data.attributes.height}

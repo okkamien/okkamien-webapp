@@ -43,29 +43,31 @@ interface IApiRelationMultiple<T> {
   data: T[]
 }
 
+export interface IApiImageAttributes {
+  formats: {
+    large?: Omit<IApiImageAttributes, 'formats'>
+    medium?: Omit<IApiImageAttributes, 'formats'>
+    small?: Omit<IApiImageAttributes, 'formats'>
+    thumbnail?: Omit<IApiImageAttributes, 'formats'>
+  }
+  height: number
+  name: string
+  size: number
+  url: string
+  width: number
+}
+
 export interface IApiImage {
   data: {
     id: number
-    attributes: {
-      height: number
-      name: string
-      size: number
-      url: string
-      width: number
-    }
+    attributes: IApiImageAttributes
   }
 }
 
 export interface IApiGallery {
   data?: {
     id: number
-    attributes: {
-      height: number
-      name: string
-      size: number
-      url: string
-      width: number
-    }
+    attributes: IApiImageAttributes
   }[]
 }
 

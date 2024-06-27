@@ -9,7 +9,7 @@ import Image from 'next/image'
 import {IApiGallery} from '@/app/features/api'
 import {useScreenSize} from '@/app/hooks'
 import {theme} from '@/app/styles'
-import {getStrapiMediaUrl} from '@/app/utils'
+import {getStrapiImageUrl} from '@/app/utils'
 
 interface IGalleryProps {
   images: IApiGallery['data']
@@ -130,7 +130,7 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
                 transition: 'height 200ms',
               }}
             >
-              {images?.map(({attributes: {height, name, url, width}}, i) => (
+              {images?.map(({attributes}, i) => (
                 <Box
                   key={i}
                   tag="li"
@@ -151,7 +151,13 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
                     },
                   }}
                 >
-                  <Image src={getStrapiMediaUrl(url)} alt={name} width={width} height={height} sizes="100%" />
+                  <Image
+                    src={getStrapiImageUrl(attributes)}
+                    alt={attributes.name}
+                    width={attributes.width}
+                    height={attributes.height}
+                    sizes="100%"
+                  />
                 </Box>
               ))}
             </Box>
@@ -184,7 +190,7 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
               }),
             }}
           >
-            {images?.map(({attributes: {name, url}}, i) => (
+            {images?.map(({attributes}, i) => (
               <Box
                 key={i}
                 tag="li"
@@ -204,8 +210,8 @@ export const Gallery: FC<IGalleryProps> = ({images}) => {
                 onClick={() => emblaMainApi?.scrollTo(i)}
               >
                 <Image
-                  src={getStrapiMediaUrl(url)}
-                  alt={name}
+                  src={getStrapiImageUrl(attributes, ['thumbnail'])}
+                  alt={attributes.name}
                   fill
                   sizes="100%"
                   css={{
