@@ -68,6 +68,7 @@ export const Header: FC = () => {
                 right: 0,
                 bottom: 0,
                 zIndex: [isMenuOpen ? 4 : -1, isMenuOpen ? 4 : -1, 4],
+                pointerEvents: [isMenuOpen ? 'auto' : 'none', isMenuOpen ? 'auto' : 'none', 'auto'],
                 '&::before': {
                   content: '""',
                   position: 'fixed',
