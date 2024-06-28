@@ -1,7 +1,7 @@
 import {ITileProps} from '@/app/components/ui'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {TApiWorkshop} from '@/app/features/api'
-import {getStrapiMediaUrl} from '@/app/utils'
+import {getStrapiImageUrl} from '@/app/utils'
 
 export const mapApiWorkshopToTile = ({
   attributes: {name, splitNameLeft, splitNameRight, slug, teaser, thumbnail},
@@ -11,7 +11,7 @@ export const mapApiWorkshopToTile = ({
     teaser,
     title: splitNameLeft && splitNameRight ? [splitNameLeft, splitNameRight] : name,
     ...(thumbnail?.data && {
-      image: getStrapiMediaUrl(thumbnail.data.attributes.url),
+      image: getStrapiImageUrl(thumbnail.data.attributes, ['large']),
     }),
   }
 }

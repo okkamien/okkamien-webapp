@@ -8,16 +8,22 @@ import {Container} from '@/app/components/ui'
 import {navigationLinks, navigationSocials, siteMap, siteName} from '@/app/dictionaries/site.dictionary'
 import {useOutsideElementClickHandler} from '@/app/hooks/use-outside-element-click-handler'
 import {theme} from '@/app/styles'
+import {rgba} from '@/app/utils'
 
 export const Header: FC = () => {
-  const [scroll, setScroll] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const ref = useOutsideElementClickHandler(() => setIsMenuOpen(false))
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setScroll(window.scrollY > 0)
-    })
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0)
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
@@ -25,49 +31,34 @@ export const Header: FC = () => {
       <Box
         tag="header"
         cs={{
-          py: [theme.spacing.ml, theme.spacing.s],
           position: 'fixed',
           top: 0,
           width: '100%',
+          py: [theme.spacing.ml, theme.spacing.s],
+          bg: isScrolled ? theme.color.white : 'transparent',
+          boxShadow: isScrolled ? `0 2px 25px ${rgba(theme.color.text, 0.15)}` : 'none',
           zIndex: 5,
-          background: scroll ? theme.color.white : 'transparent',
+          transition: 'background-color 200ms, box-shadow 200ms',
         }}
       >
         <Container>
-          <Box
-            cs={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
+          <Box cs={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <Link href={siteMap.homepage} legacyBehavior passHref>
-              {scroll ? (
-                <Box
-                  cs={{
-                    label: 'navigaction-image',
-                    width: [120, 180],
-                    py: [theme.spacing.xxs, theme.spacing.s],
-                  }}
-                >
-                  <Image src="/Logo-color-b.svg" width={180} height={40} alt={siteName} sizes="100%" />
-                </Box>
-              ) : (
-                <Box
-                  cs={{
-                    label: 'navigaction-image',
-                    width: [120, 180],
-                    py: [theme.spacing.xxs, theme.spacing.s],
-                  }}
-                >
-                  <Image src="/Logo-monowhite-b.svg" width={180} height={40} alt={siteName} sizes="100%" />
-                </Box>
-              )}
+              <Anchor cs={{width: [120, 180]}}>
+                <Image
+                  src={isScrolled ? '/Logo-color-b.svg' : '/Logo-monowhite-b.svg'}
+                  width={180}
+                  height={40}
+                  alt={siteName}
+                  sizes="100%"
+                />
+              </Anchor>
             </Link>
             <Box
               cs={{display: ['flex', 'flex', 'none'], justifyContent: 'center', alignItems: 'center', zIndex: 4}}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <IconMenu2 css={{color: scroll ? theme.color.black : theme.color.white}} />
+              <IconMenu2 css={{color: isScrolled ? theme.color.black : theme.color.white}} />
             </Box>
             <Box
               cs={{
@@ -77,6 +68,7 @@ export const Header: FC = () => {
                 right: 0,
                 bottom: 0,
                 zIndex: [isMenuOpen ? 4 : -1, isMenuOpen ? 4 : -1, 4],
+                pointerEvents: [isMenuOpen ? 'auto' : 'none', isMenuOpen ? 'auto' : 'none', 'auto'],
                 '&::before': {
                   content: '""',
                   position: 'fixed',
@@ -94,19 +86,19 @@ export const Header: FC = () => {
               <Box
                 ref={ref}
                 cs={{
-                  display: [isMenuOpen ? 'flex' : 'none', isMenuOpen ? 'flex' : 'none', 'flex'],
                   position: ['fixed', 'fixed', 'static'],
+                  display: [isMenuOpen ? 'flex' : 'none', isMenuOpen ? 'flex' : 'none', 'flex'],
+                  flexDirection: 'column',
                   top: 0,
                   right: 0,
                   bottom: 0,
                   left: [theme.spacing.ml, theme.spacing.l, 0],
                   p: [theme.spacing.ms, theme.spacing.ml, 0],
-                  zIndex: 5,
                   borderTopLeftRadius: theme.radii.l,
                   borderBottomLeftRadius: theme.radii.l,
-                  flexDirection: 'column',
                   height: ['100%', '100%', 'auto'],
                   background: [theme.color.white, theme.color.white, 'transparent'],
+                  zIndex: 5,
                 }}
               >
                 <Box
@@ -150,7 +142,7 @@ export const Header: FC = () => {
                           <Anchor
                             cs={{
                               fontSize: theme.font.size.small,
-                              color: [theme.color.black, scroll ? theme.color.black : theme.color.white],
+                              color: [theme.color.black, isScrolled ? theme.color.black : theme.color.white],
                               textDecoration: 'none',
                             }}
                           >
@@ -173,17 +165,11 @@ export const Header: FC = () => {
                     }}
                   >
                     {navigationLinks.map(({label, link}, i) => (
-                      <Box
-                        tag="li"
-                        key={i}
-                        cs={{
-                          pt: theme.spacing.xs,
-                        }}
-                      >
+                      <Box tag="li" key={i} cs={{pt: theme.spacing.xs}}>
                         <Link href={link} legacyBehavior passHref>
                           <Anchor
                             cs={{
-                              color: [theme.color.black, theme.color.black, scroll ? theme.color.black : theme.color.white],
+                              color: [theme.color.black, theme.color.black, isScrolled ? theme.color.black : theme.color.white],
                               textDecoration: 'none',
                               fontSize: [theme.font.size.big, theme.font.size.big, theme.font.size.base],
                               letterSpacing: [theme.font.spacing.small, theme.font.spacing.small, theme.font.spacing.xsm],
@@ -207,8 +193,7 @@ export const Header: FC = () => {
           </Box>
         </Container>
       </Box>
-
-      <Box cs={{height: 106}} />
+      <Box cs={{height: theme.size.nav}} />
     </>
   )
 }

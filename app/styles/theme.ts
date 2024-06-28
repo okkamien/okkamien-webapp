@@ -85,6 +85,7 @@ export const theme = {
     },
   },
   size: {
+    nav: 94,
     container: 1288,
   },
   spacing: {

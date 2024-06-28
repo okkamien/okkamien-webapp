@@ -11,7 +11,7 @@ export const TwoColumns: FC<PropsWithChildren<ITwoColumnsProps>> = ({children, t
   return (
     <Grid cs={{label: 'Two-columns', position: 'relative', gap: theme.gap}} template={[['100%'], null, [408, 848]]}>
       <Box>
-        <Text tag="h1" cs={{position: 'sticky', top: 0}}>
+        <Text tag="h1" cs={{position: 'sticky', top: theme.spacing.s + theme.size.nav}}>
           {title}
         </Text>
       </Box>

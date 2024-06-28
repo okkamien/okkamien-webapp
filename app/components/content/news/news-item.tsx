@@ -5,7 +5,7 @@ import Image from 'next/image'
 import {DetailsSection, FilesToDownload, Gallery, TextContent, Tile, TilesSlider, TwoColumns} from '@/app/components/ui'
 import {TApiNews} from '@/app/features/api'
 import {theme} from '@/app/styles'
-import {getStrapiMediaUrl, mapApiEventToTile} from '@/app/utils'
+import {getStrapiImageUrl, mapApiEventToTile} from '@/app/utils'
 
 type TNewsItemProps = TApiNews
 
@@ -15,7 +15,7 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
       {poster?.data && (
         <Box cs={{position: 'relative', borderRadius: theme.radii.m, overflow: 'hidden'}}>
           <Image
-            src={getStrapiMediaUrl(poster.data.attributes.url)}
+            src={getStrapiImageUrl(poster.data.attributes, ['large'])}
             alt={title}
             width={poster.data.attributes.width}
             height={poster.data.attributes.height}
@@ -26,7 +26,7 @@ export const NewsItem: FC<TNewsItemProps> = ({attributes: {detailsSection, event
       {detailsSection.length > 0 && <DetailsSection blocks={detailsSection} />}
       {textContent?.map((item, i) => <TextContent key={i} {...item} />)}
       {events.data.length > 0 && (
-        <Box id="news-event-section" cs={{scrollMarginTop: theme.spacing.l}}>
+        <Box id="news-event-section" cs={{scrollMarginTop: theme.spacing.l + theme.size.nav}}>
           <Text tag="h2" cs={{mb: theme.spacing.l, fontWeight: 300, fontStyle: 'italic'}}>
             Planowane wydarzenia
           </Text>
