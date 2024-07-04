@@ -9,7 +9,7 @@ interface ITwoColumnsProps {
 
 export const TwoColumns: FC<PropsWithChildren<ITwoColumnsProps>> = ({children, title}) => {
   return (
-    <Grid cs={{label: 'Two-columns', position: 'relative', gap: theme.gap}} template={[['100%'], null, [408, 848]]}>
+    <Grid cs={{label: 'Two-columns', position: 'relative', gap: theme.gap}} template={[['100%'], null, [406, 850]]}>
       <Box>
         <Text tag="h1" cs={{position: 'sticky', top: theme.spacing.s + theme.size.nav}}>
           {title}

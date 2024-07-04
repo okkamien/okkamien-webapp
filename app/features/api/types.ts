@@ -36,10 +36,10 @@ export interface IApiItem<T> {
   } & T
 }
 
-interface IApiRelationSingle<T> {
+export interface IApiRelationSingle<T> {
   data: T
 }
-interface IApiRelationMultiple<T> {
+export interface IApiRelationMultiple<T> {
   data: T[]
 }
 
@@ -82,6 +82,12 @@ export interface IApiFiles {
   }[]
 }
 
+export interface IApiTextContent {
+  id: number
+  title: string
+  content: BlocksContent
+}
+
 export type TApiLocation = IApiItem<{
   address?: string
   name: string
@@ -93,15 +99,19 @@ interface TApiDetailsSectionWhen {
   to: string
   time?: string
 
+  email?: never
   label?: never
   location?: never
+  phone?: never
 }
 interface TApiDetailsSectionWhere {
   __component: 'details-block.where'
   location: IApiRelationSingle<TApiLocation>
 
+  email?: never
   from?: never
   label?: never
+  phone?: never
   time?: never
   to?: never
 }
@@ -109,22 +119,43 @@ interface TApiDetailsSectionAnchor {
   __component: 'details-block.sign-up-anchor'
   label: string
 
+  email?: never
+  from?: never
+  location?: never
+  phone?: never
+  time?: never
+  to?: never
+}
+interface TApiDetailsSectionContact {
+  __component: 'details-block.sign-up-contact'
+  phone?: string
+  email?: string
+
   from?: never
   location?: never
   time?: never
   to?: never
 }
 
-export type TApiDetailsSection = (TApiDetailsSectionWhen | TApiDetailsSectionWhere | TApiDetailsSectionAnchor) & {
+export type TApiDetailsSection = (
+  | TApiDetailsSectionWhen
+  | TApiDetailsSectionWhere
+  | TApiDetailsSectionAnchor
+  | TApiDetailsSectionContact
+) & {
   id: number
 }
 
 export type TApiEvent = IApiItem<{
-  description: string
+  detailsSection: TApiDetailsSection[]
+  files: IApiFiles
   from: string
+  gallery: IApiGallery
   location: IApiRelationSingle<TApiLocation>
+  poster?: IApiImage
   slug: string
   teaser: string
+  textContent?: IApiTextContent[]
   thumbnail?: IApiImage
   title: string
   to?: string
@@ -140,7 +171,6 @@ export type TApiWorkshop = IApiItem<{
 }>
 
 export type TApiNews = IApiItem<{
-  content: string
   date: string
   detailsSection: TApiDetailsSection[]
   gallery: IApiGallery
@@ -148,11 +178,7 @@ export type TApiNews = IApiItem<{
   files: IApiFiles
   slug: string
   teaser: string
-  textContent?: {
-    id: number
-    title: string
-    content: BlocksContent
-  }[]
+  textContent?: IApiTextContent[]
   title: string
   poster?: IApiImage
 }>

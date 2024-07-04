@@ -1,3 +1,4 @@
+export * from './content-page'
 export * from './events/events-empty-state'
 export * from './events/events-item'
 export * from './facilities/facilities-item'

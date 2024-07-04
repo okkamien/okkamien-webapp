@@ -1,6 +1,6 @@
 import React, {FC, Fragment} from 'react'
-import {Box, Button, CSObject, Grid, Text} from '@effortless-ui'
-import {IconCalendar, IconChevronsDown, IconClock, IconMapPin} from '@tabler/icons-react'
+import {Anchor, Box, Button, CSObject, Grid, Text} from '@effortless-ui'
+import {IconCalendar, IconChevronsDown, IconClock, IconMail, IconMapPin, IconPhone} from '@tabler/icons-react'
 import dayjs from 'dayjs'
 
 import {TApiDetailsSection} from '@/app/features/api'
@@ -13,8 +13,9 @@ interface IDetailsSectionProps {
 
 const titleMap: {[key in TApiDetailsSection['__component']]: string} = {
   'details-block.sign-up-anchor': 'Zapisy',
-  'details-block.where': 'Gdzie',
+  'details-block.sign-up-contact': 'Zapisy',
   'details-block.when': 'Kiedy',
+  'details-block.where': 'Gdzie',
 }
 
 const blockListItemStyles: CSObject = {
@@ -95,6 +96,16 @@ export const DetailsSection: FC<IDetailsSectionProps> = ({blocks}) => {
                   {block.label}
                   <IconChevronsDown size={22} stroke={1.5} css={{flexShrink: 0}} />
                 </Button>
+              </Box>
+            )}
+            {block.__component === 'details-block.sign-up-contact' && block.phone && (
+              <Box tag="li" cs={blockListItemStyles}>
+                <IconPhone {...iconProps} /> {block.phone}
+              </Box>
+            )}
+            {block.__component === 'details-block.sign-up-contact' && block.email && (
+              <Box tag="li" cs={blockListItemStyles}>
+                <IconMail {...iconProps} /> <Anchor href={`mailto:${block.email}`}>{block.email}</Anchor>
               </Box>
             )}
           </Box>
