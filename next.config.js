@@ -31,6 +31,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: siteMapJson.aboutUs,
+        destination: '/about-us',
+      },
+      {
         source: siteMapJson.events,
         destination: '/events',
       },

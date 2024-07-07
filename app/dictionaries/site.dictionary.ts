@@ -47,7 +47,7 @@ export const navigationLinks = [
   },
   {
     label: 'O nas',
-    link: siteMap.about,
+    link: siteMap.aboutUs,
   },
   {
     label: 'Kontakt',

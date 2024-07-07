@@ -7,6 +7,10 @@ interface INestedRecord<T> {
   [key: string]: T | INestedRecord<T>
 }
 
+type TPopulateRaw<T extends TApiCommonItem> =
+  | (keyof T['attributes'] | '*')[]
+  | {[key in keyof T['attributes']]?: string | string[] | INestedRecord<string | string[]>}
+
 export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
   endpoint: string
   filters?: IApiFilters<T>[]
@@ -16,8 +20,7 @@ export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
     pageSize?: number
   }
   populate?: [keyof T['attributes'], string[]?][]
-  populateRaw?: (keyof T['attributes'] | '*')[] | {[key in keyof T['attributes']]?: string | string[] | INestedRecord<string | string[]>}
-  // populate?: [keyof T['attributes'], string[]?][]
+  populateRaw?: TPopulateRaw<T>
   req?: IncomingMessage
   sort?: [TApiItemKey<T>, TStrapiSearchOperator?][]
 }
@@ -25,6 +28,7 @@ export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
 export interface IGetApiSingleResponseParams<T extends TApiCommonItem> {
   endpoint: string
   populate?: (keyof T['attributes'])[]
+  populateRaw?: TPopulateRaw<T>
   req?: IncomingMessage
 }
 
@@ -95,11 +99,12 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
 export const getApiSingleResponse = async <T extends TApiCommonItem>({
   endpoint,
   populate = [],
+  populateRaw,
   req,
 }: IGetApiSingleResponseParams<T>): Promise<IGetApiSingleResponseSuccessResponse<T>> => {
   const host = req ? process.env.NEXT_PUBLIC_DATABASE_URL : ''
   const response = await axios.get<IGetApiSingleResponseSuccessResponse<T>>(`${host}/api/${endpoint}`, {
-    params: {populate},
+    params: {populate: populateRaw ?? populate},
     ...(req && {
       headers: {
         Authorization: `bearer ${process.env.DATABASE_API_TOKEN}`,
