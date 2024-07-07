@@ -86,6 +86,7 @@ export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
         const {
           staff: {data},
           title: zoneTitle,
+          withContact,
         } = zone
 
         return (
@@ -98,7 +99,7 @@ export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
             >
               {data.map(({attributes}, j) => (
                 <Box key={j} tag="li" cs={{px: [0, theme.spacing.m]}}>
-                  <Staff {...attributes} />
+                  <Staff withContact={withContact} {...attributes} />
                 </Box>
               ))}
             </Box>

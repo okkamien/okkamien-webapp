@@ -54,6 +54,7 @@ export interface TApiDynamicZoneRelatedPeople extends Omit<TApiDynamicZoneEmpty,
   __component: 'two-columns.related-people'
   staff: IApiRelation<TApiStaff[]>
   title: string
+  withContact: boolean
 }
 export interface TApiDynamicZonePoster extends Omit<TApiDynamicZoneEmpty, 'description' | 'image'> {
   __component: 'two-columns.poster'

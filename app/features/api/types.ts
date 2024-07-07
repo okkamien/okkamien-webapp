@@ -92,7 +92,9 @@ export type TApiLocation = IApiItem<{
 }>
 
 export type TApiStaff = IApiItem<{
+  email: string
   name: string
+  phone: string
   photo: IApiImage
   title: string
 }>
