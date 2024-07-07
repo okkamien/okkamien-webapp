@@ -58,7 +58,7 @@ export const Tile: FC<ITileProps> = ({button, date, image, link, tags, teaser, t
             <Image src={image} alt={Array.isArray(title) ? title.join(' ') : title} fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>
         )}
-        <Box cs={{label: 'Tile-content', display: 'flex', flexDirection: 'column', flexGrow: '1', p: theme.spacing.ml}}>
+        <Box cs={{label: 'Tile-content', display: 'flex', flexDirection: 'column', flexGrow: 1, p: theme.spacing.ml}}>
           {tags?.length && (
             <Box
               tag="ul"

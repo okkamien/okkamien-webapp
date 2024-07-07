@@ -27,7 +27,7 @@ export const ShallowTile: FC<PropsWithChildren<IShallowTileProps>> = ({children,
         cs={{
           position: 'relative',
           display: ['none', 'none', 'block'],
-          flexShrink: '0',
+          flexShrink: 0,
           width: 408,
           my: -1,
           ml: -1,
@@ -41,6 +41,7 @@ export const ShallowTile: FC<PropsWithChildren<IShallowTileProps>> = ({children,
         cs={{
           display: 'flex',
           flexDirection: 'column',
+          flexGrow: 1,
           p: theme.spacing.ml,
           rowGap: [theme.spacing.s, theme.spacing.ms],
         }}

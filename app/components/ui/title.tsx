@@ -29,10 +29,10 @@ export const Title: FC<PropsWithChildren<ITitleProps>> = forwardRef(({breakOnMob
         ...cs,
       }}
     >
-      <Box cs={{display: 'flex', flexShring: '0', mx: 'auto', width: [18, 22]}}>
+      <Box cs={{display: 'flex', flexShring: 0, mx: 'auto', width: [18, 22]}}>
         <BrandSymbolIcon />
       </Box>
-      <Text tag="span" cs={{flexGrow: '1'}}>
+      <Text tag="span" cs={{flexGrow: 1}}>
         {children}
       </Text>
     </Text>
