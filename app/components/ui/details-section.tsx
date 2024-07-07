@@ -60,35 +60,6 @@ export const DetailsSection: FC<IDetailsSectionProps> = ({anchor, contact, when,
         borderRadius: theme.radii.m,
       }}
     >
-      {anchor && (
-        <DetailsSectionBlock
-          title="Zapisy"
-          list={[
-            <Button
-              key={1}
-              variant="text"
-              cs={{display: 'flex', alignItems: 'center', textAlign: 'left'}}
-              onClick={() => document.querySelector('#news-event-section')?.scrollIntoView({behavior: 'smooth'})}
-            >
-              {anchor.label}
-              <IconChevronsDown size={22} stroke={1.5} css={{flexShrink: 0}} />
-            </Button>,
-          ]}
-        />
-      )}
-      {contact && (
-        <DetailsSectionBlock
-          title="Zapisy"
-          list={[
-            <Fragment key={1}>
-              <IconPhone {...iconProps} /> {contact.phone}
-            </Fragment>,
-            <Fragment key={2}>
-              <IconMail {...iconProps} /> <Anchor href={`mailto:${contact.email}`}>{contact.email}</Anchor>
-            </Fragment>,
-          ]}
-        />
-      )}
       {when && (
         <DetailsSectionBlock
           title="Kiedy"
@@ -121,6 +92,35 @@ export const DetailsSection: FC<IDetailsSectionProps> = ({anchor, contact, when,
                   </Text>
                 )}
               </Box>
+            </Fragment>,
+          ]}
+        />
+      )}
+      {anchor && (
+        <DetailsSectionBlock
+          title="Zapisy"
+          list={[
+            <Button
+              key={1}
+              variant="text"
+              cs={{display: 'flex', alignItems: 'center', textAlign: 'left'}}
+              onClick={() => document.querySelector('#news-event-section')?.scrollIntoView({behavior: 'smooth'})}
+            >
+              {anchor.label}
+              <IconChevronsDown size={22} stroke={1.5} css={{flexShrink: 0}} />
+            </Button>,
+          ]}
+        />
+      )}
+      {contact && (
+        <DetailsSectionBlock
+          title="Zapisy"
+          list={[
+            <Fragment key={1}>
+              <IconPhone {...iconProps} /> {contact.phone}
+            </Fragment>,
+            <Fragment key={2}>
+              <IconMail {...iconProps} /> <Anchor href={`mailto:${contact.email}`}>{contact.email}</Anchor>
             </Fragment>,
           ]}
         />

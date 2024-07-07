@@ -166,6 +166,10 @@ export type TApiFacilitiesLandingPage = IApiItem<{
   }
 }>
 
+export type TApiAboutUsPage = IApiItem<{
+  content: TApiDynamicZone[]
+}>
+
 export type TApiCommonItem = IApiItem<unknown>
 
 export type TApiItemKey<T extends TApiCommonItem> = ExtractKeys<T['attributes']> | 'id'
