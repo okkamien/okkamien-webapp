@@ -7,16 +7,25 @@ interface TApiDynamicZoneEmpty {
   contact?: never
   content?: never
   description?: never
+  email?: never
   events?: never
   files?: never
   image?: never
   images?: never
   location?: never
+  phone?: never
   staff?: never
   title?: never
   when?: never
 }
 
+export interface TApiDynamicZoneContact extends Omit<TApiDynamicZoneEmpty, 'content' | 'email' | 'phone' | 'title'> {
+  __component: 'two-columns.contact'
+  content?: string
+  email?: string
+  phone?: string
+  title: string
+}
 export interface TApiDynamicZoneDetailsSection extends Omit<TApiDynamicZoneEmpty, 'anchor' | 'contact' | 'where' | 'when'> {
   __component: 'two-columns.details-section'
   anchor?: {
@@ -68,6 +77,7 @@ export interface TApiDynamicZoneTextContent extends Omit<TApiDynamicZoneEmpty, '
 }
 
 export type TApiDynamicZone = (
+  | TApiDynamicZoneContact
   | TApiDynamicZoneDetailsSection
   | TApiDynamicZoneFiles
   | TApiDynamicZoneGallery

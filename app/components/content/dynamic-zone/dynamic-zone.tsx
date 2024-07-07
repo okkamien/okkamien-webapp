@@ -1,5 +1,6 @@
 import React, {FC, PropsWithChildren} from 'react'
-import {Box, Text} from '@effortless-ui'
+import {Anchor, Box, Text} from '@effortless-ui'
+import {IconMail, IconPhone} from '@tabler/icons-react'
 import Image from 'next/image'
 
 import {TApiDynamicZone} from '@/app/components/content'
@@ -20,11 +21,41 @@ const DynamicZoneHeading: FC<PropsWithChildren> = ({children}) => {
   )
 }
 
+const iconProps = {color: theme.color.contentIcon, size: 14}
+
 export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
   return zones.map((zone, i) => {
     switch (zone.__component) {
+      case 'two-columns.contact': {
+        const {content: zoneContent, email, phone, title: zoneTitle} = zone
+
+        return (
+          <Box key={i}>
+            <DynamicZoneHeading>{zoneTitle}</DynamicZoneHeading>
+            {zoneContent && <Text>{zoneContent}</Text>}
+            {(email || phone) && (
+              <Box
+                tag="ul"
+                composition={['semanticList']}
+                cs={{display: 'flex', flexDirection: 'column', rowGap: theme.spacing.xs, mt: theme.spacing.l}}
+              >
+                {phone && (
+                  <Box tag="li">
+                    <IconPhone {...iconProps} /> {phone}
+                  </Box>
+                )}
+                {email && (
+                  <Box tag="li">
+                    <IconMail {...iconProps} /> <Anchor href={`mailto:${email}`}>{email}</Anchor>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </Box>
+        )
+      }
       case 'two-columns.details-section': {
-        return <DetailsSection {...zone} />
+        return <DetailsSection key={i} {...zone} />
       }
       case 'two-columns.files': {
         const {
@@ -62,8 +93,10 @@ export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
         const {height, width} = attributes
 
         return (
-          <Box key={i} cs={{position: 'relative', borderRadius: theme.radii.m, overflow: 'hidden'}}>
-            <Image src={getStrapiImageUrl(attributes, ['large'])} alt={title} width={width} height={height} sizes="100%" />
+          <Box key={i}>
+            <Box cs={{position: ['static', 'relative'], mx: [-theme.spacing.ms, 0], borderRadius: [0, theme.radii.m], overflow: 'hidden'}}>
+              <Image src={getStrapiImageUrl(attributes, ['large'])} alt={title} width={width} height={height} sizes="100%" />
+            </Box>
             {description && <Text cs={{mt: theme.spacing.xxl}}>{description}</Text>}
           </Box>
         )
@@ -117,7 +150,7 @@ export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
         )
       }
       default:
-        return 'defaul'
+        return ''
     }
   })
 }
