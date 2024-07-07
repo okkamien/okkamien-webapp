@@ -2,7 +2,7 @@ import React from 'react'
 import {useQuery} from '@tanstack/react-query'
 import {GetServerSideProps, NextPage} from 'next'
 
-import {NewsItem} from '@/app/components/content'
+import {NewsItem, populateDynamicZone} from '@/app/components/content'
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {
@@ -32,18 +32,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [
-    {
-      endpoint: 'news',
-      filters: [{key: 'slug', value: [slug]}],
-      populate: [
-        ['detailsSection', ['location']],
-        ['events', ['location', 'thumbnail']],
-        ['gallery'],
-        ['files'],
-        ['poster'],
-        ['textContent'],
-      ],
-    },
+    {endpoint: 'news', filters: [{key: 'slug', value: [slug]}], populateRaw: populateDynamicZone},
   ]
   const {dehydratedState, hasData} = await getDehydratedState({payloads, req})
 

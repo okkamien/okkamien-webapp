@@ -20,7 +20,7 @@ export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadc
         label: 'Layout-main',
         position: 'relative',
         display: 'flex',
-        flexGrow: '1',
+        flexGrow: 1,
         py: [theme.spacing.xxxl, theme.spacing.xxxxl],
         borderRadius: theme.radii.l,
         bg: theme.gradient.radialBackground,

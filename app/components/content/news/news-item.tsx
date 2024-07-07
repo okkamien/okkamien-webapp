@@ -1,15 +1,15 @@
 import React, {FC} from 'react'
 
-import {ContentPage} from '@/app/components/content'
+import {DynamicZone} from '@/app/components/content'
 import {TwoColumns} from '@/app/components/layout'
 import {TApiNews} from '@/app/features/api'
 
 type TNewsItemProps = TApiNews
 
-export const NewsItem: FC<TNewsItemProps> = ({attributes: {title, ...rest}}) => {
+export const NewsItem: FC<TNewsItemProps> = ({attributes: {title, content}}) => {
   return (
     <TwoColumns title={title}>
-      <ContentPage title={title} {...rest} />
+      <DynamicZone title={title} zones={content} />
     </TwoColumns>
   )
 }

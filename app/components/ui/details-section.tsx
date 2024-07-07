@@ -1,30 +1,52 @@
-import React, {FC, Fragment} from 'react'
-import {Anchor, Box, Button, CSObject, Grid, Text} from '@effortless-ui'
+import React, {FC, Fragment, ReactNode} from 'react'
+import {Anchor, Box, Button, Grid, Text} from '@effortless-ui'
 import {IconCalendar, IconChevronsDown, IconClock, IconMail, IconMapPin, IconPhone} from '@tabler/icons-react'
 import dayjs from 'dayjs'
 
-import {TApiDetailsSection} from '@/app/features/api'
+import {TApiDynamicZoneDetailsSection} from '@/app/components/content'
 import {theme} from '@/app/styles'
 import {getFormattedDateRange} from '@/app/utils'
 
-interface IDetailsSectionProps {
-  blocks: TApiDetailsSection[]
+type IDetailsSectionProps = TApiDynamicZoneDetailsSection
+
+interface IDetailsSectionBlockProps {
+  title: string
+  list: ReactNode[]
 }
 
-const titleMap: {[key in TApiDetailsSection['__component']]: string} = {
-  'details-block.sign-up-anchor': 'Zapisy',
-  'details-block.sign-up-contact': 'Zapisy',
-  'details-block.when': 'Kiedy',
-  'details-block.where': 'Gdzie',
-}
-
-const blockListItemStyles: CSObject = {
-  display: 'flex',
-  columnGap: theme.spacing.xxs,
-}
 const iconProps = {color: theme.color.contentIcon, size: 14, css: {flexShrink: 0, marginTop: 2}}
 
-export const DetailsSection: FC<IDetailsSectionProps> = ({blocks}) => {
+export const DetailsSectionBlock: FC<IDetailsSectionBlockProps> = ({list, title}) => {
+  return (
+    <Box
+      cs={{
+        position: 'relative',
+        '&:not(:first-of-type)::before': {
+          content: '""',
+          position: 'absolute',
+          width: ['100%', 1],
+          height: [1, '100%'],
+          top: [-theme.spacing.l / 2, 0],
+          left: [0, -theme.spacing.l / 2, -theme.spacing.xxxl / 2, -theme.spacing.xxxxxl / 2],
+          bg: theme.color.border,
+        },
+      }}
+    >
+      <Text tag="h2" variant="h5" cs={{mb: theme.spacing.ms, fontWeight: 300, fontStyle: 'italic'}}>
+        {title}
+      </Text>
+      <Box tag="ul" composition={['semanticList']} css={{display: 'flex', flexDirection: 'column', rowGap: theme.spacing.xs}}>
+        {list.map((item, i) => (
+          <Box key={i} tag="li" cs={{display: 'flex', columnGap: theme.spacing.xxs}}>
+            {item}
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  )
+}
+
+export const DetailsSection: FC<IDetailsSectionProps> = ({anchor, contact, when, where}) => {
   return (
     <Grid
       cols={[1, 3]}
@@ -38,79 +60,71 @@ export const DetailsSection: FC<IDetailsSectionProps> = ({blocks}) => {
         borderRadius: theme.radii.m,
       }}
     >
-      {blocks.map((block, i) => (
-        <Box
-          key={i}
-          cs={{
-            position: 'relative',
-            '&:not(:first-of-type)::before': {
-              content: '""',
-              position: 'absolute',
-              width: ['100%', 1],
-              height: [1, '100%'],
-              top: [-theme.spacing.l / 2, 0],
-              left: [0, -theme.spacing.l / 2, -theme.spacing.xxxl / 2, -theme.spacing.xxxxxl / 2],
-              bg: theme.color.border,
-            },
-          }}
-        >
-          <Text tag="h2" variant="h5" cs={{mb: theme.spacing.ms, fontWeight: 300, fontStyle: 'italic'}}>
-            {titleMap[block.__component]}
-          </Text>
-          <Box tag="ul" composition={['semanticList']} css={{display: 'flex', flexDirection: 'column', rowGap: theme.spacing.xs}}>
-            {block.__component === 'details-block.when' && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <IconCalendar {...iconProps} /> {getFormattedDateRange(dayjs(block.from), dayjs(block.to))}
+      {anchor && (
+        <DetailsSectionBlock
+          title="Zapisy"
+          list={[
+            <Button
+              key={1}
+              variant="text"
+              cs={{display: 'flex', alignItems: 'center', textAlign: 'left'}}
+              onClick={() => document.querySelector('#news-event-section')?.scrollIntoView({behavior: 'smooth'})}
+            >
+              {anchor.label}
+              <IconChevronsDown size={22} stroke={1.5} css={{flexShrink: 0}} />
+            </Button>,
+          ]}
+        />
+      )}
+      {contact && (
+        <DetailsSectionBlock
+          title="Zapisy"
+          list={[
+            <Fragment key={1}>
+              <IconPhone {...iconProps} /> {contact.phone}
+            </Fragment>,
+            <Fragment key={2}>
+              <IconMail {...iconProps} /> <Anchor href={`mailto:${contact.email}`}>{contact.email}</Anchor>
+            </Fragment>,
+          ]}
+        />
+      )}
+      {when && (
+        <DetailsSectionBlock
+          title="Kiedy"
+          list={[
+            <Fragment key={1}>
+              <IconCalendar {...iconProps} /> {getFormattedDateRange(dayjs(when.from), dayjs(when.to))}
+            </Fragment>,
+            <Fragment key={2}>
+              <IconClock {...iconProps} /> {when.time.split(':', 2).join(':')}
+            </Fragment>,
+          ]}
+        />
+      )}
+      {where && (
+        <DetailsSectionBlock
+          title="Gdzie"
+          list={[
+            <Fragment key={1}>
+              <IconMapPin {...iconProps} />{' '}
+              <Box>
+                {where.location.data.attributes.name}
+                {where.location.data.attributes.address && (
+                  <Text tag="address" cs={{mt: theme.spacing.xxs, fontStyle: 'normal'}}>
+                    {where.location.data.attributes.address.split('\n').map((text, j) => (
+                      <Fragment key={j}>
+                        {text}
+                        <br />
+                      </Fragment>
+                    ))}
+                  </Text>
+                )}
               </Box>
-            )}
-            {block.__component === 'details-block.when' && block.time && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <IconClock {...iconProps} /> {block.time.split(':', 2).join(':')}
-              </Box>
-            )}
-            {block.__component === 'details-block.where' && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <IconMapPin {...iconProps} />{' '}
-                <Box>
-                  {block.location.data.attributes.name}
-                  {block.location.data.attributes.address && (
-                    <Text tag="address" cs={{mt: theme.spacing.xxs, fontStyle: 'normal'}}>
-                      {block.location.data.attributes.address.split('\n').map((text, j) => (
-                        <Fragment key={j}>
-                          {text}
-                          <br />
-                        </Fragment>
-                      ))}
-                    </Text>
-                  )}
-                </Box>
-              </Box>
-            )}
-            {block.__component === 'details-block.sign-up-anchor' && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <Button
-                  variant="text"
-                  cs={{display: 'flex', alignItems: 'center', textAlign: 'left'}}
-                  onClick={() => document.querySelector('#news-event-section')?.scrollIntoView({behavior: 'smooth'})}
-                >
-                  {block.label}
-                  <IconChevronsDown size={22} stroke={1.5} css={{flexShrink: 0}} />
-                </Button>
-              </Box>
-            )}
-            {block.__component === 'details-block.sign-up-contact' && block.phone && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <IconPhone {...iconProps} /> {block.phone}
-              </Box>
-            )}
-            {block.__component === 'details-block.sign-up-contact' && block.email && (
-              <Box tag="li" cs={blockListItemStyles}>
-                <IconMail {...iconProps} /> <Anchor href={`mailto:${block.email}`}>{block.email}</Anchor>
-              </Box>
-            )}
-          </Box>
-        </Box>
-      ))}
+            </Fragment>,
+          ]}
+        />
+      )}
     </Grid>
   )
 }

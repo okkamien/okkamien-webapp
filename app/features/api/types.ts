@@ -1,5 +1,6 @@
 import {BlocksContent} from '@strapi/blocks-react-renderer'
 
+import {TApiDynamicZone} from '@/app/components/content'
 import {ExtractKeys} from '@/app/utils'
 
 export type TStrapiFilterType = 'and' | 'or'
@@ -36,11 +37,8 @@ export interface IApiItem<T> {
   } & T
 }
 
-export interface IApiRelationSingle<T> {
+export interface IApiRelation<T> {
   data: T
-}
-export interface IApiRelationMultiple<T> {
-  data: T[]
 }
 
 export interface IApiImageAttributes {
@@ -93,94 +91,33 @@ export type TApiLocation = IApiItem<{
   name: string
 }>
 
-interface TApiDetailsSectionWhen {
-  __component: 'details-block.when'
-  from: string
-  to: string
-  time?: string
-
-  email?: never
-  label?: never
-  location?: never
-  phone?: never
-}
-interface TApiDetailsSectionWhere {
-  __component: 'details-block.where'
-  location: IApiRelationSingle<TApiLocation>
-
-  email?: never
-  from?: never
-  label?: never
-  phone?: never
-  time?: never
-  to?: never
-}
-interface TApiDetailsSectionAnchor {
-  __component: 'details-block.sign-up-anchor'
-  label: string
-
-  email?: never
-  from?: never
-  location?: never
-  phone?: never
-  time?: never
-  to?: never
-}
-interface TApiDetailsSectionContact {
-  __component: 'details-block.sign-up-contact'
-  phone?: string
-  email?: string
-
-  from?: never
-  location?: never
-  time?: never
-  to?: never
-}
-
-export type TApiDetailsSection = (
-  | TApiDetailsSectionWhen
-  | TApiDetailsSectionWhere
-  | TApiDetailsSectionAnchor
-  | TApiDetailsSectionContact
-) & {
-  id: number
-}
-
-export type TApiEvent = IApiItem<{
-  detailsSection: TApiDetailsSection[]
-  files: IApiFiles
-  from: string
-  gallery: IApiGallery
-  location: IApiRelationSingle<TApiLocation>
-  poster?: IApiImage
+export type TApiNews = IApiItem<{
+  content: TApiDynamicZone[]
+  date: string
   slug: string
   teaser: string
-  textContent?: IApiTextContent[]
+  title: string
+}>
+
+export type TApiEvent = IApiItem<{
+  content: TApiDynamicZone[]
+  from: string
+  location: IApiRelation<TApiLocation>
+  slug: string
+  teaser: string
   thumbnail?: IApiImage
   title: string
-  to?: string
+  to: string
 }>
 
 export type TApiWorkshop = IApiItem<{
+  content: TApiDynamicZone[]
   name: string
+  slug: string
   splitNameLeft?: string
   splitNameRight?: string
-  slug: string
   teaser: string
   thumbnail?: IApiImage
-}>
-
-export type TApiNews = IApiItem<{
-  date: string
-  detailsSection: TApiDetailsSection[]
-  gallery: IApiGallery
-  events: IApiRelationMultiple<TApiEvent>
-  files: IApiFiles
-  slug: string
-  teaser: string
-  textContent?: IApiTextContent[]
-  title: string
-  poster?: IApiImage
 }>
 
 export type TApiFacility = IApiItem<{
@@ -189,9 +126,9 @@ export type TApiFacility = IApiItem<{
   email?: string
   facebook?: string
   name: string
+  phone?: string
   splitNameLeft?: string
   splitNameRight?: string
-  phone?: string
   thumbnail: IApiImage
 }>
 

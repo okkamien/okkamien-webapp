@@ -72,11 +72,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     data: {
       attributes: {events},
     },
-  } = await getApiSingleResponse<TApiHomePage>({
-    req,
-    endpoint: 'home-page',
-    populate: ['events'],
-  })
+  } = await getApiSingleResponse<TApiHomePage>({req, endpoint: 'home-page', populate: ['events']})
   const ids = events?.data.map(({id}) => id.toString()) ?? []
   const {data: promotedEventsData} = await getApiCollectionResponse<TApiEvent>({
     req,

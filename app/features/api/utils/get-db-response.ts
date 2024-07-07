@@ -16,6 +16,8 @@ export interface IGetApiCollectionResponseParams<T extends TApiCommonItem> {
     pageSize?: number
   }
   populate?: [keyof T['attributes'], string[]?][]
+  populateRaw?: (keyof T['attributes'] | '*')[] | {[key in keyof T['attributes']]?: string | string[] | INestedRecord<string | string[]>}
+  // populate?: [keyof T['attributes'], string[]?][]
   req?: IncomingMessage
   sort?: [TApiItemKey<T>, TStrapiSearchOperator?][]
 }
@@ -53,6 +55,7 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
   filters = [],
   pagination = {pageSize: DEFAULT_PAGE_SIZE},
   populate = [],
+  populateRaw,
   req,
   sort = [],
 }: IGetApiCollectionResponseParams<T>): Promise<IGetApiCollectionResponseSuccessResponse<T>> => {
@@ -74,10 +77,9 @@ export const getApiCollectionResponse = async <T extends TApiCommonItem>({
         {},
       ),
       pagination,
-      populate: populate.reduce<INestedRecord<string[]>>(
-        (total, [key, _populate = ['']]) => ({...total, [key]: {populate: _populate}}),
-        {},
-      ),
+      populate:
+        populateRaw ??
+        populate.reduce<INestedRecord<string[]>>((total, [key, _populate = ['']]) => ({...total, [key]: {populate: _populate}}), {}),
       sort: sort.map(([key, operator = 'asc']) => `${String(key)}:${operator}`),
     },
     ...(req && {

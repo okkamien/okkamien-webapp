@@ -1,15 +1,15 @@
 import React, {FC} from 'react'
 
-import {ContentPage} from '@/app/components/content'
+import {DynamicZone} from '@/app/components/content'
 import {SingleColumn} from '@/app/components/layout'
 import {TApiEvent} from '@/app/features/api'
 
 type TEventsItemProps = TApiEvent
 
-export const EventsItem: FC<TEventsItemProps> = ({attributes: {title, ...rest}}) => {
+export const EventsItem: FC<TEventsItemProps> = ({attributes: {title, content}}) => {
   return (
     <SingleColumn title={title}>
-      <ContentPage title={title} {...rest} />
+      <DynamicZone title={title} zones={content} />
     </SingleColumn>
   )
 }
