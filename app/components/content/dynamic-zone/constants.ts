@@ -10,6 +10,9 @@ export const populateDynamicZone = {
       files: '*',
       image: '*',
       images: '*',
+      staff: {
+        populate: ['photo'],
+      },
       when: '*',
       where: {
         populate: ['location'],

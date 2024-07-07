@@ -91,6 +91,12 @@ export type TApiLocation = IApiItem<{
   name: string
 }>
 
+export type TApiStaff = IApiItem<{
+  name: string
+  photo: IApiImage
+  title: string
+}>
+
 export type TApiNews = IApiItem<{
   content: TApiDynamicZone[]
   date: string

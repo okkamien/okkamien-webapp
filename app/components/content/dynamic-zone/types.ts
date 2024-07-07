@@ -1,6 +1,6 @@
 import {BlocksContent} from '@strapi/blocks-react-renderer'
 
-import {IApiFiles, IApiGallery, IApiImage, IApiRelation, TApiEvent, TApiLocation} from '@/app/features/api'
+import {IApiFiles, IApiGallery, IApiImage, IApiRelation, TApiEvent, TApiLocation, TApiStaff} from '@/app/features/api'
 
 interface TApiDynamicZoneEmpty {
   anchor?: never
@@ -12,6 +12,7 @@ interface TApiDynamicZoneEmpty {
   image?: never
   images?: never
   location?: never
+  staff?: never
   title?: never
   when?: never
 }
@@ -49,6 +50,11 @@ export interface TApiDynamicZoneRelatedEvents extends Omit<TApiDynamicZoneEmpty,
   events: IApiRelation<TApiEvent[]>
   title: string
 }
+export interface TApiDynamicZoneRelatedPeople extends Omit<TApiDynamicZoneEmpty, 'staff' | 'title'> {
+  __component: 'two-columns.related-people'
+  staff: IApiRelation<TApiStaff[]>
+  title: string
+}
 export interface TApiDynamicZonePoster extends Omit<TApiDynamicZoneEmpty, 'description' | 'image'> {
   __component: 'two-columns.poster'
   description?: string
@@ -64,8 +70,9 @@ export type TApiDynamicZone = (
   | TApiDynamicZoneDetailsSection
   | TApiDynamicZoneFiles
   | TApiDynamicZoneGallery
-  | TApiDynamicZoneRelatedEvents
   | TApiDynamicZonePoster
+  | TApiDynamicZoneRelatedEvents
+  | TApiDynamicZoneRelatedPeople
   | TApiDynamicZoneTextContent
 ) & {
   id: number

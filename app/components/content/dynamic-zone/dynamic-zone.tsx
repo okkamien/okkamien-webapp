@@ -3,7 +3,7 @@ import {Box, Text} from '@effortless-ui'
 import Image from 'next/image'
 
 import {TApiDynamicZone} from '@/app/components/content'
-import {DetailsSection, FilesToDownload, Gallery, Tile, TilesSlider, Wysiwyg} from '@/app/components/ui'
+import {DetailsSection, FilesToDownload, Gallery, Staff, Tile, TilesSlider, Wysiwyg} from '@/app/components/ui'
 import {theme} from '@/app/styles'
 import {getStrapiImageUrl, mapApiEventToTile} from '@/app/utils'
 
@@ -79,6 +79,29 @@ export const DynamicZone: FC<IDynamicZoneProps> = ({title, zones}) => {
                 <Tile key={j} {...mapApiEventToTile(item)} />
               ))}
             />
+          </Box>
+        )
+      }
+      case 'two-columns.related-people': {
+        const {
+          staff: {data},
+          title: zoneTitle,
+        } = zone
+
+        return (
+          <Box key={i} id="news-event-section" cs={{scrollMarginTop: theme.spacing.l + theme.size.nav}}>
+            <DynamicZoneHeading>{zoneTitle}</DynamicZoneHeading>
+            <Box
+              tag="ul"
+              composition={['semanticList']}
+              cs={{display: 'flex', flexWrap: 'wrap', columnGap: theme.gap, rowGap: theme.spacing.ms}}
+            >
+              {data.map(({attributes}, j) => (
+                <Box key={j} tag="li" cs={{px: [0, theme.spacing.m]}}>
+                  <Staff {...attributes} />
+                </Box>
+              ))}
+            </Box>
           </Box>
         )
       }
