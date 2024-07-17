@@ -3,14 +3,30 @@ import {GetServerSideProps, NextPage} from 'next'
 
 import MasterPage from '@/app/components/masterpages/masterpage'
 import {Tile, TilesList, Title} from '@/app/components/ui'
-import {getDehydratedState, IGetApiCollectionResponseParams, IPageWithPayload, TApiNews} from '@/app/features/api'
+import {
+  getApiSingleResponse,
+  getDehydratedState,
+  IApiImage,
+  IGetApiCollectionResponseParams,
+  IPageWithPayload,
+  TApiNews,
+  TApiNewsLandingPage,
+} from '@/app/features/api'
 import {DynamicContent} from '@/app/features/dynamic-content'
 import {useScrollRef} from '@/app/hooks'
 import {theme} from '@/app/styles'
 import {mapApiNewsToTile} from '@/app/utils'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
+interface INewsPageProps {
+  cover: IApiImage
+}
+
+const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, payloads: [payload]}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
+
+  console.log('cover data')
+  console.log('cover')
+  console.log(cover)
 
   return (
     <MasterPage breadcrumbs={{current: 'Aktualności'}}>
@@ -32,11 +48,20 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
+  const {
+    data: {
+      attributes: {cover},
+    },
+  } = await getApiSingleResponse<TApiNewsLandingPage>({
+    req,
+    endpoint: 'news-landing-page',
+    populate: ['cover'],
+  })
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['date', 'desc']]}]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, payloads},
+    props: {dehydratedState, cover, payloads},
   }
 }
 

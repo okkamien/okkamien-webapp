@@ -140,15 +140,33 @@ export type TApiFacility = IApiItem<{
   thumbnail: IApiImage
 }>
 
+export interface IApiSlide {
+  cover: IApiImage
+  id: number
+  title: BlocksContent
+  content: BlocksContent
+  event: IApiRelation<TApiEvent>
+}
+
 export type TApiHomePage = IApiItem<{
   events?: {
     data: {
       id: number
     }[]
   }
+  slider: IApiSlide[]
+}>
+
+export type TApiNewsLandingPage = IApiItem<{
+  cover: IApiImage
+}>
+
+export type TApiEventsLandingPage = IApiItem<{
+  cover: IApiImage
 }>
 
 export type TApiWorkshopsLandingPage = IApiItem<{
+  cover: IApiImage
   intro: string
   workshops?: {
     data: {
@@ -158,6 +176,7 @@ export type TApiWorkshopsLandingPage = IApiItem<{
 }>
 
 export type TApiFacilitiesLandingPage = IApiItem<{
+  cover: IApiImage
   intro: string
   facilities?: {
     data: {
@@ -168,6 +187,7 @@ export type TApiFacilitiesLandingPage = IApiItem<{
 
 export type TApiAboutUsPage = IApiItem<{
   content: TApiDynamicZone[]
+  cover: IApiImage
 }>
 
 export type TApiCommonItem = IApiItem<unknown>

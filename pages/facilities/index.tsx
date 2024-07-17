@@ -11,6 +11,7 @@ import {
   getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiFacilitiesLandingPage,
@@ -21,11 +22,16 @@ import {theme} from '@/app/styles'
 import {sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
+  cover: IApiImage
   ids: string[]
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, ids, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({cover, intro, ids, payloads: [payload]}) => {
+  console.log('cover data')
+  console.log('cover')
+  console.log(cover)
+
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -53,12 +59,12 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {intro, facilities},
+      attributes: {cover, intro, facilities},
     },
   } = await getApiSingleResponse<TApiFacilitiesLandingPage>({
     req,
     endpoint: 'facilities-landing-page',
-    populate: ['facilities'],
+    populate: ['cover', 'facilities'],
   })
   const ids = facilities?.data.map(({id}) => id.toString()) ?? []
 
@@ -68,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, intro, ids, payloads},
+    props: {dehydratedState, cover, intro, ids, payloads},
   }
 }
 

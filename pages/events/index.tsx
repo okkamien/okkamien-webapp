@@ -8,9 +8,11 @@ import {
   getApiCollectionResponse,
   getApiSingleResponse,
   getDehydratedState,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiEvent,
+  TApiEventsLandingPage,
   TApiHomePage,
   TApiLocation,
 } from '@/app/features/api'
@@ -20,12 +22,22 @@ import {theme} from '@/app/styles'
 import {mapApiEventToTile, sortByIdList} from '@/app/utils'
 
 interface IEventsPageProps {
+  cover: IApiImage
   locations: ISelectOption[]
   promotedEvents: TApiEvent[]
 }
 
-const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps> = ({locations, payloads: [payload], promotedEvents}) => {
+const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps> = ({
+  cover,
+  locations,
+  payloads: [payload],
+  promotedEvents,
+}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
+
+  console.log('cover data')
+  console.log('cover')
+  console.log(cover)
 
   return (
     <MasterPage breadcrumbs={{current: 'Wydarzenia'}}>
@@ -70,6 +82,15 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
+      attributes: {cover},
+    },
+  } = await getApiSingleResponse<TApiEventsLandingPage>({
+    req,
+    endpoint: 'events-landing-page',
+    populate: ['cover'],
+  })
+  const {
+    data: {
       attributes: {events},
     },
   } = await getApiSingleResponse<TApiHomePage>({req, endpoint: 'home-page', populate: ['events']})
@@ -91,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, locations, payloads, promotedEvents},
+    props: {dehydratedState, cover, locations, payloads, promotedEvents},
   }
 }
 
