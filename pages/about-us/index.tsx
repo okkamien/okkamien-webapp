@@ -12,12 +12,8 @@ interface IAboutUsPageProps {
 }
 
 const Page: NextPage<IAboutUsPageProps> = ({cover, zones}) => {
-  console.log('cover data')
-  console.log('cover')
-  console.log(cover)
-
   return (
-    <MasterPage breadcrumbs={{current: 'O nas'}}>
+    <MasterPage breadcrumbs={{current: 'O nas'}} coverImage={cover}>
       <TwoColumns title="O nas">
         <DynamicZone title="o nas" zones={zones} />
       </TwoColumns>

@@ -31,10 +31,6 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
   payloads: [newsPayload, eventsPayload],
   slider,
 }) => {
-  console.log('cover data')
-  console.log('slider')
-  console.log(slider)
-
   const {data: newsData, isSuccess: isNewsDataSuccess} = useQuery({
     queryKey: getQueryKey({payload: newsPayload}),
     queryFn: () => getApiCollectionResponse(newsPayload),
@@ -45,7 +41,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
   })
 
   return (
-    <MasterPage>
+    <MasterPage coverData={slider}>
       {isEventsDataSuccess && (
         <Box cs={{label: 'Events-section', mb: [theme.spacing.xxxl, theme.spacing.xxxxl]}}>
           <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Wydarzenia</Title>

@@ -35,12 +35,8 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
 }) => {
   const {scrollRef, scrollToElement} = useScrollRef()
 
-  console.log('cover data')
-  console.log('cover')
-  console.log(cover)
-
   return (
-    <MasterPage breadcrumbs={{current: 'Wydarzenia'}}>
+    <MasterPage breadcrumbs={{current: 'Wydarzenia'}} coverImage={cover}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Wydarzenia
       </Title>

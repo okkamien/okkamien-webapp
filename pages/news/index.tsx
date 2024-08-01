@@ -24,12 +24,8 @@ interface INewsPageProps {
 const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, payloads: [payload]}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
 
-  console.log('cover data')
-  console.log('cover')
-  console.log(cover)
-
   return (
-    <MasterPage breadcrumbs={{current: 'Aktualności'}}>
+    <MasterPage breadcrumbs={{current: 'Aktualności'}} coverImage={cover}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>

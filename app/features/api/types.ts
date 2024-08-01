@@ -110,7 +110,7 @@ export type TApiNews = IApiItem<{
 export type TApiEvent = IApiItem<{
   content: TApiDynamicZone[]
   from: string
-  location: IApiRelation<TApiLocation>
+  location?: IApiRelation<TApiLocation>
   slug: string
   teaser: string
   thumbnail?: IApiImage

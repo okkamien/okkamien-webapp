@@ -6,10 +6,13 @@ import Head from 'next/head'
 import {DefaultTemplate, EmptyTemplate} from '@/app/components/masterpages/templates'
 import {IBreadcrumbsProps} from '@/app/components/ui'
 import {siteDescription, siteName} from '@/app/dictionaries/site.dictionary'
+import {IApiImage, IApiSlide} from '@/app/features/api'
 
 interface IMasterPageProps {
   bodyCss?: CSObject
   breadcrumbs?: IBreadcrumbsProps
+  coverData?: IApiSlide[]
+  coverImage?: IApiImage
   description?: string
   template?: 'default' | 'empty'
   title?: string
@@ -18,6 +21,8 @@ interface IMasterPageProps {
 const MasterPage: FC<PropsWithChildren<IMasterPageProps>> = ({
   bodyCss,
   breadcrumbs,
+  coverData,
+  coverImage,
   children,
   description = siteDescription,
   template = 'default',
@@ -39,7 +44,11 @@ const MasterPage: FC<PropsWithChildren<IMasterPageProps>> = ({
       <Global styles={{body: bodyCss}} />
       {
         {
-          default: <DefaultTemplate breadcrumbs={breadcrumbs}>{children}</DefaultTemplate>,
+          default: (
+            <DefaultTemplate breadcrumbs={breadcrumbs} coverData={coverData} coverImage={coverImage}>
+              {children}
+            </DefaultTemplate>
+          ),
           empty: <EmptyTemplate>{children}</EmptyTemplate>,
         }[template]
       }

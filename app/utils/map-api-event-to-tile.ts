@@ -9,7 +9,7 @@ export const mapApiEventToTile = ({attributes: {from, location, slug, teaser, th
   return {
     date: to ? [dayjs(from), dayjs(to)] : dayjs(from),
     link: `${siteMap.events}/${slug}`,
-    tags: [location.data.attributes.name],
+    tags: location && [location.data.attributes.name],
     teaser,
     title,
     ...(thumbnail?.data && {

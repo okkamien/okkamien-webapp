@@ -26,17 +26,13 @@ interface IWorkshopPageProps {
 }
 
 const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({cover, intro, ids, payloads: [payload]}) => {
-  console.log('cover data')
-  console.log('cover')
-  console.log(cover)
-
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
   })
 
   return (
-    <MasterPage breadcrumbs={{current: 'Pracownie'}}>
+    <MasterPage breadcrumbs={{current: 'Pracownie'}} coverImage={cover}>
       <Title cs={{mb: theme.spacing.ms}}>Pracownie</Title>
       <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (
