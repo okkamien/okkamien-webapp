@@ -35,7 +35,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
   useEffect(() => updateSliderUI(), [])
 
   return (
-    <Box cs={{position: 'relative'}}>
+    <Box cs={{label: 'cover-carousel', position: 'relative'}}>
       <Box ref={emblaMainRef} cs={{overflow: 'hidden', height: '80vh'}}>
         <Box
           tag="ul"
@@ -47,7 +47,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
           }}
         >
           {coverData.map((item, i) => (
-            <Box key={i} tag="li" cs={{position: 'relative', height: '100%'}}>
+            <Box key={i} tag="li" cs={{label: 'cover-carousel-item', position: 'relative', height: '100%'}}>
               <CoverImage image={item.cover.data.attributes.url}>
                 <Container cs={{position: 'relative', height: '80vh', justifyContent: 'space-between'}}>
                   <Box />
@@ -58,7 +58,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
           ))}
         </Box>
       </Box>
-      <Box cs={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 0}}>
+      <Box cs={{label: 'cover-carousel-arrows', position: 'absolute', left: 0, right: 0, bottom: 0, height: 0}}>
         <Container cs={{position: 'relative'}}>
           <Box cs={{position: 'absolute', right: theme.spacing.xs, bottom: 0, width: 134, height: 150}}>
             <Button

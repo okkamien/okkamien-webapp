@@ -13,7 +13,7 @@ export const CoverImage: FC<ICoverImageProps> = ({image, children}) => {
   return (
     <Box
       cs={{
-        label: 'Cover',
+        label: 'Cover-image',
         display: 'flex',
         position: 'relative',
         background: theme.color.overlay,

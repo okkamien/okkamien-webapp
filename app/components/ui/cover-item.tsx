@@ -20,7 +20,7 @@ export const CoverItem: FC<ICoverItemProps> = ({date, link, tags, teaser, title}
   return (
     <Box
       cs={{
-        label: 'Tile-content',
+        label: 'cover-event-detail',
         display: 'flex',
         flexDirection: 'column',
         height: 'auto',
