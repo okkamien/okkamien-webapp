@@ -20,13 +20,12 @@ export const CoverImage: FC<ICoverImageProps> = ({image, children}) => {
         flex: '0 0 100%',
         width: '100vw',
         height: children ? '80vh' : '20vh',
-        opacity: 0.8,
         '&::after': {
           content: '""',
           position: 'absolute',
           backgroundColor: theme.color.overlay,
           opacity: 0.8,
-          height: '100vh',
+          height: children ? '80vh' : '20vh',
           width: '100vw',
         },
       }}

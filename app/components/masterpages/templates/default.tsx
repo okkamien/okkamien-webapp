@@ -30,6 +30,7 @@ export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadc
         py: [theme.spacing.xxxl, theme.spacing.xxxxl],
         borderRadius: theme.radii.l,
         bg: theme.gradient.radialBackground,
+        mt: theme.spacing.ms,
       }}
     >
       <Container>
