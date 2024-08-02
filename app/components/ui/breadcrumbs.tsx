@@ -36,7 +36,7 @@ export const BreadcrumbsLink: FC<IBreadcrumbsLinkProps> = ({isActive, label, lin
       <Link href={link} legacyBehavior passHref>
         <Anchor
           cs={{
-            color: isActive ? theme.color.overlay : theme.color.inactive,
+            color: isActive ? theme.color.text : theme.color.inactive,
             textDecoration: 'none',
             whiteSpace: 'nowrap',
             '&:hover': {
