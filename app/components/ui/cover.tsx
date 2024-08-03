@@ -4,6 +4,7 @@ import {IconChevronLeft, IconChevronRight} from '@tabler/icons-react'
 import {Container} from 'app/components/ui/container'
 import {CoverImage} from 'app/components/ui/cover-image'
 import {CoverItem} from 'app/components/ui/cover-item'
+import {Wysiwyg} from 'app/components/ui/wysiwyg'
 import Fade from 'embla-carousel-fade'
 import useEmblaCarousel from 'embla-carousel-react'
 
@@ -36,7 +37,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
 
   return (
     <Box cs={{label: 'cover-carousel', position: 'relative'}}>
-      <Box ref={emblaMainRef} cs={{overflow: 'hidden', height: '80vh'}}>
+      <Box ref={emblaMainRef} cs={{overflow: 'hidden', height: ['90vh', '80vh']}}>
         <Box
           tag="ul"
           composition={['semanticList']}
@@ -50,7 +51,14 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
             <Box key={i} tag="li" cs={{label: 'cover-carousel-item', position: 'relative', height: '100%'}}>
               <CoverImage image={item.cover.data.attributes.url}>
                 <Container cs={{position: 'relative', height: '80vh', justifyContent: 'space-between'}}>
-                  <Box />
+                  <Box cs={{pt: [theme.spacing.xxxxxl, 155], color: theme.color.white, position: 'relative', zIndex: 2, maxWidth: 750}}>
+                    {item.title && (
+                      <Box cs={{pb: theme.spacing.ml}}>
+                        <Wysiwyg content={item.title} />{' '}
+                      </Box>
+                    )}
+                    {item.content && <Wysiwyg content={item.content} />}
+                  </Box>
                   <CoverItem key={i} {...mapApiEventToTile(item.event.data)} />
                 </Container>
               </CoverImage>

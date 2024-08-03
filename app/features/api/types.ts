@@ -143,8 +143,8 @@ export type TApiFacility = IApiItem<{
 export interface IApiSlide {
   cover: IApiImage
   id: number
-  title: BlocksContent
-  content: BlocksContent
+  title?: BlocksContent
+  content?: BlocksContent
   event: IApiRelation<TApiEvent>
 }
 

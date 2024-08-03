@@ -60,7 +60,8 @@ export const CoverItem: FC<ICoverItemProps> = ({date, link, tags, teaser, title}
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            width: 450,
+            maxWidth: 450,
+            pr: theme.gap,
           }}
         >
           {teaser}
