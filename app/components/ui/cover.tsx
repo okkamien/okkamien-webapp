@@ -23,8 +23,6 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
   // eslint-disable-next-line new-cap
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel({align: 'start', containScroll: false}, [Fade()])
 
-  // console.log('coverData', coverData)
-
   const updateSliderUI = () => {
     if (emblaMainApi) {
       setCanScrollPrev(emblaMainApi.canScrollPrev())
