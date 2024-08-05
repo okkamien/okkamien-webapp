@@ -38,11 +38,6 @@ export const CoverItem: FC<ICoverItemProps> = ({date, link, tags, teaser, title}
           ))}
         </Box>
       )}
-      <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexWrap: 'wrap', gap: theme.spacing.s, mb: theme.spacing.m}}>
-        <Box key={123} tag="li">
-          <Tag>Tag</Tag>
-        </Box>
-      </Box>
       {date && (
         <Text tag="span" cs={{mb: theme.spacing.xxs, color: theme.color.white}}>
           {Array.isArray(date) ? getFormattedDateRange(...date) : date.format('DD/MM/YYYY')}
