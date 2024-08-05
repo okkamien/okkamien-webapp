@@ -33,7 +33,7 @@ export const CoverItem: FC<ICoverItemProps> = ({date, link, tags, teaser, title}
         <Box tag="ul" composition={['semanticList']} cs={{display: 'flex', flexWrap: 'wrap', gap: theme.spacing.s, mb: theme.spacing.m}}>
           {tags.map((tag, i) => (
             <Box key={i} tag="li">
-              <Tag>{tag}</Tag>
+              <Tag inverse>{tag}</Tag>
             </Box>
           ))}
         </Box>
