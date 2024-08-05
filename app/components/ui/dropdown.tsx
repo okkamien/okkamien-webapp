@@ -16,7 +16,7 @@ export const Dropdown: FC<IDropdownProps> = ({children, label}) => {
   const ref = useOutsideElementClickHandler(() => setIsOpen(false))
 
   return (
-    <Box cs={{label: 'Dropdown', position: 'relative'}} ref={ref}>
+    <Box cs={{label: 'Dropdown', position: ['static', 'relative']}} ref={ref}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
         onMouseEnter={() => setIsMouseOver(true)}

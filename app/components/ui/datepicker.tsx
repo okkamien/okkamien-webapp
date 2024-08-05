@@ -14,8 +14,8 @@ export interface IDatepickerProps {
 // imported and modified `react-calendar/dist/Calendar.css` file
 const reactCalendarStyles: CSObject = {
   '.react-calendar': {
-    width: 300,
-    maxWidth: '100%',
+    maxWidth: 300,
+    width: ['100%', 300],
     background: theme.color.white,
     'button:enabled': {
       cursor: 'pointer',
