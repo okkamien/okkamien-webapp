@@ -19,6 +19,7 @@ import {
 
 interface INewPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
 }
 
 const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads: [payload], cover}) => {
@@ -42,12 +43,12 @@ const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads:
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const {
     data: {
-      attributes: {cover},
+      attributes: {cover, coverMobile},
     },
   } = await getApiSingleResponse<TApiNewsLandingPage>({
     req,
     endpoint: 'news-landing-page',
-    populate: ['cover'],
+    populate: ['cover', 'coverMobile'],
   })
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [
@@ -57,7 +58,12 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
 
   return hasData
     ? {
-        props: {dehydratedState, payloads, cover},
+        props: {
+          cover,
+          coverMobile,
+          dehydratedState,
+          payloads,
+        },
       }
     : {
         notFound: true,

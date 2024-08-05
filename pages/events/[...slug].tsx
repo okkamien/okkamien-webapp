@@ -19,6 +19,7 @@ import {
 
 interface IEventPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
 }
 
 const Page: NextPage<IPageWithPayload<[TApiEvent]> & IEventPageProps> = ({payloads: [payload], cover}) => {
@@ -42,12 +43,12 @@ const Page: NextPage<IPageWithPayload<[TApiEvent]> & IEventPageProps> = ({payloa
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const {
     data: {
-      attributes: {cover},
+      attributes: {cover, coverMobile},
     },
   } = await getApiSingleResponse<TApiEventsLandingPage>({
     req,
     endpoint: 'events-landing-page',
-    populate: ['cover'],
+    populate: ['cover', 'coverMobile'],
   })
 
   const [slug] = query.slug as string[]
@@ -58,7 +59,12 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
 
   return hasData
     ? {
-        props: {dehydratedState, payloads, cover},
+        props: {
+          cover,
+          coverMobile,
+          dehydratedState,
+          payloads,
+        },
       }
     : {
         notFound: true,

@@ -23,6 +23,7 @@ import {mapApiEventToTile, sortByIdList} from '@/app/utils'
 
 interface IEventsPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
   locations: ISelectOption[]
   promotedEvents: TApiEvent[]
 }
@@ -78,12 +79,12 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {cover},
+      attributes: {cover, coverMobile},
     },
   } = await getApiSingleResponse<TApiEventsLandingPage>({
     req,
     endpoint: 'events-landing-page',
-    populate: ['cover'],
+    populate: ['cover', 'coverMobile'],
   })
   const {
     data: {
@@ -108,7 +109,14 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, cover, locations, payloads, promotedEvents},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      locations,
+      payloads,
+      promotedEvents,
+    },
   }
 }
 
