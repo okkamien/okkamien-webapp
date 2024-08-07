@@ -7,14 +7,21 @@ import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {
   getApiCollectionResponse,
+  getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiNews,
+  TApiNewsLandingPage,
 } from '@/app/features/api'
 
-const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => {
+interface INewPageProps {
+  cover: IApiImage
+}
+
+const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads: [payload], cover}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -22,7 +29,10 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 
   return (
     isSuccess && (
-      <MasterPage breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualności', link: siteMap.news}]}}>
+      <MasterPage
+        coverImage={cover}
+        breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualności', link: siteMap.news}]}}
+      >
         <NewsItem {...data.data[0]} />
       </MasterPage>
     )
@@ -30,6 +40,15 @@ const Page: NextPage<IPageWithPayload<[TApiNews]>> = ({payloads: [payload]}) => 
 }
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
+  const {
+    data: {
+      attributes: {cover},
+    },
+  } = await getApiSingleResponse<TApiNewsLandingPage>({
+    req,
+    endpoint: 'news-landing-page',
+    populate: ['cover'],
+  })
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [
     {endpoint: 'news', filters: [{key: 'slug', value: [slug]}], populateRaw: populateDynamicZone},
@@ -38,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
 
   return hasData
     ? {
-        props: {dehydratedState, payloads},
+        props: {dehydratedState, payloads, cover},
       }
     : {
         notFound: true,

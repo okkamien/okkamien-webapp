@@ -7,14 +7,21 @@ import MasterPage from '@/app/components/masterpages/masterpage'
 import {siteMap} from '@/app/dictionaries/site.dictionary'
 import {
   getApiCollectionResponse,
+  getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiWorkshop,
+  TApiWorkshopsLandingPage,
 } from '@/app/features/api'
 
-const Page: NextPage<IPageWithPayload<[TApiWorkshop]>> = ({payloads: [payload]}) => {
+interface IWorkshopPageProps {
+  cover: IApiImage
+}
+
+const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({payloads: [payload], cover}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -22,7 +29,10 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]>> = ({payloads: [payload]})
 
   return (
     isSuccess && (
-      <MasterPage breadcrumbs={{current: data.data[0].attributes.name, links: [{label: 'Pracownie', link: siteMap.workshops}]}}>
+      <MasterPage
+        coverImage={cover}
+        breadcrumbs={{current: data.data[0].attributes.name, links: [{label: 'Pracownie', link: siteMap.workshops}]}}
+      >
         <WorkshopItem {...data.data[0]} />
       </MasterPage>
     )
@@ -30,6 +40,15 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]>> = ({payloads: [payload]})
 }
 
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
+  const {
+    data: {
+      attributes: {cover},
+    },
+  } = await getApiSingleResponse<TApiWorkshopsLandingPage>({
+    req,
+    endpoint: 'workshops-landing-page',
+    populate: ['cover'],
+  })
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
     {
@@ -42,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
 
   return hasData
     ? {
-        props: {dehydratedState, payloads},
+        props: {dehydratedState, payloads, cover},
       }
     : {
         notFound: true,

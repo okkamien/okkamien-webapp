@@ -10,6 +10,7 @@ import {
   getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiWorkshop,
@@ -19,18 +20,19 @@ import {theme} from '@/app/styles'
 import {mapApiWorkshopToTile, sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
+  cover: IApiImage
   ids: string[]
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({intro, ids, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({cover, intro, ids, payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
   })
 
   return (
-    <MasterPage breadcrumbs={{current: 'Pracownie'}}>
+    <MasterPage breadcrumbs={{current: 'Pracownie'}} coverImage={cover}>
       <Title cs={{mb: theme.spacing.ms}}>Pracownie</Title>
       <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (
@@ -62,12 +64,12 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {intro, workshops},
+      attributes: {cover, intro, workshops},
     },
   } = await getApiSingleResponse<TApiWorkshopsLandingPage>({
     req,
     endpoint: 'workshops-landing-page',
-    populate: ['workshops'],
+    populate: ['cover', 'workshops'],
   })
   const ids = workshops?.data.map(({id}) => id.toString()) ?? []
 
@@ -77,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, intro, ids, payloads},
+    props: {dehydratedState, cover, intro, ids, payloads},
   }
 }
 
