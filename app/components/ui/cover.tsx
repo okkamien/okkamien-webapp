@@ -17,11 +17,11 @@ export interface ICoverProps extends PropsWithCS {
 }
 
 export const Cover: FC<ICoverProps> = ({coverData}) => {
-  const [canScrollPrev, setCanScrollPrev] = useState<boolean>(false)
+  const [canScrollPrev, setCanScrollPrev] = useState<boolean>(true)
   const [canScrollNext, setCanScrollNext] = useState<boolean>(true)
 
   // eslint-disable-next-line new-cap
-  const [emblaMainRef, emblaMainApi] = useEmblaCarousel({align: 'start', containScroll: false}, [Fade()])
+  const [emblaMainRef, emblaMainApi] = useEmblaCarousel({align: 'start', containScroll: false, loop: true}, [Fade()])
 
   const updateSliderUI = () => {
     if (emblaMainApi) {
@@ -77,6 +77,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
                 border: '1px solid',
                 borderColor: theme.color.white,
                 opacity: canScrollPrev ? 1 : 0,
+                pointerEvents: canScrollPrev ? 'auto' : 'none',
                 zIndex: 2,
                 transition: 'opacity 200ms',
               }}
@@ -96,6 +97,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
                 border: '1px solid',
                 borderColor: theme.color.white,
                 opacity: canScrollNext ? 1 : 0,
+                pointerEvents: canScrollNext ? 'auto' : 'none',
                 zIndex: 2,
                 transition: 'opacity 200ms',
               }}
