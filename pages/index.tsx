@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   } = await getApiSingleResponse<TApiHomePage>({
     req,
     endpoint: 'home-page',
-    populateRaw: {events: '*', slider: {populate: ['event', 'cover']}},
+    populateRaw: {events: '*', slider: {populate: {event: {populate: ['location']}, cover: '*'}}},
   })
   const ids = events?.data.map(({id}) => id.toString()) ?? []
 

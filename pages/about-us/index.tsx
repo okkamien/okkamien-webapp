@@ -8,6 +8,7 @@ import {getApiSingleResponse, IApiImage, TApiAboutUsPage} from '@/app/features/a
 
 interface IAboutUsPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
   zones: TApiDynamicZone[]
 }
 
@@ -24,12 +25,20 @@ const Page: NextPage<IAboutUsPageProps> = ({cover, zones}) => {
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {content, cover},
+      attributes: {content, cover, coverMobile},
     },
-  } = await getApiSingleResponse<TApiAboutUsPage>({req, endpoint: 'about-us', populateRaw: {...populateDynamicZone, cover: '*'}})
+  } = await getApiSingleResponse<TApiAboutUsPage>({
+    req,
+    endpoint: 'about-us',
+    populateRaw: {...populateDynamicZone, cover: '*', coverMobile: '*'},
+  })
 
   return {
-    props: {zones: content, cover},
+    props: {
+      cover,
+      coverMobile,
+      zones: content,
+    },
   }
 }
 

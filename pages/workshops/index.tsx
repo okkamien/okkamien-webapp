@@ -21,6 +21,7 @@ import {mapApiWorkshopToTile, sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
   ids: string[]
   intro: string
 }
@@ -64,12 +65,12 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {cover, intro, workshops},
+      attributes: {cover, coverMobile, intro, workshops},
     },
   } = await getApiSingleResponse<TApiWorkshopsLandingPage>({
     req,
     endpoint: 'workshops-landing-page',
-    populate: ['cover', 'workshops'],
+    populate: ['cover', 'coverMobile', 'workshops'],
   })
   const ids = workshops?.data.map(({id}) => id.toString()) ?? []
 
@@ -79,7 +80,14 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, cover, intro, ids, payloads},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      ids,
+      intro,
+      payloads,
+    },
   }
 }
 
