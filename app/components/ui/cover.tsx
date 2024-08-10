@@ -47,7 +47,7 @@ export const Cover: FC<ICoverProps> = ({coverData}) => {
         >
           {coverData.map((item, i) => (
             <Box key={i} tag="li" cs={{label: 'cover-carousel-item', position: 'relative', height: '100%'}}>
-              <CoverImage image={item.cover.data.attributes.url}>
+              <CoverImage image={item.cover.data.attributes.url} imageMobile={item.coverMobile.data.attributes.url}>
                 <Container cs={{position: 'relative', height: '80vh', justifyContent: 'space-between'}}>
                   <Box cs={{pt: [theme.spacing.xxxxxl, 155], color: theme.color.white, position: 'relative', zIndex: 2, maxWidth: 750}}>
                     {item.title && (

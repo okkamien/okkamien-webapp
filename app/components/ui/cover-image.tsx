@@ -34,10 +34,10 @@ export const CoverImage: FC<ICoverImageProps> = ({image, children, imageMobile})
     >
       {imageMobile ? (
         <>
-          <Box cs={{width: '100vw', display: ['none', 'block', 'block']}}>
+          <Box cs={{display: ['none', 'block', 'block']}}>
             <Image src={image} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>
-          <Box cs={{width: '100vw', display: ['block', 'none', 'none']}}>
+          <Box cs={{display: ['block', 'none', 'none']}}>
             <Image src={imageMobile} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
           </Box>
         </>

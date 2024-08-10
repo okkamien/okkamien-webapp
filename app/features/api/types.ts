@@ -142,6 +142,7 @@ export type TApiFacility = IApiItem<{
 
 export interface IApiSlide {
   cover: IApiImage
+  coverMobile: IApiImage
   id: number
   title?: BlocksContent
   content?: BlocksContent
