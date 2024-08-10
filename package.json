@@ -4,10 +4,16 @@
   "description": "",
   "homepage": "https://okkamien.pl",
   "license": "Unlicense",
-  "author": {
-    "name": "Piotr Konowrocki",
-    "url": "https://github.com/piotrkonowrocki/"
-  },
+  "contributors": [
+    {
+      "name": "Piotr Konowrocki",
+      "url": "https://github.com/piotrkonowrocki/"
+    },
+    {
+      "name": "Michał Dawid",
+      "url": "https://github.com/221Michal"
+    }
+  ],
   "private": false,
   "scripts": {
     "dev": "next dev",
