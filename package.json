@@ -4,10 +4,16 @@
   "description": "",
   "homepage": "https://okkamien.pl",
   "license": "Unlicense",
-  "author": {
-    "name": "Piotr Konowrocki",
-    "url": "https://github.com/piotrkonowrocki/"
-  },
+  "contributors": [
+    {
+      "name": "Piotr Konowrocki",
+      "url": "https://github.com/piotrkonowrocki/"
+    },
+    {
+      "name": "Michał Dawid",
+      "url": "https://github.com/221Michal"
+    }
+  ],
   "private": false,
   "scripts": {
     "dev": "next dev",
@@ -25,6 +31,7 @@
     "classnames": "2.5.1",
     "dayjs": "1.11.11",
     "embla-carousel-auto-height": "8.1.5",
+    "embla-carousel-fade": "8.1.6",
     "embla-carousel-react": "8.1.5",
     "eslint-plugin-no-relative-import-paths": "1.5.3",
     "facepaint": "1.2.1",

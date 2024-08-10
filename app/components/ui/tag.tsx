@@ -7,12 +7,13 @@ import {theme} from '@/app/styles'
 interface ITagProps {
   close?: boolean
   icon?: boolean
+  inverse?: boolean
   onClick?(): void
 }
 
 export const tagHoverParent = 'tag-hover-parent'
 
-export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, close, icon = true, onClick}) => {
+export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, close, icon = true, inverse, onClick}) => {
   return (
     <Box
       cs={{
@@ -22,10 +23,10 @@ export const Tag: FC<PropsWithChildren<ITagProps>> = ({children, close, icon = t
         columnGap: theme.spacing.xxs,
         px: theme.spacing.xs,
         py: theme.spacing.xxs,
-        color: theme.color.white,
+        color: inverse ? theme.color.primary : theme.color.white,
         fontSize: theme.font.size.small,
         textTransform: 'uppercase',
-        bg: theme.color.text,
+        bg: inverse ? theme.color.white : theme.color.text,
         borderRadius: theme.radii.s,
         transition: 'color 200ms, background-color 200ms',
         ...(close && {

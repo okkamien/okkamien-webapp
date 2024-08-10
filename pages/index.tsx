@@ -11,6 +11,7 @@ import {
   getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiSlide,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiEvent,
@@ -22,10 +23,14 @@ import {mapApiEventToTile, mapApiNewsToTile, sortByIdList} from '@/app/utils'
 
 interface IHomePageProps {
   ids: string[]
-  intro: string
+  slider: IApiSlide[]
 }
 
-const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> = ({ids, payloads: [newsPayload, eventsPayload]}) => {
+const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> = ({
+  ids,
+  payloads: [newsPayload, eventsPayload],
+  slider,
+}) => {
   const {data: newsData, isSuccess: isNewsDataSuccess} = useQuery({
     queryKey: getQueryKey({payload: newsPayload}),
     queryFn: () => getApiCollectionResponse(newsPayload),
@@ -36,7 +41,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
   })
 
   return (
-    <MasterPage>
+    <MasterPage coverData={slider}>
       {isEventsDataSuccess && (
         <Box cs={{label: 'Events-section', mb: [theme.spacing.xxxl, theme.spacing.xxxxl]}}>
           <Title cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>Wydarzenia</Title>
@@ -88,12 +93,12 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {events},
+      attributes: {events, slider},
     },
   } = await getApiSingleResponse<TApiHomePage>({
     req,
     endpoint: 'home-page',
-    populate: ['events'],
+    populateRaw: {events: '*', slider: {populate: {event: {populate: ['location']}, cover: '*', coverMobile: '*'}}},
   })
   const ids = events?.data.map(({id}) => id.toString()) ?? []
 
@@ -104,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState<TApiNews & TApiEvent>({payloads, req})
 
   return {
-    props: {ids, dehydratedState, payloads},
+    props: {dehydratedState, ids, payloads, slider},
   }
 }
 

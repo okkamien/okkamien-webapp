@@ -8,9 +8,11 @@ import {
   getApiCollectionResponse,
   getApiSingleResponse,
   getDehydratedState,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiEvent,
+  TApiEventsLandingPage,
   TApiHomePage,
   TApiLocation,
 } from '@/app/features/api'
@@ -20,15 +22,23 @@ import {theme} from '@/app/styles'
 import {mapApiEventToTile, sortByIdList} from '@/app/utils'
 
 interface IEventsPageProps {
+  cover: IApiImage
+  coverMobile?: IApiImage
   locations: ISelectOption[]
   promotedEvents: TApiEvent[]
 }
 
-const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps> = ({locations, payloads: [payload], promotedEvents}) => {
+const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps> = ({
+  cover,
+  coverMobile,
+  locations,
+  payloads: [payload],
+  promotedEvents,
+}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
 
   return (
-    <MasterPage breadcrumbs={{current: 'Wydarzenia'}}>
+    <MasterPage breadcrumbs={{current: 'Wydarzenia'}} coverImage={cover} coverImageMobile={coverMobile}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Wydarzenia
       </Title>
@@ -70,6 +80,15 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
+      attributes: {cover, coverMobile},
+    },
+  } = await getApiSingleResponse<TApiEventsLandingPage>({
+    req,
+    endpoint: 'events-landing-page',
+    populate: ['cover', 'coverMobile'],
+  })
+  const {
+    data: {
       attributes: {events},
     },
   } = await getApiSingleResponse<TApiHomePage>({req, endpoint: 'home-page', populate: ['events']})
@@ -91,7 +110,14 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, locations, payloads, promotedEvents},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      locations,
+      payloads,
+      promotedEvents,
+    },
   }
 }
 

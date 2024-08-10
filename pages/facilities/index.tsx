@@ -11,6 +11,7 @@ import {
   getApiSingleResponse,
   getDehydratedState,
   getQueryKey,
+  IApiImage,
   IGetApiCollectionResponseParams,
   IPageWithPayload,
   TApiFacilitiesLandingPage,
@@ -21,18 +22,20 @@ import {theme} from '@/app/styles'
 import {sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
+  cover: IApiImage
+  coverMobile?: IApiImage
   ids: string[]
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({intro, ids, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({cover, coverMobile, intro, ids, payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
   })
 
   return (
-    <MasterPage breadcrumbs={{current: 'Placówki'}}>
+    <MasterPage breadcrumbs={{current: 'Placówki'}} coverImage={cover} coverImageMobile={coverMobile}>
       <Title cs={{mb: theme.spacing.ms}}>Placówki</Title>
       <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (
@@ -53,12 +56,12 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {intro, facilities},
+      attributes: {cover, coverMobile, intro, facilities},
     },
   } = await getApiSingleResponse<TApiFacilitiesLandingPage>({
     req,
     endpoint: 'facilities-landing-page',
-    populate: ['facilities'],
+    populate: ['cover', 'coverMobile', 'facilities'],
   })
   const ids = facilities?.data.map(({id}) => id.toString()) ?? []
 
@@ -68,7 +71,14 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, intro, ids, payloads},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      ids,
+      intro,
+      payloads,
+    },
   }
 }
 

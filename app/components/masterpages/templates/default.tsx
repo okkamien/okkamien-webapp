@@ -1,19 +1,37 @@
 import React, {FC, PropsWithChildren} from 'react'
 import {Box} from '@effortless-ui'
+import {Cover} from 'app/components/ui/cover'
+import {CoverImage} from 'app/components/ui/cover-image'
 
 import {Footer, Header} from '@/app/components/layout'
 import {Breadcrumbs, Container, IBreadcrumbsProps} from '@/app/components/ui'
+import {IApiImage, IApiSlide} from '@/app/features/api'
 import {theme} from '@/app/styles'
 
 interface IDefaultTemplate {
   breadcrumbs?: IBreadcrumbsProps
+  coverData?: IApiSlide[]
+  coverImage?: IApiImage
+  coverImageMobile?: IApiImage
 }
 
-export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadcrumbs, children}) => (
+export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({
+  breadcrumbs,
+  coverData,
+  children,
+  coverImage,
+  coverImageMobile,
+}) => (
   <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Box cs={{label: 'Layout-header'}}>
       <Header />
-      <Box cs={{label: 'Layout-cover', height: '150px'}} />
+      {coverData && <Cover coverData={coverData} />}
+      {coverImage &&
+        (coverImageMobile ? (
+          <CoverImage image={coverImage.data.attributes.url} imageMobile={coverImageMobile.data.attributes.url} />
+        ) : (
+          <CoverImage image={coverImage.data.attributes.url} />
+        ))}
     </Box>
     <Box
       cs={{
