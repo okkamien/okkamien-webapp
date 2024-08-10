@@ -7,9 +7,10 @@ import {theme} from '@/app/styles'
 export interface ICoverImageProps {
   children?: ReactNode
   image: string
+  imageMobile?: string
 }
 
-export const CoverImage: FC<ICoverImageProps> = ({image, children}) => {
+export const CoverImage: FC<ICoverImageProps> = ({image, children, imageMobile}) => {
   return (
     <Box
       cs={{
@@ -19,18 +20,30 @@ export const CoverImage: FC<ICoverImageProps> = ({image, children}) => {
         background: theme.color.overlay,
         flex: '0 0 100%',
         width: '100vw',
-        height: children ? ['90vh', '80vh'] : '20vh',
+        height: children ? ['90vh', '80vh'] : '25vh',
+        mb: -theme.spacing.s,
         '&::after': {
           content: '""',
           position: 'absolute',
           backgroundColor: theme.color.overlay,
           opacity: 0.8,
-          height: children ? ['90vh', '80vh'] : '20vh',
+          height: children ? ['90vh', '80vh'] : '25vh',
           width: '100vw',
         },
       }}
     >
-      <Image src={image} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
+      {imageMobile ? (
+        <>
+          <Box cs={{width: '100vw', display: ['none', 'block', 'block']}}>
+            <Image src={image} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
+          </Box>
+          <Box cs={{width: '100vw', display: ['block', 'none', 'none']}}>
+            <Image src={imageMobile} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
+          </Box>
+        </>
+      ) : (
+        <Image src={image} alt="title" fill sizes="100%" style={{objectFit: 'cover'}} />
+      )}
       {children}
     </Box>
   )

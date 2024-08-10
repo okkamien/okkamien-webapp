@@ -13,6 +13,7 @@ interface IMasterPageProps {
   breadcrumbs?: IBreadcrumbsProps
   coverData?: IApiSlide[]
   coverImage?: IApiImage
+  coverImageMobile?: IApiImage
   description?: string
   template?: 'default' | 'empty'
   title?: string
@@ -23,6 +24,7 @@ const MasterPage: FC<PropsWithChildren<IMasterPageProps>> = ({
   breadcrumbs,
   coverData,
   coverImage,
+  coverImageMobile,
   children,
   description = siteDescription,
   template = 'default',
@@ -45,7 +47,7 @@ const MasterPage: FC<PropsWithChildren<IMasterPageProps>> = ({
       {
         {
           default: (
-            <DefaultTemplate breadcrumbs={breadcrumbs} coverData={coverData} coverImage={coverImage}>
+            <DefaultTemplate breadcrumbs={breadcrumbs} coverData={coverData} coverImage={coverImage} coverImageMobile={coverImageMobile}>
               {children}
             </DefaultTemplate>
           ),

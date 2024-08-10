@@ -12,14 +12,26 @@ interface IDefaultTemplate {
   breadcrumbs?: IBreadcrumbsProps
   coverData?: IApiSlide[]
   coverImage?: IApiImage
+  coverImageMobile?: IApiImage
 }
 
-export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadcrumbs, coverData, children, coverImage}) => (
+export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({
+  breadcrumbs,
+  coverData,
+  children,
+  coverImage,
+  coverImageMobile,
+}) => (
   <Box cs={{label: 'Layout-split', display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
     <Box cs={{label: 'Layout-header'}}>
       <Header />
       {coverData && <Cover coverData={coverData} />}
-      {coverImage && <CoverImage image={coverImage.data.attributes.url} />}
+      {coverImage &&
+        (coverImageMobile ? (
+          <CoverImage image={coverImage.data.attributes.url} imageMobile={coverImageMobile.data.attributes.url} />
+        ) : (
+          <CoverImage image={coverImage.data.attributes.url} />
+        ))}
     </Box>
     <Box
       cs={{
@@ -30,7 +42,6 @@ export const DefaultTemplate: FC<PropsWithChildren<IDefaultTemplate>> = ({breadc
         py: [theme.spacing.xxxl, theme.spacing.xxxxl],
         borderRadius: theme.radii.l,
         bg: theme.gradient.radialBackground,
-        mt: theme.spacing.ms,
       }}
     >
       <Container>

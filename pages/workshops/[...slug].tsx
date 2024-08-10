@@ -22,7 +22,7 @@ interface IWorkshopPageProps {
   coverMobile?: IApiImage
 }
 
-const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({payloads: [payload], cover}) => {
+const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({payloads: [payload], cover, coverMobile}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -32,6 +32,7 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
     isSuccess && (
       <MasterPage
         coverImage={cover}
+        coverImageMobile={coverMobile}
         breadcrumbs={{current: data.data[0].attributes.name, links: [{label: 'Pracownie', link: siteMap.workshops}]}}
       >
         <WorkshopItem {...data.data[0]} />

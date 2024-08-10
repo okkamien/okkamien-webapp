@@ -22,11 +22,11 @@ interface INewsPageProps {
   coverMobile?: IApiImage
 }
 
-const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, coverMobile, payloads: [payload]}) => {
   const {scrollRef, scrollToElement} = useScrollRef()
 
   return (
-    <MasterPage breadcrumbs={{current: 'Aktualności'}} coverImage={cover}>
+    <MasterPage breadcrumbs={{current: 'Aktualności'}} coverImage={cover} coverImageMobile={coverMobile}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Aktualności
       </Title>

@@ -30,6 +30,7 @@ interface IEventsPageProps {
 
 const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps> = ({
   cover,
+  coverMobile,
   locations,
   payloads: [payload],
   promotedEvents,
@@ -37,7 +38,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent, TApiEvent]> & IEventsPageProps
   const {scrollRef, scrollToElement} = useScrollRef()
 
   return (
-    <MasterPage breadcrumbs={{current: 'Wydarzenia'}} coverImage={cover}>
+    <MasterPage breadcrumbs={{current: 'Wydarzenia'}} coverImage={cover} coverImageMobile={coverMobile}>
       <Title ref={scrollRef} cs={{mb: [theme.spacing.l, theme.spacing.xxl]}}>
         Wydarzenia
       </Title>

@@ -22,7 +22,7 @@ interface IEventPageProps {
   coverMobile?: IApiImage
 }
 
-const Page: NextPage<IPageWithPayload<[TApiEvent]> & IEventPageProps> = ({payloads: [payload], cover}) => {
+const Page: NextPage<IPageWithPayload<[TApiEvent]> & IEventPageProps> = ({payloads: [payload], cover, coverMobile}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -32,6 +32,7 @@ const Page: NextPage<IPageWithPayload<[TApiEvent]> & IEventPageProps> = ({payloa
     isSuccess && (
       <MasterPage
         coverImage={cover}
+        coverImageMobile={coverMobile}
         breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Wydarzenia', link: siteMap.events}]}}
       >
         <EventsItem {...data.data[0]} />

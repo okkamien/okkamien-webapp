@@ -12,9 +12,9 @@ interface IAboutUsPageProps {
   zones: TApiDynamicZone[]
 }
 
-const Page: NextPage<IAboutUsPageProps> = ({cover, zones}) => {
+const Page: NextPage<IAboutUsPageProps> = ({cover, coverMobile, zones}) => {
   return (
-    <MasterPage breadcrumbs={{current: 'O nas'}} coverImage={cover}>
+    <MasterPage breadcrumbs={{current: 'O nas'}} coverImage={cover} coverImageMobile={coverMobile}>
       <TwoColumns title="O nas">
         <DynamicZone title="o nas" zones={zones} />
       </TwoColumns>

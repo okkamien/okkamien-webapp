@@ -28,14 +28,14 @@ interface IWorkshopPageProps {
   intro: string
 }
 
-const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({cover, intro, ids, payloads: [payload]}) => {
+const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({cover, coverMobile, intro, ids, payloads: [payload]}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
   })
 
   return (
-    <MasterPage breadcrumbs={{current: 'Placówki'}} coverImage={cover}>
+    <MasterPage breadcrumbs={{current: 'Placówki'}} coverImage={cover} coverImageMobile={coverMobile}>
       <Title cs={{mb: theme.spacing.ms}}>Placówki</Title>
       <Text cs={{mb: theme.spacing.xxl, fontWeight: 300}}>{intro}</Text>
       {isSuccess && (

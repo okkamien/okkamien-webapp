@@ -22,7 +22,7 @@ interface INewPageProps {
   coverMobile?: IApiImage
 }
 
-const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads: [payload], cover}) => {
+const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads: [payload], cover, coverMobile}) => {
   const {data, isSuccess} = useQuery({
     queryKey: getQueryKey({payload}),
     queryFn: () => getApiCollectionResponse(payload),
@@ -32,6 +32,7 @@ const Page: NextPage<IPageWithPayload<[TApiNews]> & INewPageProps> = ({payloads:
     isSuccess && (
       <MasterPage
         coverImage={cover}
+        coverImageMobile={coverMobile}
         breadcrumbs={{current: data.data[0].attributes.title, links: [{label: 'Aktualności', link: siteMap.news}]}}
       >
         <NewsItem {...data.data[0]} />
