@@ -19,6 +19,7 @@ import {mapApiNewsToTile} from '@/app/utils'
 
 interface INewsPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
 }
 
 const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, payloads: [payload]}) => {
@@ -46,18 +47,23 @@ const Page: NextPage<IPageWithPayload<[TApiNews]> & INewsPageProps> = ({cover, p
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {cover},
+      attributes: {cover, coverMobile},
     },
   } = await getApiSingleResponse<TApiNewsLandingPage>({
     req,
     endpoint: 'news-landing-page',
-    populate: ['cover'],
+    populate: ['cover', 'coverMobile'],
   })
   const payloads: IGetApiCollectionResponseParams<TApiNews>[] = [{endpoint: 'news', sort: [['date', 'desc']]}]
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, cover, payloads},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      payloads,
+    },
   }
 }
 

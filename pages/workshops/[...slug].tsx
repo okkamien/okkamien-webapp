@@ -19,6 +19,7 @@ import {
 
 interface IWorkshopPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
 }
 
 const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({payloads: [payload], cover}) => {
@@ -42,12 +43,12 @@ const Page: NextPage<IPageWithPayload<[TApiWorkshop]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
   const {
     data: {
-      attributes: {cover},
+      attributes: {cover, coverMobile},
     },
   } = await getApiSingleResponse<TApiWorkshopsLandingPage>({
     req,
     endpoint: 'workshops-landing-page',
-    populate: ['cover'],
+    populate: ['cover', 'coverMobile'],
   })
   const [slug] = query.slug as string[]
   const payloads: IGetApiCollectionResponseParams<TApiWorkshop>[] = [
@@ -61,7 +62,12 @@ export const getServerSideProps: GetServerSideProps = async ({query, req}) => {
 
   return hasData
     ? {
-        props: {dehydratedState, payloads, cover},
+        props: {
+          cover,
+          coverMobile,
+          dehydratedState,
+          payloads,
+        },
       }
     : {
         notFound: true,

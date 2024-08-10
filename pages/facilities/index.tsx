@@ -23,6 +23,7 @@ import {sortByIdList} from '@/app/utils'
 
 interface IWorkshopPageProps {
   cover: IApiImage
+  coverMobile?: IApiImage
   ids: string[]
   intro: string
 }
@@ -55,12 +56,12 @@ const Page: NextPage<IPageWithPayload<[TApiFacility]> & IWorkshopPageProps> = ({
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {
     data: {
-      attributes: {cover, intro, facilities},
+      attributes: {cover, coverMobile, intro, facilities},
     },
   } = await getApiSingleResponse<TApiFacilitiesLandingPage>({
     req,
     endpoint: 'facilities-landing-page',
-    populate: ['cover', 'facilities'],
+    populate: ['cover', 'coverMobile', 'facilities'],
   })
   const ids = facilities?.data.map(({id}) => id.toString()) ?? []
 
@@ -70,7 +71,14 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {dehydratedState} = await getDehydratedState({payloads, req})
 
   return {
-    props: {dehydratedState, cover, intro, ids, payloads},
+    props: {
+      cover,
+      coverMobile,
+      dehydratedState,
+      ids,
+      intro,
+      payloads,
+    },
   }
 }
 
