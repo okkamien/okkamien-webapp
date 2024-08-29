@@ -4,7 +4,7 @@ import {IconBrandFacebook, IconBrandInstagram} from '@tabler/icons-react'
 import Link from 'next/link'
 
 import {Accordion} from '@/app/components/ui'
-import {footerAnotherLinks, navigationLinks, siteExternalLinks} from '@/app/dictionaries/site.dictionary'
+import {navigationLinks, siteExternalLinks} from '@/app/dictionaries/site.dictionary'
 import {theme} from '@/app/styles'
 
 export const FooterLinksSectionHeading: FC<PropsWithChildren> = ({children}) => {
@@ -113,7 +113,7 @@ export const LinksSection: FC = () => (
           </Box>
         </Accordion>
       </Box>
-      <Box cs={{width: '100%'}}>
+      {/* <Box cs={{width: '100%'}}>
         <Accordion title={<FooterLinksSectionHeading>Inne</FooterLinksSectionHeading>}>
           <Box
             tag="ul"
@@ -141,7 +141,7 @@ export const LinksSection: FC = () => (
             ))}
           </Box>
         </Accordion>
-      </Box>
+      </Box> */}
     </Box>
     <Box>
       <FooterLinksSectionHeading>M-GOK w sieci</FooterLinksSectionHeading>
