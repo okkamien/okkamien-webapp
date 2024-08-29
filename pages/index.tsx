@@ -76,7 +76,7 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
           cols={[1, null, 2]}
           tiles={[
             <ImageTile
-              key={1}
+              key={12}
               image="/content/workshop-temp2.jpg"
               title="Pracownie M&#8209;GOK"
               link={siteMap.workshops}
