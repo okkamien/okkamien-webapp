@@ -45,10 +45,10 @@ export const navigationLinks = [
     label: 'Placówki',
     link: siteMap.facilities,
   },
-  {
-    label: 'O nas',
-    link: siteMap.aboutUs,
-  },
+  // {
+  //   label: 'O nas',
+  //   link: siteMap.aboutUs,
+  // },
   {
     label: 'Kontakt',
     link: siteMap.contact,
