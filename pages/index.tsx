@@ -77,12 +77,12 @@ const Home: NextPage<IPageWithPayload<[TApiNews, TApiEvent]> & IHomePageProps> =
           tiles={[
             <ImageTile
               key={1}
-              image="/content/workshops-cover.jfif"
+              image="/content/workshops-temp.jpg"
               title="Pracownie M&#8209;GOK"
               link={siteMap.workshops}
               button="Zobacz"
             />,
-            <ImageTile key={2} image="/content/facilities-cover.jfif" title="Placówki" link={siteMap.facilities} button="Zobacz" />,
+            <ImageTile key={2} image="/content/facilities-temp.jpg" title="Placówki" link={siteMap.facilities} button="Zobacz" />,
           ]}
         />
       </Box>
