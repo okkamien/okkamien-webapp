@@ -57,11 +57,11 @@ export const LinksSection: FC = () => (
       </Box>
       <Box cs={{width: '100%'}}>
         <FooterLinksSectionHeading>Skontaktuj się z nami</FooterLinksSectionHeading>
-        <Text cs={{fontWeight: 300}}>Tel. (0-52) 3 88 60 68</Text>
+        <Text cs={{fontWeight: 300}}>Tel. (0-52) 388 60 68</Text>
         <Text cs={{mt: theme.spacing.xxs, fontWeight: 300}}>
           E-mail:{' '}
-          <Anchor href="mailto:mgok.kamienkraj@wp.pl" cs={{color: theme.color.text}}>
-            mgok.kamienkraj@wp.pl
+          <Anchor href="mailto:biuro@okkamien.pl" cs={{color: theme.color.text}}>
+            biuro@okkamien.pl
           </Anchor>
         </Text>
       </Box>

@@ -3,14 +3,14 @@ import siteMapJson from 'app/dictionaries/site-map.json'
 export const siteName = 'Miejsko-Gminny Ośrodek Kultury w Kamieniu Krajeńskim'
 export const siteDescription = ''
 export const siteFoundedYear = 2024
-export const siteDomain = 'mgokkamienkrajenski.pl'
+export const siteDomain = 'okkamien.pl'
 
 export const siteMap = siteMapJson
 
 export const siteExternalLinks = {
   facebook: 'https://www.facebook.com/mgok.kamien.kr',
-  instagram: '#',
-  youtube: '#',
+  instagram: 'https://www.instagram.com/ok_kamien/',
+  youtube: 'https://www.youtube.com/@mgok.kamienkrajenski',
 }
 
 export const navigationSocials = [
