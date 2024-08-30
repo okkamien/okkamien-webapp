@@ -35,6 +35,10 @@ const nextConfig = {
         destination: '/about-us',
       },
       {
+        source: siteMapJson.contact,
+        destination: '/contact',
+      },
+      {
         source: siteMapJson.events,
         destination: '/events',
       },
